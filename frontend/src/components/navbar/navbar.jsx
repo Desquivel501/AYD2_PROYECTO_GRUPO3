@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
-import logo from '../assets/usac_logo_white.svg';
+import logo from '../../assets/usac_logo_white.svg';
 import { Cart } from 'react-bootstrap-icons';
 
 function CustomNavbar() {
