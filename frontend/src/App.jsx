@@ -7,6 +7,7 @@ import './App.css'
 
 import CustomNavbar from './components/navbar/navbar';
 import Producto from './pages/Producto/Producto';
+import Catalogo from './pages/Catalogo/Catalogo';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,7 +17,7 @@ function App() {
 
       <CustomNavbar />  
 
-      <Producto />
+      <Catalogo />
 
       {/* <div>
         <a href="https://vitejs.dev" target="_blank">
