@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS proyecto $$
 USE proyecto $$
 
 -- ########################### CREACIÓN DE LA TABLA DE CATEGORÍAS DE PRODUCTOS ###########################
-CREATE TABLE IF NOT EXISTS prod_category(
+CREATE TABLE IF NOT EXISTS prod_categories(
 	cat_id INTEGER AUTO_INCREMENT NOT NULL,
 	prod_cat VARCHAR(150),
 	
@@ -59,17 +59,17 @@ CREATE TABLE IF NOT EXISTS clients(
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR VENDEDORES ###########################
 CREATE TABLE IF NOT EXISTS sellers(
 	email VARCHAR(200) NOT NULL,
-	score INTEGER,
+	score INTEGER DEFAULT 0,
 	
 	PRIMARY KEY(email),
 	FOREIGN KEY(email) REFERENCES users(email) ON DELETE CASCADE
 ) $$
 
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR CUPONES ###########################
-CREATE TABLE IF NOT EXISTS coupon(
+CREATE TABLE IF NOT EXISTS coupons(
 	coupon_id INTEGER AUTO_INCREMENT NOT NULL,
 	name VARCHAR(200),
-	discoint DECIMAL,
+	discount DECIMAL,
 	used BOOLEAN DEFAULT FALSE,
 	email VARCHAR(200),
 	
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS coupon(
 ) $$
 
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR FORMAS DE PAGO ###########################
-CREATE TABLE IF NOT EXISTS payment_method(
+CREATE TABLE IF NOT EXISTS payment_methods(
 	payment_id INTEGER AUTO_INCREMENT NOT NULL,
 	alias VARCHAR(200),
 	number BIGINT,
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS payment_method(
 	email VARCHAR(200),
 	
 	PRIMARY KEY(payment_id),
-	FOREIGN KEY(email) REFERENCES users(email)
+	FOREIGN KEY(email) REFERENCES users(email) ON DELETE CASCADE
 ) $$
 
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR PRODUCTOS ###########################
@@ -99,15 +99,15 @@ CREATE TABLE IF NOT EXISTS products(
 	existence INTEGER,
 	price DECIMAL,
 	email VARCHAR(200),
-	cat_id INTEGER NOT NULL,
+	cat_id INTEGER,
 	
 	PRIMARY KEY(prod_id),
-	FOREIGN KEY(email) REFERENCES users(email),
-	FOREIGN KEY(cat_id) REFERENCES prod_category(cat_id)
+	FOREIGN KEY(email) REFERENCES users(email) ON DELETE CASCADE,
+	FOREIGN KEY(cat_id) REFERENCES prod_categories(cat_id) ON DELETE SET NULL
 ) $$ 
 
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR COMPRAS ###########################
-CREATE TABLE IF NOT EXISTS purchase(
+CREATE TABLE IF NOT EXISTS purchases(
 	purchase_id INTEGER AUTO_INCREMENT NOT NULL,
 	description VARCHAR(200),
 	score INTEGER,
@@ -116,8 +116,8 @@ CREATE TABLE IF NOT EXISTS purchase(
 	total DECIMAL,
 	
 	PRIMARY KEY(purchase_id),
-	FOREIGN KEY(buyer) REFERENCES users(email),
-	FOREIGN KEY(seller) REFERENCES sellers(email)
+	FOREIGN KEY(buyer) REFERENCES users(email) ON DELETE SET NULL,
+	FOREIGN KEY(seller) REFERENCES sellers(email) ON DELETE SET NULL
 ) $$
 
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR DETALLES DE COMPRAS ###########################
@@ -127,6 +127,6 @@ CREATE TABLE IF NOT EXISTS purchase_details(
 	amount INTEGER NOT NULL,
 	total_price DECIMAL NOT NULL,
 	
-	FOREIGN KEY(purchase_id) REFERENCES purchase(purchase_id),
-	FOREIGN KEY(prod_id) REFERENCES products(prod_id)
+	FOREIGN KEY(purchase_id) REFERENCES purchases(purchase_id) ON DELETE SET NULL,
+	FOREIGN KEY(prod_id) REFERENCES products(prod_id) ON DELETE SET NULL
 ) $$
