@@ -222,6 +222,27 @@ disable_user:BEGIN
 END $$
 
 
+-- ########################################## PROCEDIMIENTO PARA HABILITAR UN USUARIO ####################################################
+CREATE PROCEDURE IF NOT EXISTS EnableUser(
+	IN email_in VARCHAR(200)
+)
+enable_user:BEGIN
+	
+	IF(NOT UserExists(email_in)) THEN
+		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
+        'ERROR' AS 'TIPO';
+        LEAVE enable_user;
+	END IF;
+
+	UPDATE users u 
+	SET u.state = 1
+	WHERE u.email = email_in;
+
+	SELECT 'El usuario ha sido habilitado exitósamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
+
 -- ########################################## PROCEDIMIENTO PARA AGREGAR UN CUPÓN A UN USUARIO ####################################################
 CREATE PROCEDURE IF NOT EXISTS CreateCoupon(
 	IN email_in VARCHAR(200),
