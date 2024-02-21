@@ -2,6 +2,44 @@ DELIMITER $$
 
 USE proyecto $$
 
+-- ########################################## PROCEDIMIENTO PARA LOGIN ####################################################
+CREATE PROCEDURE IF NOT EXISTS login(
+	IN email_in VARCHAR(200),
+	IN password_in VARCHAR(100)
+)
+login:BEGIN
+	DECLARE role INTEGER;
+	DECLARE status INTEGER;
+
+	SELECT -1 INTO role;
+	
+	SELECT u.role, u.state INTO role, status
+	FROM users u 
+	WHERE u.email = email_in
+	AND u.password = password_in;
+
+	IF role = -1 THEN
+		SELECT 'Credenciales de inicio de sesión incorrectas, revise su usuario o contraseña' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE login;
+	END IF;
+
+	IF status = 0 THEN
+		SELECT 'Error de inicio de sesión, su cuenta se encuentra deshabilitada' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE login;
+	END IF;
+
+	IF status = 2 THEN
+		SELECT 'Error de inicio de sesión, su cuenta se encuentra pendiente de confirmación por parte de un administrador' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE login;
+	END IF;
+
+	SELECT role AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
 -- ########################################## PROCEDIMIENTO PARA REGISTRO DE CLIENTE ####################################################
 CREATE PROCEDURE IF NOT EXISTS register(
 	IN email_in VARCHAR(200),
