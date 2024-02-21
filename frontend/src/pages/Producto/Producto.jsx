@@ -11,7 +11,17 @@ import productImage4 from '../../assets/camera4.png';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 
 
-export default function Producto() {
+// export default function Producto() {
+
+export const Producto = (props) => {
+
+  const {
+      logo,
+      price,
+      name
+  } = props;
+
+
   return (
     <div className="contentContainer">
     <Container fluid>

@@ -135,68 +135,31 @@ export default function Catalogo() {
                         name="Lentes"
                     />
                     </Col>
-                </Row>
-                {/* <Row className='mb-2'>
-                    <Col xl={3} className='px-1'>
+                    
+                    <Col xl={3} className='px-1 mb-2'>
                     <ProductCard
                         logo={productImage2}
                         price={2000}
                         name="Camara 1"
                     />
                     </Col>
-                    <Col xl={3} className='px-1'>
+                    <Col xl={3} className='px-1 mb-2'>
                     <ProductCard
                         logo={productImage3}
                         price={1500}
                         name="Camara 2"
                     />
                     </Col>
-                    <Col xl={3} className='px-1'>
+                    <Col xl={3} className='px-1 mb-2'>
                     <ProductCard
                         logo={productImage4}
                         price={300}
                         name="Lentes"
                     />
                     </Col>
-                    <Col xl={3} className='px-1'>
-                    <ProductCard
-                        logo={productImage4}
-                        price={300}
-                        name="Lentes"
-                    />
-                    </Col>
-                </Row>
-                <Row className='mb-2'>
-                    <Col xl={3} className='px-1'>
-                    <ProductCard
-                        logo={productImage2}
-                        price={2000}
-                        name="Camara 1"
-                    />
-                    </Col>
-                    <Col xl={3} className='px-1'>
-                    <ProductCard
-                        logo={productImage3}
-                        price={1500}
-                        name="Camara 2"
-                    />
-                    </Col>
-                    <Col xl={3} className='px-1'>
-                    <ProductCard
-                        logo={productImage4}
-                        price={300}
-                        name="Lentes"
-                    />
-                    </Col>
-                    <Col xl={3} className='px-1'>
-                    <ProductCard
-                        logo={productImage4}
-                        price={300}
-                        name="Lentes"
-                    />
-                    </Col>
-                </Row> */}
 
+                </Row>
+     
                 
                 </Container>
 
