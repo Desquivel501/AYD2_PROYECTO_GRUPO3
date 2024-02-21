@@ -316,3 +316,142 @@ create_coupon:BEGIN
 END $$
 
 
+-- ########################################## PROCEDIMIENTO PARA AGREGAR UNA NUEVA FORMA DE PAGO ####################################################
+CREATE PROCEDURE IF NOT EXISTS addPaymentMethod(
+	cardholder_in VARCHAR(200),
+	number_in BIGINT,
+	exp_in VARCHAR(10),
+	cvv_in INTEGER,
+	email_in VARCHAR(200)
+)
+add_payment_method:BEGIN
+	IF NOT UserExists(email_in) THEN
+		SELECT 'El usuario no existe en la base de datos' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_payment_method;
+	END IF;
+
+	IF number_in < 0 OR cvv_in < 0 THEN
+		SELECT 'Los datos de la tarjeta no son válidos' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_payment_method;
+	END IF;
+
+	INSERT INTO payment_methods(cardholder_name, number, exp, cvv, email)
+	VALUES (cardholder_in, number_in, exp_in, cvv_in, email_in);
+
+	SELECT 'El método de pago ha sido agregado exitósamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
+-- ########################################## PROCEDIMIENTO PARA AGREGAR UNA CATEGORÍA DE PRODUCTO ####################################################
+CREATE PROCEDURE IF NOT EXISTS addProdCategory(
+	IN category_in VARCHAR(150)
+)
+add_prod_category:BEGIN
+	
+	IF(CategoryId(category_in) < 0) THEN
+		INSERT INTO prod_categories(prod_cat )
+		VALUES (category_in );
+	
+		SELECT 'Categoría creada exitósamente' AS 'MESSAGE',
+		'SUCCESS' AS 'TYPE';
+		LEAVE add_prod_category;
+	END IF;
+
+	SELECT 'La categoría ya existe' AS 'MESSAGE',
+	'ERROR' AS 'TYPE';
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER TODAS LAS CATEGORÍAS ####################################################
+CREATE PROCEDURE IF NOT EXISTS getProdCategories()
+BEGIN
+	SELECT 
+		cat_id AS id,
+		prod_cat AS category
+	FROM prod_categories;
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA CREAR UN PRODUCTO ####################################################
+CREATE PROCEDURE IF NOT EXISTS addProduct(
+	photo_in VARCHAR(200),
+	name_in VARCHAR(100),
+	description_in VARCHAR(200),
+	existence_in INTEGER,
+	price_in DECIMAL,
+	email_in VARCHAR(200),
+	category_in VARCHAR(150)
+)
+add_product:BEGIN 
+	DECLARE prod_category INTEGER;
+	SELECT CategoryId(category_in) INTO prod_category;
+	
+	IF prod_category < 0 THEN
+		CALL addProdCategory(category_in);
+		SELECT CategoryId(category_in) INTO prod_category;
+	END IF;
+	
+	IF photo_in = '' OR photo_in IS NULL THEN 
+		SELECT 'Se debe agregar una fotografía de producto' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_product;
+	END IF;
+
+	IF name_in = '' OR name_in IS NULL THEN 
+		SELECT 'Se debe agregar un nombre de producto' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_product;
+	END IF;
+
+	IF existence_in < 0 THEN 
+		SELECT 'Número de existencias de producto no válido' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_product;
+	END IF;
+
+	IF price_in < 0 THEN 
+		SELECT 'El precio del producto no es válido' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_product;
+	END IF;
+
+	IF ProductExists(name_in, email_in) THEN
+		SELECT 'Ya existe un producto con el nombre ingresado' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_product;
+	END IF;
+	
+	INSERT INTO products(photo, name, description, existence, price, email, cat_id)
+	VALUES(photo_in, name_in, description_in, existence_in, price_in, email_in, prod_category);
+
+	SELECT 'El producto ha sido agregado exitósamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA RETORNAR LOS PRODUCTOS DE UN VENDEDOR ####################################################
+CREATE PROCEDURE IF NOT EXISTS getSellerProducts(
+	email_in VARCHAR(200)
+)
+get_seller_products:BEGIN
+	
+	IF NOT UserExists(email_in) THEN
+		SELECT 'El usuario no existe en la base de datos' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE get_seller_products;
+	END IF;
+
+	SELECT p.prod_id AS id,
+	p.photo AS image,
+	p.name,
+	p.description,
+	p.existence,
+	p.price,
+	pc.prod_cat AS category
+	FROM products p 
+	JOIN prod_categories pc 
+	ON p.cat_id = pc.cat_id 
+	AND p.email = email_in;
+END $$

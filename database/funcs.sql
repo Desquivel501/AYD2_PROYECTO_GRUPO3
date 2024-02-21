@@ -60,8 +60,42 @@ BEGIN
 	) INTO seller;
 	
 	RETURN(seller);
-END
+END $$
+
+-- ########################################## VERIFICAR SI UNA CATEGORÍA EXISTE Y RETORNAR SU ID ####################################################
+CREATE FUNCTION IF NOT EXISTS CategoryId(
+	category_in VARCHAR(150)
+)
+RETURNS INTEGER
+DETERMINISTIC
+BEGIN
+	DECLARE category_id INTEGER;
+	SELECT -999 INTO category_id;
+
+	SELECT pc.cat_id INTO category_id
+	FROM prod_categories pc 
+	WHERE pc.prod_cat = category_in;
+
+	RETURN(category_id);
+END $$
 
 
+-- ########################################## VERIFICAR SI UN VENDEDOR YA POSEE UN PRODUCTO ####################################################
+CREATE FUNCTION IF NOT EXISTS ProductExists(
+	prod_name VARCHAR(100),
+	seller_email VARCHAR(200)
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE prod_exists BOOLEAN;
+	SELECT EXISTS(
+		SELECT 1 
+		FROM products p 
+		WHERE p.name = prod_name
+		AND p.email = email
+	) INTO prod_exists;
 
+	RETURN(prod_exists);
+END $$
 
