@@ -20,19 +20,31 @@ END $$
 
 -- ########################################## VERIFICAR SI UN USUARIO EXISTE ####################################################
 CREATE FUNCTION IF NOT EXISTS UserExists(
+	dpi_in BIGINT
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE user_exists BOOLEAN;
+	SELECT EXISTS(SELECT 1 FROM users u WHERE u.dpi  = dpi_in) INTO user_exists;
+	RETURN(user_exists);
+END $$
+
+-- ########################################## VERIFICAR SI UN CORREO EXISTE ####################################################
+CREATE FUNCTION IF NOT EXISTS EmailExists(
 	email_in VARCHAR(200)
 )
 RETURNS BOOLEAN
 DETERMINISTIC
 BEGIN
 	DECLARE user_exists BOOLEAN;
-	SELECT EXISTS(SELECT 1 FROM users u WHERE u.email = email_in) INTO user_exists;
+	SELECT EXISTS(SELECT 1 FROM users u WHERE u.email  = email_in) INTO user_exists;
 	RETURN(user_exists);
 END $$
 
 -- ########################################## VERIFICAR SI UN USUARIO TIENE UN ESTADO PENDIENTE ####################################################
 CREATE FUNCTION IF NOT EXISTS StatePending(
-	email_in VARCHAR(200)
+	dpi_in BIGINT
 )
 RETURNS BOOLEAN
 DETERMINISTIC
@@ -41,14 +53,14 @@ BEGIN
 
 	SELECT u.state = 2 INTO pending
 	FROM users u 
-	WHERE u.email  = email_in;
+	WHERE u.dpi  = dpi_in;
 	
 	RETURN(pending);
 END $$
 
 -- ########################################## VERIFICAR SI UN USUARIO ES UN VENDEDOR ####################################################
 CREATE FUNCTION IF NOT EXISTS IsSeller(
-	email_in VARCHAR(200)
+	dpi_in BIGINT
 )
 RETURNS BOOLEAN
 DETERMINISTIC
@@ -56,7 +68,7 @@ BEGIN
 	DECLARE seller BOOLEAN;
 	SELECT EXISTS(
 		SELECT 1 FROM sellers s 
-		WHERE s.email = email_in
+		WHERE s.dpi = dpi_in
 	) INTO seller;
 	
 	RETURN(seller);
@@ -83,7 +95,7 @@ END $$
 -- ########################################## VERIFICAR SI UN VENDEDOR YA POSEE UN PRODUCTO ####################################################
 CREATE FUNCTION IF NOT EXISTS ProductExists(
 	prod_name VARCHAR(100),
-	seller_email VARCHAR(200)
+	seller_dpi VARCHAR(200)
 )
 RETURNS BOOLEAN
 DETERMINISTIC
@@ -93,7 +105,7 @@ BEGIN
 		SELECT 1 
 		FROM products p 
 		WHERE p.name = prod_name
-		AND p.email = email
+		AND p.dpi = seller_dpi
 	) INTO prod_exists;
 
 	RETURN(prod_exists);

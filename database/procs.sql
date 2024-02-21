@@ -56,7 +56,7 @@ user_register:BEGIN
 		LEAVE user_register;
 	END IF;
 
-	IF UserExists(email_in) THEN
+	IF EmailExists(email_in) THEN
 		SELECT 'El correo que ha ingresado ya se encuentra registrado' AS 'MESSAGE',
 		'ERROR' AS 'TYPE';
 		LEAVE user_register;
@@ -86,15 +86,21 @@ user_register:BEGIN
 		LEAVE user_register;
 	END IF;
 
+	IF UserExists(dpi_in) THEN
+		SELECT 'El dpi ingresado ya pertenece a un usuario en el sistema' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE user_register;
+	END IF;
+
 	INSERT INTO users(email, name, password, dpi, role, state, image)
 	VALUES (email_in, name_in, password_in, dpi_in, role_in, role_in, image_in);
 	
 	IF role_in = 1 THEN
-		INSERT INTO clients(email)
-		VALUES (email_in);
+		INSERT INTO clients(dpi)
+		VALUES (dpi_in);
 	ELSE 
-		INSERT INTO sellers(email)
-		VALUES (email_in);
+		INSERT INTO sellers(dpi)
+		VALUES (dpi_in);
 	END IF;
 
 	SELECT 'El usuario ha sido registrado exitosamente' AS 'MESSAGE',
@@ -104,23 +110,23 @@ END $$
 
 -- ########################################## PROCEDIMIENTO PARA ACEPTAR LA CUENTA DE UN VENDEDOR ####################################################
 CREATE PROCEDURE IF NOT EXISTS AcceptSeller(
-	IN email_in VARCHAR(200)
+	IN dpi_in BIGINT
 )
 accept_seller:BEGIN
 	
-	IF(NOT UserExists(email_in)) THEN
+	IF(NOT UserExists(dpi_in)) THEN
 		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE accept_seller;
 	END IF;
 
-	IF(NOT StatePending(email_in)) THEN
+	IF(NOT StatePending(dpi_in)) THEN
 		SELECT 'El usuario que se intenta aceptar no tiene estado pendiente' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE accept_seller;
 	END IF;
 
-	IF(NOT IsSeller(email_in)) THEN
+	IF(NOT IsSeller(dpi_in)) THEN
 		SELECT 'El correo ingresado no pertenece a un vendedor' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE accept_seller;	
@@ -128,7 +134,7 @@ accept_seller:BEGIN
 
 	UPDATE users s
 	SET s.state = 1
-	WHERE s.email = email_in;
+	WHERE s.dpi  = dpi_in;
 
 	SELECT 'La cuenta fue aceptada correctamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
@@ -137,11 +143,11 @@ END $$
 
 -- ########################################## PROCEDIMIENTO PARA VER EL PERFIL DE UN USUARIO ####################################################
 CREATE PROCEDURE IF NOT EXISTS getProfile(
-	IN email_in VARCHAR(200)
+	IN dpi_in BIGINT
 )
 get_profile:BEGIN
 	
-	IF(NOT UserExists(email_in)) THEN
+	IF(NOT UserExists(dpi_in)) THEN
 		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE get_profile;
@@ -152,23 +158,23 @@ get_profile:BEGIN
 	u.dpi,
 	u.image 
 	FROM users u 
-	WHERE u.email  = email_in;
+	WHERE u.dpi  = dpi_in;
 END $$
 
 
 -- ########################################## PROCEDIMIENTO PARA VER EL PERFIL DE UN VENDEDOR ####################################################
 CREATE PROCEDURE IF NOT EXISTS getSellerProfile(
-	IN email_in VARCHAR(200)
+	IN dpi_in BIGINT
 )
 get_seller_profile:BEGIN
 	
-	IF(NOT UserExists(email_in)) THEN
+	IF(NOT UserExists(dpi_in)) THEN
 		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE get_seller_profile;
 	END IF;
 	
-	IF(NOT IsSeller(email_in)) THEN
+	IF(NOT IsSeller(dpi_in)) THEN
 		SELECT 'El correo ingresado no pertenece a un vendedor' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE get_seller_profile;	
@@ -181,8 +187,8 @@ get_seller_profile:BEGIN
 	s.score 
 	FROM users u 
 	JOIN sellers s 
-	ON u.email = s.email 
-	AND u.email = email_in;
+	ON u.dpi = s.dpi  
+	AND u.dpi = dpi_in;
 END $$
 
 
@@ -211,7 +217,7 @@ update_profile:BEGIN
 	IF image_in = '' OR image_in IS NULL THEN 
 		SELECT u.image INTO image_in
 		FROM users u 
-		WHERE u.email = email_in;
+		WHERE u.dpi = dpi_in;
 	END IF;
 
 	IF dpi_in = 0 OR dpi_in IS NULL THEN 
@@ -232,7 +238,7 @@ update_profile:BEGIN
 	u.name = name_in,
 	u.dpi = dpi_in,
 	u.image = image_in
-	WHERE u.email = email_in;
+	WHERE u.dpi = dpi_in;
 
 	SELECT 'Los datos han sido actualizados exitosamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
@@ -241,11 +247,11 @@ END $$
 
 -- ########################################## PROCEDIMIENTO PARA DESHABILITAR UN USUARIO ####################################################
 CREATE PROCEDURE IF NOT EXISTS DisableUser(
-	IN email_in VARCHAR(200)
+	IN dpi_in BIGINT
 )
 disable_user:BEGIN
 	
-	IF(NOT UserExists(email_in)) THEN
+	IF(NOT UserExists(dpi_in)) THEN
 		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE disable_user;
@@ -253,7 +259,7 @@ disable_user:BEGIN
 
 	UPDATE users u 
 	SET u.state = 0
-	WHERE u.email = email_in;
+	WHERE u.dpi = dpi_in;
 
 	SELECT 'El usuario ha sido deshabilitado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
@@ -262,11 +268,11 @@ END $$
 
 -- ########################################## PROCEDIMIENTO PARA HABILITAR UN USUARIO ####################################################
 CREATE PROCEDURE IF NOT EXISTS EnableUser(
-	IN email_in VARCHAR(200)
+	IN dpi_in BIGINT
 )
 enable_user:BEGIN
 	
-	IF(NOT UserExists(email_in)) THEN
+	IF(NOT UserExists(dpi_in)) THEN
 		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE enable_user;
@@ -274,7 +280,7 @@ enable_user:BEGIN
 
 	UPDATE users u 
 	SET u.state = 1
-	WHERE u.email = email_in;
+	WHERE u.dpi = dpi_in;
 
 	SELECT 'El usuario ha sido habilitado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
@@ -283,13 +289,13 @@ END $$
 
 -- ########################################## PROCEDIMIENTO PARA AGREGAR UN CUPÓN A UN USUARIO ####################################################
 CREATE PROCEDURE IF NOT EXISTS CreateCoupon(
-	IN email_in VARCHAR(200),
+	IN dpi_in BIGINT,
 	IN name_in VARCHAR(200),
 	IN discount_in DECIMAL
 )
 create_coupon:BEGIN
 
-	IF(NOT UserExists(email_in)) THEN
+	IF(NOT UserExists(dpi_in)) THEN
 		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
         'ERROR' AS 'TIPO';
         LEAVE create_coupon;
@@ -307,8 +313,8 @@ create_coupon:BEGIN
 		LEAVE create_coupon;
 	END IF;
 
-	INSERT INTO coupons(name, discount, used, email)
-	VALUES (name_in, discount_in, FALSE, email_in);
+	INSERT INTO coupons(name, discount, used, dpi)
+	VALUES (name_in, discount_in, FALSE, dpi_in);
 	
 	SELECT 'Cupón asignado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
@@ -322,10 +328,10 @@ CREATE PROCEDURE IF NOT EXISTS addPaymentMethod(
 	number_in BIGINT,
 	exp_in VARCHAR(10),
 	cvv_in INTEGER,
-	email_in VARCHAR(200)
+	dpi_in BIGINT
 )
 add_payment_method:BEGIN
-	IF NOT UserExists(email_in) THEN
+	IF NOT UserExists(dpi_in) THEN
 		SELECT 'El usuario no existe en la base de datos' AS 'MESSAGE',
 		'ERROR' AS 'TYPE';
 		LEAVE add_payment_method;
@@ -337,8 +343,8 @@ add_payment_method:BEGIN
 		LEAVE add_payment_method;
 	END IF;
 
-	INSERT INTO payment_methods(cardholder_name, number, exp, cvv, email)
-	VALUES (cardholder_in, number_in, exp_in, cvv_in, email_in);
+	INSERT INTO payment_methods(cardholder_name, number, exp, cvv, dpi)
+	VALUES (cardholder_in, number_in, exp_in, cvv_in, dpi_in);
 
 	SELECT 'El método de pago ha sido agregado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
@@ -381,7 +387,7 @@ CREATE PROCEDURE IF NOT EXISTS addProduct(
 	description_in VARCHAR(200),
 	existence_in INTEGER,
 	price_in DECIMAL,
-	email_in VARCHAR(200),
+	dpi_in BIGINT,
 	category_in VARCHAR(150)
 )
 add_product:BEGIN 
@@ -417,14 +423,14 @@ add_product:BEGIN
 		LEAVE add_product;
 	END IF;
 
-	IF ProductExists(name_in, email_in) THEN
+	IF ProductExists(name_in, dpi_in) THEN
 		SELECT 'Ya existe un producto con el nombre ingresado' AS 'MESSAGE',
 		'ERROR' AS 'TYPE';
 		LEAVE add_product;
 	END IF;
 	
-	INSERT INTO products(photo, name, description, existence, price, email, cat_id)
-	VALUES(photo_in, name_in, description_in, existence_in, price_in, email_in, prod_category);
+	INSERT INTO products(photo, name, description, existence, price, dpi, cat_id)
+	VALUES(photo_in, name_in, description_in, existence_in, price_in, dpi_in, prod_category);
 
 	SELECT 'El producto ha sido agregado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
@@ -433,11 +439,11 @@ END $$
 
 -- ########################################## PROCEDIMIENTO PARA RETORNAR LOS PRODUCTOS DE UN VENDEDOR ####################################################
 CREATE PROCEDURE IF NOT EXISTS getSellerProducts(
-	email_in VARCHAR(200)
+	dpi_in BIGINT
 )
 get_seller_products:BEGIN
 	
-	IF NOT UserExists(email_in) THEN
+	IF NOT UserExists(dpi_in) THEN
 		SELECT 'El usuario no existe en la base de datos' AS 'MESSAGE',
 		'ERROR' AS 'TYPE';
 		LEAVE get_seller_products;
@@ -453,5 +459,5 @@ get_seller_products:BEGIN
 	FROM products p 
 	JOIN prod_categories pc 
 	ON p.cat_id = pc.cat_id 
-	AND p.email = email_in;
+	AND p.dpi = dpi_in;
 END $$
