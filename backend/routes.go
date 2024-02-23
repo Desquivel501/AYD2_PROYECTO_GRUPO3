@@ -2,6 +2,7 @@ package main
 
 import (
 	categoryfilter "main/categoryFilter"
+	productos "main/products"
 	"main/root"
 	"net/http"
 )
@@ -9,4 +10,5 @@ import (
 func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/", root.RootHandler)
 	mux.HandleFunc("/category_filter", categoryfilter.CategoryFilterHandler)
+	mux.HandleFunc("/all-products", productos.GetAllProductsHandler)
 }
