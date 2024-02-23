@@ -461,3 +461,42 @@ get_seller_products:BEGIN
 	ON p.cat_id = pc.cat_id 
 	AND p.dpi = dpi_in;
 END $$
+
+-- ########################################## PROCEDIMIENTO PARA RETORNAR TODOS LOS PRODUCTOS ####################################################
+CREATE PROCEDURE IF NOT EXISTS getAllProducts()
+BEGIN
+	SELECT p.prod_id AS product_id,
+	p.photo AS imagen,
+	p.name AS nombre,
+	p.description AS descripcion,
+	(CASE WHEN p.existence = 0 THEN FALSE ELSE TRUE END) AS disponible,
+	p.price AS precio,
+	pc.prod_cat AS categoria,
+	u.name AS vendedor
+	FROM products p 
+	JOIN prod_categories pc 
+	ON p.cat_id = pc.cat_id
+	JOIN users u 
+	ON p.dpi = u.dpi;
+END $$
+
+-- ########################################## PROCEDIMIENTO PARA RETORNAR UN PRODUCTO EN CONCRETO ####################################################
+CREATE PROCEDURE IF NOT EXISTS getProduct(
+	IN prod_id_in INTEGER
+)
+BEGIN
+		SELECT p.prod_id AS product_id,
+		p.name  AS nombre,
+		(CASE WHEN p.existence = 0 THEN FALSE ELSE TRUE END) AS disponible,
+		p.price AS precio,
+		p.description AS descripcion,
+		p.photo AS imagen,
+		pc.prod_cat AS categoria,
+		u.name AS vendedor
+		FROM products p
+		JOIN users u 
+		ON u.dpi = p.dpi 
+		JOIN prod_categories pc 
+		ON p.cat_id = pc.cat_id 
+		AND p.prod_id = prod_id_in;
+END $$
