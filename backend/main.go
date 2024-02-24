@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"main/Cors"
+	"main/cors"
 	"net/http"
 )
 
@@ -11,6 +11,6 @@ func main() {
 
 	Routes(mux)
 
-	handler := Cors.CorsMiddleware(mux)
+	handler := cors.CorsMiddleware(mux)
 	log.Fatal(http.ListenAndServe(":8080", handler))
 }
