@@ -54,7 +54,7 @@ function App() {
     <Router>
         <Routes>
           {rutas.map((ruta,index)=>
-            <Route path={ruta.path} element={ruta.element}/>
+            <Route path={ruta.path} element={ruta.element} key={index}/>
           )}
         </Routes>
     </Router>
