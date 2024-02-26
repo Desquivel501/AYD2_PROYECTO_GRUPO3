@@ -4,9 +4,11 @@ import './ProductCard.css';
 export const ProductCard = (props) => {
 
     const {
+        id,
         logo,
         price,
-        name
+        name,
+        onCardClick
     } = props;
 
   return (

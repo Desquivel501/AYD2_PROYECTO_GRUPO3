@@ -19,6 +19,7 @@ function App() {
       <CustomNavbar />  
       <Routes>
         <Route path="/" element={<Producto />} />
+        <Route path="/producto/:id" element={<Producto />} />
         <Route path="/catalogo" element={<Catalogo />} />
         <Route path="/crear-producto" element={<CrearProducto />} />
       </Routes>

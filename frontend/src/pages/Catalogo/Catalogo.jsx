@@ -2,22 +2,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
-import logo from '../../assets/react.svg';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Catalogo.css';
-import productImage1 from '../../assets/camera.png';
-import productImage2 from '../../assets/camera2.png';
-import productImage3 from '../../assets/camera3.png';
-import productImage4 from '../../assets/camera4.png';
 
 import { useState, useEffect, useContext } from 'react';
-
 import { Cart, Search } from 'react-bootstrap-icons';
-
 import { ProductCard } from '../../components/ProductCard/ProductCard';
-
 import { getData } from '../../api/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function Catalogo() {
 
@@ -30,6 +23,8 @@ export default function Catalogo() {
     const [search, setSearch] = useState('');
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(10000);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const endpoint = `all-products`
@@ -47,20 +42,12 @@ export default function Catalogo() {
     }, []);
 
     useEffect(() => {
-        // if(minPrice > maxPrice) setMaxPrice(minPrice)
-        // if(maxPrice < minPrice) setMinPrice(maxPrice)
         if(minPrice < 0) setMinPrice(0)
         if(maxPrice < 0) setMaxPrice(0)
-        // if(minPrice === '') setMinPrice(0)
-        // if(maxPrice === '') setMaxPrice(10000)
     }, [minPrice, maxPrice]);
 
 
     const changeCategory = (event) => {
-        // console.log(event.target.id)        
-        
-        // let categories2 = categories
-
         var found = false
         for (var i = 0; i < categories.length; i++){
             if(categories[i] == event.target.id){
@@ -74,35 +61,17 @@ export default function Catalogo() {
         }
 
         setCategories(categories)
-        // setCategories2(categories)
-
-        // setCategories(categories2)
     }
 
-
-    // useEffect(() => {
-    //     const updateSearch = () => {
-    //         if(sent != search){
-    //             if(search != "" && search != undefined && search != null){
-    //                 console.log(search)
-    //                 setSent(search)
-    //             } 
-    //         }    
-    //     };
-    
-    //     const interval =  setInterval(() => {
-    //         updateSearch()
-          
-    //     }, 750);
-    //     return () => clearInterval(interval);
-    // },[search]);
+    const handleClick = (e) => {
+        console.log(e);
+        const route = `/producto/${e}`;
+        navigate(route);
+    }
 
 
     function filter(item) {
         if(item.precio < minPrice || item.precio > maxPrice) return false
-
-        // if(categories2.length > 0 && !categories2.includes(item.categoria)) return false
-
         if(search === '') return true
         return item.nombre.toLowerCase().includes(search.toLowerCase())
     }
@@ -178,25 +147,15 @@ export default function Catalogo() {
                 <Col xl={9} style={{maxHeight: "75vh", overflow: "auto"}}>
                     <Container fluid className=''>
                     <Row>
-                        {/* {products.map((product, i) => {
-                            return (
-                                <Col xl={3} className='px-1 mb-2' key={i}>
-                                    <ProductCard
-                                        logo={product.imagen}
-                                        price={product.precio}
-                                        name={product.nombre}
-                                    />
-                                </Col>
-                            );
-                        })} */}
-
                         {products.map((product, i) => (
                             filter(product) &&
-                            <Col xl={3} className='px-1 mb-2' key={i}>
+                            <Col xl={3} className='px-1 mb-2' key={i} onClick={() => handleClick(product.product_id)}>
                                 <ProductCard
+                                    id={product.product_id}
                                     logo={product.imagen}
                                     price={product.precio}
                                     name={product.nombre}
+                                    // onCardClick={handleClick}
                                 />
                             </Col>
                             
