@@ -1,4 +1,4 @@
-import { useState } from 'react'
+/* import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -48,6 +48,28 @@ function App() {
       // </p>
     
   )
+} */
+
+import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
+import React from 'react';
+import { rutas } from './utilities/routes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+function App() {
+  return (
+    <Router>
+        <Routes>
+          {rutas.map((ruta,index)=>
+            <Route path={ruta.path} element={ruta.element} key={index}/>
+          )}
+        </Routes>
+    </Router>
+  );
 }
 
 export default App
