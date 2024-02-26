@@ -19,6 +19,14 @@
     justify-content: center;
 }
 
+.product-root {
+    justify-self: top;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    padding-top: 7vh;
+}
+
 
 .product-image-container {
     width: 100%;

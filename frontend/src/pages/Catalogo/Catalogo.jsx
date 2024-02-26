@@ -5,6 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Catalogo.css';
+import CustomNavbar from '../../components/navbar/navbar';
 
 import { useState, useEffect, useContext } from 'react';
 import { Cart, Search } from 'react-bootstrap-icons';
@@ -78,8 +79,10 @@ export default function Catalogo() {
 
 
     return (
-        <div className="catalog-content">
-            <Container fluid className=''>
+        <div className="catalog-root">
+            <CustomNavbar />
+
+            <Container fluid className='catalog-content'>
 
             <Row>
                 <Col xl={12} className='pb-3'>
