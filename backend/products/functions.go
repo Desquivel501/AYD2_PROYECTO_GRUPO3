@@ -5,7 +5,7 @@ import (
 	"main/database"
 )
 
-func GetAllProducts() (string, []Product) {
+func GetAllProducts() ([]Product, error) {
 	// Crea un slice de Product para almacenar los productos
 	var products []Product
 
@@ -14,7 +14,7 @@ func GetAllProducts() (string, []Product) {
 
 	rows, err := db.Query("CALL getAllProducts()")
 	if err != nil {
-		return fmt.Sprintf("Error al ejecutar procedimiento almacenado getAllProducts(): %s", err), []Product{}
+		return []Product{}, fmt.Errorf("error al ejecutar procedimiento almacenado getAllProducts(): %s", err.Error())
 	}
 	defer rows.Close()
 
@@ -23,14 +23,29 @@ func GetAllProducts() (string, []Product) {
 		var p Product
 		err := rows.Scan(&p.ProductID, &p.Imagen, &p.Nombre, &p.Descripcion, &p.Disponible, &p.Precio, &p.Categoria, &p.Vendedor)
 		if err != nil {
-			return fmt.Sprintf("Error al convertir productos: %s", err), []Product{}
+			return []Product{}, fmt.Errorf("error al convertir productos: %s", err)
 		}
 		products = append(products, p)
 	}
 
 	// Maneja cualquier error durante el escaneo de filas
 	if err := rows.Err(); err != nil {
-		return fmt.Sprintf("Error al iterar productos: %s", err), []Product{}
+		return []Product{}, fmt.Errorf("error al iterar productos: %s", err)
 	}
-	return "", products
+	return products, nil
+}
+
+func GetProduct(id int) (Product, error) {
+	//Crea un objeto Producto para retornar en la petición
+	var p Product
+
+	db := database.GetConnection()
+	defer db.Close()
+
+	err := db.QueryRow("CALL getProduct(?)", id).Scan(&p.ProductID, &p.Nombre, &p.Disponible, &p.Precio, &p.Descripcion, &p.Imagen, &p.Categoria, &p.Vendedor)
+	if err != nil {
+		return Product{}, fmt.Errorf("error al ejecutar procedimiento almacenado getProduct(): %s", err.Error())
+	}
+
+	return p, nil
 }
