@@ -451,11 +451,11 @@ get_seller_products:BEGIN
 
 	SELECT p.prod_id AS id,
 	p.photo AS image,
-	p.name,
-	p.description,
-	p.existence,
-	p.price,
-	pc.prod_cat AS category
+	p.name AS nombre,
+	p.description AS descripcion,
+	p.existence AS existencia,
+	p.price AS precio,
+	pc.prod_cat AS categoria
 	FROM products p 
 	JOIN prod_categories pc 
 	ON p.cat_id = pc.cat_id 
@@ -469,7 +469,7 @@ BEGIN
 	p.photo AS imagen,
 	p.name AS nombre,
 	p.description AS descripcion,
-	(CASE WHEN p.existence = 0 THEN FALSE ELSE TRUE END) AS disponible,
+	p.existence AS existencia,
 	p.price AS precio,
 	pc.prod_cat AS categoria,
 	u.name AS vendedor
@@ -487,7 +487,7 @@ CREATE PROCEDURE IF NOT EXISTS getProduct(
 BEGIN
 		SELECT p.prod_id AS product_id,
 		p.name  AS nombre,
-		(CASE WHEN p.existence = 0 THEN FALSE ELSE TRUE END) AS disponible,
+		p.existence AS existencia,
 		p.price AS precio,
 		p.description AS descripcion,
 		p.photo AS imagen,
