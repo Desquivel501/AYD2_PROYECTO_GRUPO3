@@ -11,3 +11,14 @@ type Product struct {
 	Descripcion string  `json:"descripcion"`
 	Imagen      string  `json:"imagen"`
 }
+
+// Estructura para representar un producto
+type SellerProduct struct {
+	ProductID   int     `json:"product_id"`
+	Nombre      string  `json:"nombre"`
+	Existencia  int     `json:"existencia"`
+	Precio      float64 `json:"precio"`
+	Categoria   string  `json:"categoria"`
+	Descripcion string  `json:"descripcion"`
+	Imagen      string  `json:"imagen"`
+}

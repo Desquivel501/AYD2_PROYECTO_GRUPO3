@@ -13,4 +13,5 @@ func Routes(mux *http.ServeMux) {
 	//Handlers de productos
 	mux.HandleFunc("/all-products", productos.GetAllProductsHandler)
 	mux.HandleFunc("/product", productos.GetProductHandler)
+	mux.HandleFunc("/my-products", productos.GetSellerProductsHandler)
 }
