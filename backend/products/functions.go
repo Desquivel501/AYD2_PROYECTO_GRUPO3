@@ -49,3 +49,33 @@ func GetProduct(id int) (Product, error) {
 
 	return p, nil
 }
+
+func GetSellerProducts(id int) ([]SellerProduct, error) {
+	// Crea un slice de Product para almacenar los productos del vendedor
+	var products []SellerProduct
+
+	db := database.GetConnection()
+	defer db.Close()
+
+	rows, err := db.Query("CALL getSellerProducts(?)", id)
+	if err != nil {
+		return []SellerProduct{}, fmt.Errorf("error al ejecutar procedimiento almacenado getAllProducts(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	// Itera sobre los resultados de la consulta y crea objetos Product
+	for rows.Next() {
+		var p SellerProduct
+		err := rows.Scan(&p.ProductID, &p.Imagen, &p.Nombre, &p.Descripcion, &p.Existencia, &p.Precio, &p.Categoria)
+		if err != nil {
+			return []SellerProduct{}, fmt.Errorf("error al convertir productos: %s", err)
+		}
+		products = append(products, p)
+	}
+
+	// Maneja cualquier error durante el escaneo de filas
+	if err := rows.Err(); err != nil {
+		return []SellerProduct{}, fmt.Errorf("error al iterar productos: %s", err)
+	}
+	return products, nil
+}
