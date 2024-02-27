@@ -45,3 +45,30 @@ func GetProductHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(product)
 }
+
+func GetSellerProductsHandler(w http.ResponseWriter, r *http.Request) {
+	// Obtiene el valor del parámetro "id" de la URL
+	id_str := r.URL.Query().Get("id")
+	// Verifica si el parámetro "id" está presente en la URL
+	if id_str == "" {
+		http.Error(w, "Parámetro 'id' no encontrado en la URL /product", http.StatusBadRequest)
+		return
+	}
+	//Convierte el id del vendedor en un valor entero
+	id, err := strconv.Atoi(id_str)
+	if err != nil {
+		http.Error(w, "Parámetro 'id' no es un valor válido en de un vendedor", http.StatusBadRequest)
+		return
+	}
+
+	products, err := GetSellerProducts(id)
+	//Si encuentra un error
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(products)
+}
