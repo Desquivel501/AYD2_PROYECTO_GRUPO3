@@ -16,10 +16,12 @@ export const SubirImagen = async (file) => {
   .then((res) => res.json())
   .catch((er) => console.log(er));
 
-  return await fetch(signedURL.uploadURL, {
+  const url =  await fetch(signedURL.uploadURL, {
     method: "PUT",
     body: file,
   })
+
+  return url.url.slice(0, url.url.indexOf("?"));
 }
 
 // Se envia por parametro el 'file' que se obtiene del input
@@ -31,11 +33,22 @@ export const SubirImagen = async (file) => {
 //   }
 // }
 
-// El response que se obtiene sera:
-// {
-// 	status: 200, 
-// 	url: "https://proyecto-ayd2.s3.us-east-2.amazonaws.com/1709139841142.png....", 
-// 	...
-// }
+// El response que se obtiene sera el URL de la imagen que se subio y se debe mandar a la base de datos
 // Asegurense de validar que la imagen sea valida (tipo png, jpg, jpeg, etc) antes de enviarla a la funcion ya que S3 no realiza la validacion y permite subir cualquier tipo de archivo
-// El URL que se recibe es el URL de la imagen que se subio y se debe mandar a la base de datos
+
+export async function postData({ endpoint, body }) {
+
+  const json = JSON.stringify(body);
+  console.log(json);
+
+  return fetch(`${API}${endpoint}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // "Access-Control-Allow-Origin": "*",
+    },
+    body: json,
+  })
+    .then((res) => res.json())
+    .catch((er) => console.log(er));
+}
