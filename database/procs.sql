@@ -153,10 +153,10 @@ get_profile:BEGIN
         LEAVE get_profile;
 	END IF;
 
-	SELECT u.email,
-	u.name ,
-	u.dpi,
-	u.image 
+	SELECT u.email AS email,
+	u.name AS NAME,
+	u.dpi AS dpi,
+	u.image AS image
 	FROM users u 
 	WHERE u.dpi  = dpi_in;
 END $$
@@ -180,11 +180,11 @@ get_seller_profile:BEGIN
         LEAVE get_seller_profile;	
 	END IF;
 
-	SELECT u.email,
-	u.name,
-	u.dpi,
-	u.image,
-	s.score 
+	SELECT u.email AS email,
+	u.name AS name,
+	u.dpi AS dpi,
+	u.image AS image,
+	s.score AS score 
 	FROM users u 
 	JOIN sellers s 
 	ON u.dpi = s.dpi  
