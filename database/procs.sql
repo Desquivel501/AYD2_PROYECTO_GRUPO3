@@ -583,6 +583,25 @@ BEGIN
 END $$
 
 
+-- ########################################## PROCEDIMIENTO PARA RETORNAR UN PRODUCTO EN CONCRETO ####################################################
+CREATE PROCEDURE IF NOT EXISTS deleteProduct(
+	IN prod_id_in INTEGER
+)
+delete_product:BEGIN
+	IF NOT ProducIdExists(prod_id_in) THEN
+		SELECT 'El producto que desea eliminar no existe' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE delete_product;
+	END IF;
+
+	DELETE FROM products p
+	WHERE p.prod_id = prod_id_in;
+
+	SELECT 'El producto ha sido eliminado exitosamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
+
 -- ########################################## PROCEDIMIENTO PARA OBTENER TODOS LOS USUARIOS ####################################################
 CREATE PROCEDURE IF NOT EXISTS getAllUsers()
 BEGIN
