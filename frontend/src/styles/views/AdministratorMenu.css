@@ -1,0 +1,23 @@
+.am-title{
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px !important;
+}
+.am-welcome{
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: -30px !important;
+}
+.am-table{
+    margin: auto;
+    width: 80% !important;
+}
+.am-opciones{
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    margin: auto;
+    width: 60%;
+}

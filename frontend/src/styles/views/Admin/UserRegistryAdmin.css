@@ -1,0 +1,20 @@
+.ura-password{
+    margin-top: 15px; 
+}
+.ura-title{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: -30px;
+}
+.ura-name{
+    margin-top: -10px; 
+}
+
+.ura-back{
+    color: black;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 25px;
+}

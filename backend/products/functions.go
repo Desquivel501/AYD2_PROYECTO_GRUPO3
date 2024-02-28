@@ -21,7 +21,7 @@ func GetAllProducts() ([]Product, error) {
 	// Itera sobre los resultados de la consulta y crea objetos Product
 	for rows.Next() {
 		var p Product
-		err := rows.Scan(&p.ProductID, &p.Imagen, &p.Nombre, &p.Descripcion, &p.Disponible, &p.Precio, &p.Categoria, &p.Vendedor)
+		err := rows.Scan(&p.ProductID, &p.Imagen, &p.Nombre, &p.Descripcion, &p.Existencia, &p.Precio, &p.Categoria, &p.Vendedor)
 		if err != nil {
 			return []Product{}, fmt.Errorf("error al convertir productos: %s", err)
 		}
@@ -42,7 +42,7 @@ func GetProduct(id int) (Product, error) {
 	db := database.GetConnection()
 	defer db.Close()
 
-	err := db.QueryRow("CALL getProduct(?)", id).Scan(&p.ProductID, &p.Nombre, &p.Disponible, &p.Precio, &p.Descripcion, &p.Imagen, &p.Categoria, &p.Vendedor)
+	err := db.QueryRow("CALL getProduct(?)", id).Scan(&p.ProductID, &p.Nombre, &p.Existencia, &p.Precio, &p.Descripcion, &p.Imagen, &p.Categoria, &p.Vendedor)
 	if err != nil {
 		return Product{}, fmt.Errorf("error al ejecutar procedimiento almacenado getProduct(): %s", err.Error())
 	}
