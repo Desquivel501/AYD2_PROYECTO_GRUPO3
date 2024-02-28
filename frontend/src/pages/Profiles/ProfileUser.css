@@ -1,0 +1,145 @@
+.aux{
+    
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flexbox;
+}
+
+.card {
+    position:absolute;
+    box-shadow: 10px 12px 10px 0px rgba(64,64,64,0.52);  
+}
+
+
+.checked {
+  color: orange;
+}
+/*.card-profile{
+    height: 400px;
+    width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #D8EBFE;
+    border-radius: 10px;
+    box-shadow: 10px 12px 10px 0px rgba(64,64,64,0.52);
+    position: relative;
+
+}*/
+
+.profile-photo{
+    position: absolute;
+    height: 50%;
+    width: 18%;
+    background-color: #fff;
+    border-radius: 5%;
+    box-shadow: 10px 12px 10px 0px rgba(64,64,64,0.52);
+    top: 23%;
+    left: 3%;
+    overflow: hidden;
+    
+}
+
+.profile-photo img {
+    width: 100%; 
+    height: 100%;
+    object-fit: cover; 
+}
+
+.profile-info{
+    position: absolute;
+    color: #007FAF;
+    font-size: 10px;
+    top: 40%;
+    left: 25%; 
+    width: 60%;    
+    text-align: center;
+}
+
+.profile-info h6{
+    color: #8C8C8C;
+}
+
+
+.box-edit {
+    position: absolute;
+    height: 6%; 
+    width: 6%; 
+    top: 0%; 
+    left: 95%; 
+    
+}
+
+.profile-info img {
+    width: 100%; 
+    height: 100%; 
+}
+
+
+.profile-cui{
+    position: absolute;
+    color: #8C8C8C;
+    top: 76%;
+    left: 7%;
+
+}
+
+.profile-cui h6{
+    font-size: 15px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.rate {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+/*3D3D3D*/
+@media only screen and (max-width: 768px) {
+    .aux {
+      /* Estilos específicos para dispositivos móviles */
+      height: 90%;
+      width: 20%;
+      flex:flexbox;
+      justify-content: center;
+      align-items: center;
+      padding-left: 10%;
+
+      
+    }
+  }
