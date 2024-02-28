@@ -581,3 +581,17 @@ BEGIN
 		ON p.cat_id = pc.cat_id 
 		AND p.prod_id = prod_id_in;
 END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER TODOS LOS USUARIOS ####################################################
+CREATE PROCEDURE IF NOT EXISTS getAllUsers()
+BEGIN
+	SELECT u.email AS email,
+	u.name AS name,
+	u.dpi AS dpi,
+	u.`role` AS role,
+	u.state AS state,
+	u.image AS image
+	FROM users u
+	WHERE u.`role` != 0;
+END $$
