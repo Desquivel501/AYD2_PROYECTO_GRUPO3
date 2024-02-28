@@ -7,7 +7,10 @@ type User struct {
 	Dpi      int64  `json:"dpi"`
 	Password string `json:"password"`
 	Image    string `json:"image"`
+	Role     int16  `json:"role"`
+	Score    int32  `json:"score"`
 	Type     string `json:"type"`
+	State    int16  `json:"state"`
 }
 
 //Estructura para credenciales
