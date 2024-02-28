@@ -6,6 +6,10 @@ import { Producto } from '../pages/Producto/Producto';
 import { Catalogo } from '../pages/Catalogo/Catalogo';
 import { CrearProducto } from '../pages/CrearProducto/CrearProducto';
 import { CatalogoVendedor } from '../pages/Catalogo/CatalogoVendedor';
+import ProfileSalePerson from "../components/Profiles/ProfileSalePerson";
+import ProfileUser from "../components/Profiles/ProfileUser";
+import ProfileAdmin from "../components/Profiles/ProfileAdmin";
+
 
 
 export const rutas = [
@@ -30,6 +34,7 @@ export const rutas = [
         element: <ForgetView />
     },
     {
+
         path: "/producto/:id",
         element: <Producto />
     },
@@ -52,5 +57,18 @@ export const rutas = [
     {
         path: "*",
         element: <LandingView />
+    },
+    {    
+        path:"/profile-user",
+        element:<ProfileUser/>
+    },
+    {
+        path:"/profile-sale-person",
+        element:<ProfileSalePerson/>
+    },
+    {
+        path:"/profile-admin",
+        element:<ProfileAdmin/>
+
     }
 ]
