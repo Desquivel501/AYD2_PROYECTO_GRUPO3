@@ -3,8 +3,9 @@ import LandingView from '../views/LandingView/LandingView';
 import LoginView from '../views/LoginView/LoginView';
 import RegisterRepartidorView from '../views/RegisterRepatidorView/RegisterRepatidorView';
 import { Producto } from '../pages/Producto/Producto';
-import Catalogo from '../pages/Catalogo/Catalogo';
+import { Catalogo } from '../pages/Catalogo/Catalogo';
 import { CrearProducto } from '../pages/CrearProducto/CrearProducto';
+import { CatalogoVendedor } from '../pages/Catalogo/CatalogoVendedor';
 
 
 export const rutas = [
@@ -35,6 +36,14 @@ export const rutas = [
     {
         path: "/catalogo",
         element: <Catalogo />
+    },
+    {
+        path: "/vendedor/:id/catalogo",
+        element: <CatalogoVendedor/>
+    },
+    {
+        path: "/producto/edit/:id",
+        element: <CrearProducto/>
     },
     {
         path: "/crear-producto",

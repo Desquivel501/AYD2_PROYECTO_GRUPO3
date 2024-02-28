@@ -24,9 +24,12 @@ export const ProductCard = (props) => {
             />
         </div>
         
-        <div className='product-info'>
-            <h4 style={{fontWeight:'bold'}}> Q {price} </h4>
-        </div>
+        {
+            id > 0 &&
+            <div className='product-info'>
+                <h4 style={{fontWeight:'bold'}}> Q {price} </h4>
+            </div>
+        }
 
         <div className='product-info'>
             <h3>{name}</h3>

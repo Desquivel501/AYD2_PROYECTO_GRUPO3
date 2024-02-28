@@ -36,7 +36,7 @@ export const Producto = (props) => {
     nombre: "",
     descripcion: "",
     precio: 0,
-    disponible: false,
+    existencia: 0,
     categoria: "",
     vendedor: "",
     imagen: "https://placehold.co/800",
@@ -89,7 +89,7 @@ export const Producto = (props) => {
               <hr class="mt-3 mb-1"/>
               
               <div className='mt-3'>
-                <h3 style={{color:product.disponible ? "green" : "red", textAlign:"left"}} > {product.disponible ? "Disponible." : "No Disponible."} </h3>
+                <h3 style={{color:product.existencia ? "green" : "red", textAlign:"left"}} > {product.existencia > 0 ? "Disponible." : "No Disponible."} </h3>
               </div>
 
               <div className='mt-3'>

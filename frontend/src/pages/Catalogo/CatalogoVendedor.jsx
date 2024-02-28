@@ -14,7 +14,7 @@ import { getData } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 
 
-export const Catalogo = () => {
+export const CatalogoVendedor = () => {
 
     const [products, setProducts] = useState([]);
 
@@ -66,8 +66,14 @@ export const Catalogo = () => {
     }
 
     const handleClick = (e) => {
+
+        if(e === -1) {
+            navigate('/crear-producto');
+            return;
+        }
+
         console.log(e);
-        const route = `/producto/${e}`;
+        const route = `/producto/edit/${e}`;
         navigate(route);
     }
 
@@ -148,6 +154,14 @@ export const Catalogo = () => {
                 <Col xl={9} style={{maxHeight: "75vh", overflow: "auto"}}>
                     <Container fluid className=''>
                     <Row>
+                        <Col xl={3} className='px-1 mb-2' onClick={() => handleClick(-1)}>
+                            <ProductCard
+                                id={-1}
+                                logo={"https://cdn-icons-png.flaticon.com/512/2661/2661440.png"}
+                                price={0}
+                                name={"Crear Producto"}
+                            />
+                        </Col>
                         {products.map((product, i) => (
                             filter(product) &&
                             <Col xl={3} className='px-1 mb-2' key={i} onClick={() => handleClick(product.product_id)}>
@@ -156,7 +170,6 @@ export const Catalogo = () => {
                                     logo={product.imagen}
                                     price={product.precio}
                                     name={product.nombre}
-                                    // onCardClick={handleClick}
                                 />
                             </Col>
                             

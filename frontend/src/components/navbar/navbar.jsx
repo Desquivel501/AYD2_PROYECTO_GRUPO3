@@ -17,7 +17,7 @@ function CustomNavbar() {
                 width="auto"
                 height="30"
                 className="d-inline-block align-top"
-                />{' '}
+                />{''}
                 
             </Navbar.Brand>
             <Nav className="me-auto">
