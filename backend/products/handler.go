@@ -72,3 +72,25 @@ func GetSellerProductsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
 }
+
+// Manejador del método actualizar producto
+func UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
+	// Decodifica el JSON del cuerpo de la solicitud en un objeto UpdateProduct
+	var product UpdateProductStruct
+
+	err := json.NewDecoder(r.Body).Decode(&product)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	status, err := UpdateProduct(product)
+	//Si encuentra un error
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	// Convierte el statusResponse a JSON y escribe la respuesta HTTP
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(status)
+}
