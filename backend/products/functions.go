@@ -5,6 +5,7 @@ import (
 	"main/database"
 )
 
+// Permite obtener todos los productos
 func GetAllProducts() ([]Product, error) {
 	// Crea un slice de Product para almacenar los productos
 	var products []Product
@@ -35,6 +36,7 @@ func GetAllProducts() ([]Product, error) {
 	return products, nil
 }
 
+// Permite obtener un producto por medio de su código de identificación
 func GetProduct(id int) (Product, error) {
 	//Crea un objeto Producto para retornar en la petición
 	var p Product
@@ -50,6 +52,7 @@ func GetProduct(id int) (Product, error) {
 	return p, nil
 }
 
+// Método que obtiene los productos de un determinado vendedor
 func GetSellerProducts(id int) ([]SellerProduct, error) {
 	// Crea un slice de Product para almacenar los productos del vendedor
 	var products []SellerProduct
@@ -78,4 +81,37 @@ func GetSellerProducts(id int) ([]SellerProduct, error) {
 		return []SellerProduct{}, fmt.Errorf("error al iterar productos: %s", err)
 	}
 	return products, nil
+}
+
+// Método que actualiza producto
+func UpdateProduct(p UpdateProductStruct) (StatusResponse, error) {
+	//Obtiene la conexion a la base de datos
+	db := database.GetConnection()
+	defer db.Close()
+
+	//Resltado del procedimiento
+	var s StatusResponse
+
+	//Ejecuta el query de actualización
+	err := db.QueryRow("CALL updateProduct(?,?,?,?,?,?,?,?)",
+		p.ProductID,
+		p.Imagen,
+		p.Nombre,
+		p.Descripcion,
+		p.Existencia,
+		p.Precio,
+		p.SellerDPI,
+		p.Categoria,
+	).Scan(&s.Message, &s.Type)
+
+	if err != nil {
+		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
+	}
+
+	if s.Type == "ERROR" {
+		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
+	}
+
+	//Retorna el estado del query
+	return s, nil
 }

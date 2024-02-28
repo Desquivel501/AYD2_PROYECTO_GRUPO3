@@ -6,7 +6,13 @@ import { Producto } from '../pages/Producto/Producto';
 import { Catalogo } from '../pages/Catalogo/Catalogo';
 import { CrearProducto } from '../pages/CrearProducto/CrearProducto';
 import { CatalogoVendedor } from '../pages/Catalogo/CatalogoVendedor';
+import ProfileSalePerson from "../pages/Profiles/ProfileSalePerson";
+import ProfileUser from "../pages/Profiles/ProfileUser";
+import ProfileAdmin from "../pages/Profiles/ProfileAdmin";
+import HistoryBuys from "../pages/History-buys-sales/History-buys";
+import HistorySales from "../pages/History-buys-sales/History_sales";
 import { EditProduct } from '../pages/CrearProducto/EditProduct';
+
 
 
 export const rutas = [
@@ -31,6 +37,7 @@ export const rutas = [
         element: <ForgetView />
     },
     {
+
         path: "/producto/:id",
         element: <Producto />
     },
@@ -53,5 +60,28 @@ export const rutas = [
     {
         path: "*",
         element: <LandingView />
+    },
+    {    
+        path:"/profile-user",
+        element:<ProfileUser/>
+    },
+    {
+        path:"/profile-sale-person",
+        element:<ProfileSalePerson/>
+    },
+    {
+        path:"/profile-admin",
+        element:<ProfileAdmin/>
+
+    },
+    {
+        path:"/history-buys",
+        element:<HistoryBuys/>
+
+    },
+    {
+        path:"/history-sales",
+        element:<HistorySales/>
+
     }
 ]
