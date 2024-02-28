@@ -191,7 +191,6 @@ get_seller_profile:BEGIN
 	AND u.dpi = dpi_in;
 END $$
 
-
 -- ########################################## PROCEDIMIENTO PARA EDITAR EL PERFIL DE UN USUARIO #################################################### 
 CREATE PROCEDURE IF NOT EXISTS UpdateProfile(
 	IN email_in VARCHAR(200),
@@ -201,11 +200,24 @@ CREATE PROCEDURE IF NOT EXISTS UpdateProfile(
 	IN image_in VARCHAR(200)
 )
 update_profile:BEGIN
-	
+	DECLARE prev_email VARCHAR(200);
+
+	SELECT u.email INTO prev_email
+	FROM users u 
+	WHERE u.dpi = dpi_in;
+
 	IF NOT ValidEmail(email_in) THEN
 		SELECT 'El correo que ha ingresado no tiene un formato válido' AS 'MESSAGE',
 		'ERROR' AS 'TYPE';
 		LEAVE update_profile;
+	END IF;
+
+	IF prev_email != email_in THEN
+		IF EmailExists(email_in) THEN
+			SELECT 'El correo que ha ingresado ya se encuentra registrado' AS 'MESSAGE',
+			'ERROR' AS 'TYPE';
+			LEAVE update_profile;
+		END IF;
 	END IF;
 
 	IF name_in = '' OR name_in IS NULL THEN 
@@ -459,7 +471,7 @@ update_product:BEGIN
 
 	SELECT p.name INTO prev_name
 	FROM products p 
-	WHERE p.prod_id = prod_id;
+	WHERE p.prod_id = prod_id_in;
 	
 	IF photo_in = '' OR photo_in IS NULL THEN 
 		SELECT p.photo INTO photo_in
