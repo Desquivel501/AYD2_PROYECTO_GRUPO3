@@ -6,6 +6,7 @@ import { Producto } from '../pages/Producto/Producto';
 import { Catalogo } from '../pages/Catalogo/Catalogo';
 import { CrearProducto } from '../pages/CrearProducto/CrearProducto';
 import { CatalogoVendedor } from '../pages/Catalogo/CatalogoVendedor';
+import { EditProduct } from '../pages/CrearProducto/EditProduct';
 
 
 export const rutas = [
@@ -43,7 +44,7 @@ export const rutas = [
     },
     {
         path: "/producto/edit/:id",
-        element: <CrearProducto/>
+        element: <EditProduct/>
     },
     {
         path: "/crear-producto",
