@@ -11,6 +11,7 @@ import ProfileUser from "../pages/Profiles/ProfileUser";
 import ProfileAdmin from "../pages/Profiles/ProfileAdmin";
 import HistoryBuys from "../pages/History-buys-sales/History-buys";
 import HistorySales from "../pages/History-buys-sales/History_sales";
+import { EditProduct } from '../pages/CrearProducto/EditProduct';
 
 
 
@@ -50,7 +51,7 @@ export const rutas = [
     },
     {
         path: "/producto/edit/:id",
-        element: <CrearProducto/>
+        element: <EditProduct/>
     },
     {
         path: "/crear-producto",
