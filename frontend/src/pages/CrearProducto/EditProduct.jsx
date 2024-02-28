@@ -18,7 +18,8 @@ import productImage4 from '../../assets/camera4.png';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import CustomNavbar from '../../components/navbar/navbar';
 
-import { getData } from '../../api/api';
+import { getData, SubirImagen } from '../../api/api';
+
 import {
   useParams,
   useNavigate,
@@ -51,6 +52,7 @@ export const EditProduct = (props) => {
         vendedor: "",
         imagen: "https://placehold.co/800",
         preview: "https://placehold.co/800",
+        file: null
     });
 
     const handleClose = () => setShow(false);
@@ -67,6 +69,13 @@ export const EditProduct = (props) => {
 
         });
     }, []);
+
+    const uploadImage = async () => {
+        if (product.file){
+          const res = await SubirImagen(product.file);
+          console.log(res);
+        }
+    }
 
   return (
     <div className="product-root">
@@ -143,7 +152,11 @@ export const EditProduct = (props) => {
               <hr class="mt-3 mb-1"/>
 
               <div className='mt-4'>
-                <button type="button" class="btn-create">Guardar Cambios</button>
+                <button type="button" class="btn-create"
+                  onClick={uploadImage}
+                >
+                  Guardar Cambios
+                </button>
               </div>
           </Col>
         </Row>
@@ -159,7 +172,7 @@ export const EditProduct = (props) => {
               <input type="file" name="cover" sx={{ align:'center' }}
                 onChange= {(e) => {
                 //   setPreview(URL.createObjectURL(e.target.files[0]))
-                setProduct({...product, preview: URL.createObjectURL(e.target.files[0])})
+                setProduct({...product, preview: URL.createObjectURL(e.target.files[0]), file: e.target.files[0]})
               }} />
 
 
@@ -168,7 +181,7 @@ export const EditProduct = (props) => {
             <Button variant="secondary"
                 onClick={() => {
                         // setPreview(image); 
-                        setProduct({...product, preview: product.imagen})
+                        setProduct({...product, preview: product.imagen, file: null})
                         setShow(false)
                     }} 
                 style={{
