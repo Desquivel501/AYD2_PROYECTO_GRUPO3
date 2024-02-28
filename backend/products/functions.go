@@ -115,3 +115,27 @@ func UpdateProduct(p UpdateProductStruct) (StatusResponse, error) {
 	//Retorna el estado del query
 	return s, nil
 }
+
+// Método que elimina producto
+func DeleteProduct(id int) (StatusResponse, error) {
+	//Obtiene la conexion a la base de datos
+	db := database.GetConnection()
+	defer db.Close()
+
+	//Resultado del procedimiento
+	var s StatusResponse
+
+	//Ejecuta el procedimiento almacenado para eliminar producto
+	err := db.QueryRow("CALL deleteProduct(?)", id).Scan(&s.Message, &s.Type)
+
+	if err != nil {
+		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
+	}
+
+	if s.Type == "ERROR" {
+		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
+	}
+
+	//Retorna el estado del query
+	return s, nil
+}
