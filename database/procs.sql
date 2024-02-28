@@ -436,6 +436,75 @@ add_product:BEGIN
 	'SUCCESS' AS 'TYPE';
 END $$
 
+-- ########################################## PROCEDIMIENTO PARA EDITAR UN PRODUCTO ####################################################
+CREATE PROCEDURE IF NOT EXISTS updateProduct(
+	prod_id_in INTEGER,
+	photo_in VARCHAR(200),
+	name_in VARCHAR(100),
+	description_in VARCHAR(200),
+	existence_in INTEGER,
+	price_in DECIMAL,
+	dpi_in BIGINT,
+	category_in VARCHAR(150)
+)
+update_product:BEGIN
+	DECLARE prod_category INTEGER;
+	DECLARE prev_name VARCHAR(100);
+	SELECT CategoryId(category_in) INTO prod_category;
+	
+	IF prod_category < 0 THEN
+		CALL addProdCategory(category_in);
+		SELECT CategoryId(category_in) INTO prod_category;
+	END IF;
+
+	SELECT p.name INTO prev_name
+	FROM products p 
+	WHERE p.prod_id = prod_id;
+	
+	IF photo_in = '' OR photo_in IS NULL THEN 
+		SELECT p.photo INTO photo_in
+		FROM products p 
+		WHERE p.prod_id = prod_id_in;
+	END IF;
+
+	IF name_in = '' OR name_in IS NULL THEN 
+		SELECT 'Se debe agregar un nombre de producto' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE update_product;
+	END IF;
+
+	IF existence_in < 0 THEN 
+		SELECT 'Número de existencias de producto no válido' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE update_product;
+	END IF;
+
+	IF price_in < 0 THEN 
+		SELECT 'El precio del producto no es válido' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE update_product;
+	END IF;
+	
+	IF prev_name != name_in THEN
+		IF ProductExists(name_in, dpi_in) THEN
+			SELECT 'Ya existe un producto con el nombre ingresado' AS 'MESSAGE',
+			'ERROR' AS 'TYPE';
+			LEAVE update_product;
+		END IF;
+	END IF;
+
+	UPDATE products p
+	SET	p.photo = photo_in,
+	p.name  = name_in,
+	p.description = description_in,
+	p.existence = existence_in,
+	p.price = price_in,
+	p.cat_id = prod_category
+	WHERE p.prod_id = prod_id_in;
+
+	SELECT 'El producto ha sido editado exitósamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
 
 -- ########################################## PROCEDIMIENTO PARA RETORNAR LOS PRODUCTOS DE UN VENDEDOR ####################################################
 CREATE PROCEDURE IF NOT EXISTS getSellerProducts(
