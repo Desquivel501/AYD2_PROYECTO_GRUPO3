@@ -11,10 +11,15 @@ import { useState, useEffect, useContext } from 'react';
 import { Cart, Search } from 'react-bootstrap-icons';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { getData } from '../../api/api';
-import { useNavigate } from 'react-router-dom';
+import {
+    useParams,
+    useNavigate,
+} from 'react-router-dom';
 
 
 export const CatalogoVendedor = () => {
+
+    const { id } = useParams();
 
     const [products, setProducts] = useState([]);
 
@@ -29,7 +34,7 @@ export const CatalogoVendedor = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const endpoint = `all-products`
+        const endpoint = `my-products?id=${id}`
         getData({ endpoint }).then((data) => {
             console.log(data);
             setProducts(data);

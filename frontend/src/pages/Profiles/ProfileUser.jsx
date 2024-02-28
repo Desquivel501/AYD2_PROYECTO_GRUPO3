@@ -1,44 +1,43 @@
 import React, { useState, useEffect } from "react";
 import "./ProfileUser.css";
-import CustomNavbar from "../../components/navbar.jsx";
+import CustomNavbar from "../../components/navbar/navbar";
 
-
-//import button_edit from "../assets/ButtonEdit/boton-editar.png";
-
-const ProfileAdmin = () => {
+const ProfileUser = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
+    // Función para realizar la solicitud GET
     const fetchData = async () => {
       try {
         const response = await fetch("/profile");
         if (!response.ok) {
-          throw new Error("Error al obtener los datos del Administrador");
+          throw new Error("Error al obtener los datos del usuario");
         }
         const data = await response.json();
-        setUserData(data);
+        setUserData(data); // Actualizar el estado con los datos obtenidos
       } catch (error) {
-        console.error("Error: ", error);
+        console.error("Error:", error);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchData(); 
+  }, []); 
+
   return (
     <div>
       <CustomNavbar />
-      <div className="container">
+      <div className="container" style={{margin:"12% auto"}} >
         <div className="row">
           <div className="col-md-6">
             <div className="aux">
               <div
                 className="card text-center"
                 style={{
-                  background: "#FAE5D3",
+                  background: "#D8EBFE",
                   height: "600%",
                   width: "210%",
-                  top: "-250%",
-                  maxWidth: "5000%",
+
+                  maxWidth: "5000%"
                 }}
               >
                 {userData && (
@@ -46,17 +45,17 @@ const ProfileAdmin = () => {
                     <div className="profile-photo">
                       <img src={userData.imagen} alt="Profile" />
                     </div>
-                    <div className="profile-info" style={{ color: "#D35400" }}>
-                      <h1>{userData.name}</h1>
+                    <div className="profile-info" style={{ color: "#007FAF" }}>
+                      <h1 style={{textAlign:"center"}}>{userData.name}</h1>
                       <div className="box-edit"></div>
                       <hr />
-                      <h6>
+                      <h6 style={{textAlign:"center"}}>
                         <strong>Email: </strong> {userData.email}
                       </h6>
                     </div>
                     <div className="profile-cui">
                       <h6>CUI - {userData.cui}</h6>
-                      <h5 style={{ color: "#D35400" }}>{userData.role}</h5>
+                      <h5 style={{ color: "#007FAF" }}>{userData.role}</h5>
                     </div>
                   </>
                 )}
@@ -69,4 +68,4 @@ const ProfileAdmin = () => {
   );
 };
 
-export default ProfileAdmin;
+export default ProfileUser;
