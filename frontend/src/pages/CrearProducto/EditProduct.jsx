@@ -20,9 +20,9 @@ import CustomNavbar from '../../components/navbar/navbar';
 
 import { getData } from '../../api/api';
 import {
-    useParams,
-    useNavigate,
-  } from 'react-router-dom';
+  useParams,
+  useNavigate,
+} from 'react-router-dom';
 
 
 export const EditProduct = (props) => {
@@ -92,7 +92,6 @@ export const EditProduct = (props) => {
 
           </Col>
           <Col xs={5} className='product-info-container'>
-              {/* <h1 style={{color:"black", fontWeight:'bold'}}>Nombre Producto</h1> */}
 
               <Form.Control type="text" placeholder="Nombre del producto" style={{color:"black", fontWeight:'bold', fontSize:'2.5rem'}}
                 value={product.nombre}
@@ -107,9 +106,6 @@ export const EditProduct = (props) => {
 
               <hr class="mt-3 mb-1"/>
             
-
-              {/* <Form.Check className='custom-checkbox mt-3' id='disponibilidad' label='Disponible?' style={{color:"green", textAlign:"left", fontSize:'1.5rem'}}/> */}
-
               <div className='mt-4'>
                 <h4 style={{color:"black", textAlign:"left"}} > Existencias: </h4>
                 <input class="form-control" placeholder="0.00" aria-label="precio" type='number' style={{fontSize:'1.5rem'}} 
