@@ -18,7 +18,7 @@ import productImage4 from '../../assets/camera4.png';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import CustomNavbar from '../../components/navbar/navbar';
 
-import { getData, SubirImagen } from '../../api/api';
+import { getData, SubirImagen, postData } from '../../api/api';
 
 import {
   useParams,
@@ -70,11 +70,32 @@ export const EditProduct = (props) => {
         });
     }, []);
 
-    const uploadImage = async () => {
-        if (product.file){
-          const res = await SubirImagen(product.file);
-          console.log(res);
-        }
+    const updateProduct = async () => {
+      let url = null;
+      if(product.file){
+        url = await SubirImagen(product.file);
+      }
+
+      console.log(url);
+
+      const endpoint = `edit-product`;
+
+      const body = { 
+        product_id: product.product_id,
+        nombre: product.nombre,
+        // dpi_vendedor: product.dpi_vendedor,
+        categoria: product.categoria,
+        precio: product.precio,
+        descripcion: product.descripcion,
+        existencia: Number(product.existencia),
+        imagen: url ? url : product.imagen,
+      }
+
+      console.log(body);
+
+      postData({ endpoint, body }).then((data) => {
+          console.log(data);
+      });
     }
 
   return (
@@ -153,7 +174,7 @@ export const EditProduct = (props) => {
 
               <div className='mt-4'>
                 <button type="button" class="btn-create"
-                  onClick={uploadImage}
+                  onClick={updateProduct}
                 >
                   Guardar Cambios
                 </button>
