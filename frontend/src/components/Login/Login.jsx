@@ -20,6 +20,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   function validateForm() {
@@ -35,12 +36,15 @@ export default function Login() {
 
   //usePermissionNavigation()
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (data) {
       console.log(data)
-      if (data.data.user.status === 1) {
+      if (data.data.TYPE === "ERROR") {
+        setShowError(true);
+        setMessage(data.data.MESSAGE);
+      } else {
         //TODO: segun el numero de rol, redirigir a una pagina u otra
-        setShowError(false);
+        /* setShowError(false);
 
 
         if (data.data.rol === 4) {
@@ -58,12 +62,17 @@ export default function Login() {
           navigate("/user");
         } else if (data.data.usuario.role === "recepcionist") {
           navigate("/recepcionist");
-        }
-      } else {
-        setShowError(true);
+        } */
       }
     }
-  }, [data]) */
+  }, [data])
+
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+      setMessage(error.message);
+    }
+  }, [isError])
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -111,12 +120,7 @@ export default function Login() {
           <div className="signin">
             <Link to="/forget-password" className="link-to-registro">Olvide mi contraseña</Link>
           </div>
-          {
-            isError && (
-              <Error msg={error} showw={isError} />
-            )
-          }
-          <Error msg={data?.data?.user?.message} showw={showError} />
+          <Error msg={message} showw={showError} />
         </div>
       </Form>
     </div>

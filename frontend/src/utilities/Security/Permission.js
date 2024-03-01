@@ -77,14 +77,14 @@ export function usePermissionNavigation() {
 
     useEffect(() => {
         if (dataU) {
-            if (dataU.data.rol === 4) {
+            if (dataU.type === 4) {
                 navigate("/user");
-            } else if (dataU.data.rol === 2) {
+            } else if (dataU.type === 2) {
                 navigate("/empresa");
-            } else if (dataU.data.rol === 3) {
+            } else if (dataU.type === 3) {
                 navigate("/repartidor");
             }
-            else if (dataU.data.rol === 1) {
+            else if (dataU.type === 1) {
                 navigate("/admin");
             }
         }

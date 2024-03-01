@@ -13,39 +13,38 @@ import { DepartamentosyMunicipios } from "../../../utilities/options";
 export default function SigninRepartidor(props) {
   const { stylee } = props;
   const [showError, setShowError] = useState(false);
+  const [message, setMessage] = useState("");
   const [showCorrect, setShowCorrect] = useState(false);
   const [showErrorV, setShowErrorV] = useState(false);
   const [showCorrectV, setShowCorrectV] = useState(false);
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [dpi, setDpi] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [file, setFile] = useState({});
   const [Cpassword, setCPassword] = useState("");
-  const [haveLicense, setHaveLicense] = useState(false);
-  const [haveVehicle, setHaveVehicle] = useState(false);
-  const [typeLicense, setTypeLicense] = useState("");
-  const [departamento, setDepartamento] = useState("");
-  const [municipio, setMunicipio] = useState("");
+  const [datebirth, setDatebirth] = useState("");
+  const [file, setFile] = useState({});
+  const [usingWebcam, setUsingWebcam] = useState(false);
   const [showverification, setShowVerification] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const navigate = useNavigate();
 
   function validateForm() {
-    return email.length > 0 && password.length > 0 && name.length > 0 && lastName.length > 0 && phoneNumber.length > 0 && departamento.length > 0 && municipio.length > 0;
+    return email.length > 0 && password.length > 0 && name.length > 0 && Cpassword.length > 0 && dpi.length > 0;
   }
 
-  const { mutate: mutAddRepartidor, data, isLoading, isError, error } = useAddRepartidor();
+  const { mutate: mutAddUser, data, isLoading, isError, error } = useAddUser();
   const { mutate: mutVerifyCode, data: dataV, isLoading: isLoadingV, isError: isErrorV, error: errorV } = useVerifyCode();
 
   useEffect(() => {
     if (data) {
-      //console.log(data?.data);
-      if (data.data.status === 1) {
+      console.log(data);
+      if (data.data.TYPE === "SUCCESS") {
         setShowError(false);
         setShowCorrect(true);
+        setMessage(data.data.MESSAGE);
+        //setShowVerification(true);
         //navigate("/")
       } else {
         setShowError(true);
@@ -53,25 +52,12 @@ export default function SigninRepartidor(props) {
     }
   }, [data])
 
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    setShowCorrect(false);
-    setShowError(false);
-    if (password !== Cpassword) {
+  useEffect(() => {
+    if (isError) {
       setShowError(true);
-    } else {
-      //Aqui se hara la petición al backend
-      const info = {
-        "name": name,
-        "email": email,
-        'dpi': dpi,
-        "password": password,
-        "image": file,
-      }
-      mutAddRepartidor(info)
+      setMessage(error.message);
     }
-  }
+  }, [isError])
 
   // Convertir archivo pdf a base64
   const convertToBase64 = (file) => {
@@ -85,10 +71,10 @@ export default function SigninRepartidor(props) {
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-  
+    console.log(file.type);
     // Verificar si el archivo es un PDF
-    if (file.type === 'application/pdf') {
-      convertToBase64(file)
+    if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg') {
+      /* convertToBase64(file)
         .then((base64) => {
           // Aquí tienes el archivo PDF convertido a base64
           setFile({
@@ -99,11 +85,75 @@ export default function SigninRepartidor(props) {
         })
         .catch((error) => {
           console.error('Error al convertir el archivo a base64:', error);
-        });
+        }); */
+      setFile(file);
+      
     } else {
-      console.error('Por favor, selecciona un archivo PDF.');
+      console.error('Por favor, selecciona un archivo de tipo imagen.');
     }
   };
+
+  /* const webcamRef = useRef(null); // Referencia a la cámara web
+  const [capturedImage, setCapturedImage] = useState(null);
+
+  const captureImage = () => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setCapturedImage(imageSrc);
+  };
+
+
+  useEffect(() => {
+    //image to base 64
+    if (capturedImage) {
+      setFile({
+        filename: "webcam-screenshot.jpeg",
+        content_type: "image/jpeg",
+        file: capturedImage,
+      });
+    }
+  }, [capturedImage]) */
+
+
+  async function handleSubmit(event) {
+  event.preventDefault();
+  setShowCorrect(false);
+  setShowError(false);
+
+  const uploadImage = async () => {
+    let url = "";
+    if (file) {
+      url = await SubirImagen(file);
+    }
+    return url;
+  };
+
+  try {
+    const imageUrl = await uploadImage();
+    console.log(imageUrl);
+
+    if (password !== Cpassword) {
+      setShowError(true);
+      setMessage("Las contraseñas no coinciden");
+    } else {
+      // Aquí se hará la petición al backend
+      const info = {
+        name: name,
+        email: email,
+        dpi: parseInt(dpi),
+        password: password,
+        image: imageUrl,
+        type: "repartidor",
+      };
+      //console.log(info);
+      mutAddUser(info)
+    }
+  } catch (error) {
+    console.error("Error al subir la imagen:", error);
+    setShowError(true);
+    setMessage("Error al subir la imagen");
+    // Manejar el error según sea necesario
+  }
+}
 
   function handleVerification(event) {
     event.preventDefault();
@@ -121,9 +171,23 @@ export default function SigninRepartidor(props) {
     }
   }
 
+  /* useEffect(() => {
+    if (dataV) {
+      console.log(dataV);
+      if (dataV.statusCode === 400) {
+        setShowErrorV(false);
+        setShowCorrectV(true);
+        setShowVerification(true);
+        //navigate("/")
+      } else {
+        setShowError(true);
+      }
+    }
+  }, [dataV]) */
+
   return (
     <div className="Signin" style={{ backgroundColor: (stylee ? ('white') : ''), color: (stylee ? ('black') : 'white'), }}>
-      <h3>¡Unete como repartidor!</h3>
+      <h3 style={{textAlign:"center"}}>¡Unete como repartidor!</h3>
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="name" >
           <Form.Label>Nombre completo</Form.Label>
@@ -261,13 +325,14 @@ export default function SigninRepartidor(props) {
           <div className="signin">
             ¿Ya tienes cuenta? <Link to="/log-in" className="link-to-inicio-sesion">Inicia Sesion</Link>
           </div>
-          <Error msg={data?.data?.message} showw={showError} />
-          <Correct msg={data?.data?.message} showw={showCorrect} />
+          <Error msg={message} showw={showError} />
+          <Correct msg={message} showw={showCorrect} />
         </div>
       </Form>
-      <Button className="SubmitBtn" block="true" size="lg" onClick={()=>{navigate('/register')}}>
-        Cliente
-      </Button>
+      {/* <Button className="SubmitBtn" block="true" size="lg" onClick={() => { navigate('/register/repartidor') }}>
+        Repartidor
+      </Button> */}
+      <Link to="/register/repartidor" className="link-to-inicio-sesion">Registrarse como repartidor</Link>
       {showverification && (
         <Form onSubmit={handleVerification}>
           <Form.Group size="lg" controlId="verification-code" >
