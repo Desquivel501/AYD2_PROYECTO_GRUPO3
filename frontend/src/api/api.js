@@ -37,17 +37,21 @@ export const SubirImagen = async (file) => {
 // Asegurense de validar que la imagen sea valida (tipo png, jpg, jpeg, etc) antes de enviarla a la funcion ya que S3 no realiza la validacion y permite subir cualquier tipo de archivo
 
 export async function postData({ endpoint, body }) {
-
-  const json = JSON.stringify(body);
-  console.log(json);
-
   return fetch(`${API}${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      // "Access-Control-Allow-Origin": "*",
     },
-    body: json,
+    body: JSON.stringify(body),
+  })
+    .then((res) => res.json())
+    .catch((er) => console.log(er));
+}
+
+
+export async function deleteData({ endpoint }) {
+  return fetch(`${API}${endpoint}`, {
+    method: "DELETE"
   })
     .then((res) => res.json())
     .catch((er) => console.log(er));
