@@ -37,6 +37,7 @@ login:BEGIN
 	END IF;
 
 	SELECT role AS 'MESSAGE',
+	SELECT dpi AS 'DATA',
 	'SUCCESS' AS 'TYPE';
 END $$
 
@@ -140,6 +141,48 @@ accept_seller:BEGIN
 	'SUCCESS' AS 'TYPE';
 END $$
 
+
+-- ########################################## PROCEDIMIENTO PARA RECHAZAR LA CUENTA DE UN VENDEDOR ####################################################
+CREATE PROCEDURE IF NOT EXISTS declineSeller(
+	IN dpi_in BIGINT
+)
+decline_seller:BEGIN
+	IF(NOT UserExists(dpi_in)) THEN
+		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
+        'ERROR' AS 'TIPO';
+        LEAVE decline_seller;
+	END IF;
+
+	IF(NOT StatePending(dpi_in)) THEN
+		SELECT 'El usuario que se intenta aceptar no tiene estado pendiente' AS 'MENSAJE',
+        'ERROR' AS 'TIPO';
+        LEAVE decline_seller;
+	END IF;
+
+	IF(NOT IsSeller(dpi_in)) THEN
+		SELECT 'El correo ingresado no pertenece a un vendedor' AS 'MENSAJE',
+        'ERROR' AS 'TIPO';
+        LEAVE decline_seller;	
+	END IF;
+
+	DELETE FROM users u
+	WHERE u.dpi = dpi_in;
+
+	SELECT 'La cuenta fue rechazara correctamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER TODOS LOS VENDEDORES PENDIENTES DE ACEPTAR #################################################### 
+CREATE PROCEDURE IF NOT EXISTS getPendingSellers()
+get_pending_sellers:BEGIN
+	SELECT u.name AS name,
+	u.email AS email,
+	u.dpi AS dpi,
+	u.image AS image
+	FROM users u
+	WHERE u.`role` = 2
+	AND u.state = 2;
+END $$
 
 -- ########################################## PROCEDIMIENTO PARA VER EL PERFIL DE UN USUARIO ####################################################
 CREATE PROCEDURE IF NOT EXISTS getProfile(
