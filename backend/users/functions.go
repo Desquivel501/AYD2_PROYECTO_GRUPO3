@@ -161,7 +161,7 @@ func GetEnabledUsers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image, &user.State)
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Image, &user.Role, &user.State)
 		if err != nil {
 			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
 		}
@@ -188,7 +188,7 @@ func GetDisabledUsers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image, &user.State)
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.State, &user.Image)
 		if err != nil {
 			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
 		}
@@ -215,7 +215,7 @@ func GetPendingSellers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image, &user.State)
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.State, &user.Image)
 		if err != nil {
 			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
 		}
