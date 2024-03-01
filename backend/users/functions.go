@@ -201,3 +201,43 @@ func GetDisabledUsers() ([]User, error) {
 
 	return users, nil
 }
+
+func GetPendingSellers() ([]User, error) {
+	var users []User
+	db := database.GetConnection()
+	defer db.Close()
+
+	rows, err := db.Query("CALL getPendingSellers()")
+	if err != nil {
+		return []User{}, fmt.Errorf("error al ejecutar procedimiento almacenado getPendingSellers(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Image)
+		if err != nil {
+			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
+		}
+		users = append(users, user)
+	}
+
+	if err := rows.Err(); err != nil {
+		return []User{}, fmt.Errorf("error al iterar productos: %s", err)
+	}
+
+	return users, nil
+}
+
+func DeclineSeller(user User) (Message, error) {
+	var response Message
+	db := database.GetConnection()
+	defer db.Close()
+
+	result := db.QueryRow("Call declineSeller(?)", user.Dpi)
+	err := result.Scan(&response.Message, &response.Type)
+	if err != nil {
+		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado declineSeller(): %s", err.Error())
+	}
+	return response, nil
+}

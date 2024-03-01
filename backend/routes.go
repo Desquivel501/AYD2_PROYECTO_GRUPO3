@@ -17,6 +17,8 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/user/profile", users.ProfileHandler)
 	mux.HandleFunc("/user/update-profile", users.UpdateProfileHandler)
 	mux.HandleFunc("/user/accept-seller", users.AcceptSellerHandler)
+	mux.HandleFunc("/user/decline-seller", users.DeclineSellerHandler)
+	mux.HandleFunc("/pending-sellers", users.PendingSellersHandler)
 	mux.HandleFunc("/user/disable-user", users.DisableUserHandler)
 	mux.HandleFunc("/user/enable-user", users.EnableUserHandler)
 	mux.HandleFunc("/all-users", users.AllUsersHandler)
