@@ -21,20 +21,10 @@ import {
 import Swal from 'sweetalert2';
 
 
-export const EditProduct = (props) => {
+export const EditProduct = () => {
 
     const { id } = useParams();
     const navigate = useNavigate();
-
-    const {
-        logo,
-        price,
-        name
-    } = props;
-
-    const [preview, setPreview] = useState("https://i5.walmartimages.com/seo/NBD-Digital-Camera-4K-48MP-Compact-Camera-3-0-Inch-Ultra-Clear-Screen-YouTube-Vlogging-Camera-16x-Digital-Zoom-Video-Camera-Cameras-for-Photography_6ac10792-1adc-4637-9c53-e7890dea9fca.452220c9a4e75ac44f7bf578e6e517fe.jpeg");
-    const [image, setImage] = useState("https://i5.walmartimages.com/seo/NBD-Digital-Camera-4K-48MP-Compact-Camera-3-0-Inch-Ultra-Clear-Screen-YouTube-Vlogging-Camera-16x-Digital-Zoom-Video-Camera-Cameras-for-Photography_6ac10792-1adc-4637-9c53-e7890dea9fca.452220c9a4e75ac44f7bf578e6e517fe.jpeg");
-
 
     const [show, setShow] = useState(false);
 
@@ -44,7 +34,7 @@ export const EditProduct = (props) => {
         descripcion: "",
         precio: 0,
         existencia: 0,
-        categoria: "",
+        categoria: "Papas",
         vendedor: "",
         imagen: "https://placehold.co/800",
         preview: "https://placehold.co/800",
@@ -57,7 +47,7 @@ export const EditProduct = (props) => {
     useEffect(() => {
         let endpoint = `product?id=${id}`
         getData({ endpoint }).then((data) => {
-            console.log(data);
+            // console.log(data);
             setProduct({
                 ...data,
                 preview: data.imagen
@@ -86,7 +76,8 @@ export const EditProduct = (props) => {
 
       postData({ endpoint, body }).then((data) => {
           // console.log(data);
-          if(data.Type === "SUCCESS"){
+
+          if(data.type == "SUCCESS"){
             // alert("Producto actualizado correctamente");
             Swal.fire({
               title: 'Producto actualizado',
@@ -113,8 +104,8 @@ export const EditProduct = (props) => {
       const endpoint = `/delete-product?id=${id}`;
 
       getData({ endpoint }).then((data) => {
-        console.log(data);
-        if(data.Type === "SUCCESS"){
+        // console.log(data);
+        if(data.type === "SUCCESS"){
           // alert("Producto eliminado correctamente");
           Swal.fire({
             title: 'Producto eliminado',
