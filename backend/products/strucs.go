@@ -35,7 +35,6 @@ type UpdateProductStruct struct {
 }
 
 type StatusResponse struct {
-	Message string
-	Type    string
-	Error   string
+	Message string `json:"message"`
+	Type    string `json:"type"`
 }
