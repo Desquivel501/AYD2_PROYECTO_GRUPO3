@@ -141,7 +141,6 @@ accept_seller:BEGIN
 	'SUCCESS' AS 'TYPE';
 END $$
 
-
 -- ########################################## PROCEDIMIENTO PARA RECHAZAR LA CUENTA DE UN VENDEDOR ####################################################
 CREATE PROCEDURE IF NOT EXISTS declineSeller(
 	IN dpi_in BIGINT
@@ -339,6 +338,33 @@ enable_user:BEGIN
 
 	SELECT 'El usuario ha sido habilitado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
+END $$
+
+
+--  ########################################## PROCEDIMIENTO PARA OBTENER USUARIOS HABILITADOS ####################################################
+CREATE PROCEDURE IF NOT EXISTS getEnabledUsers()
+BEGIN
+	SELECT u.email AS email,
+	u.name AS name,
+	u.dpi AS dpi,
+	u.`role` AS role,
+	u.image AS image
+	FROM users u
+	WHERE u.`role` != 0
+	AND u.state = 1;
+END $$
+
+--  ########################################## PROCEDIMIENTO PARA OBTENER USUARIOS DESHABILITADOS ####################################################
+CREATE PROCEDURE IF NOT EXISTS getDisabledUsers()
+BEGIN
+	SELECT u.email AS email,
+	u.name AS name,
+	u.dpi AS dpi,
+	u.`role` AS role,
+	u.image AS image
+	FROM users u
+	WHERE u.`role` != 0
+	AND u.state = 0;
 END $$
 
 
