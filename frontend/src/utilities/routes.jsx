@@ -13,7 +13,8 @@ import HistoryBuys from "../pages/History-buys-sales/History-buys";
 import HistorySales from "../pages/History-buys-sales/History_sales";
 import { EditProduct } from '../pages/CrearProducto/EditProduct';
 import SellerRequests from '../pages/SellerRequests/SellerRequests';
-
+import EnableDisabled_User from '../pages/Enabled-disabled-user-seller/enable_disable_user';
+import EnableDisabled_Seller from '../pages/Enabled-disabled-user-seller/enable_disable_seller';
 
 
 export const rutas = [
@@ -89,5 +90,13 @@ export const rutas = [
         path:"/seller-requests",
         element:<SellerRequests/>
 
+    },
+    {
+        path:"/enable-disable-user",
+        element:<EnableDisabled_User/>
+    },
+    {
+        path:"/enable-disable-seller",
+        element:<EnableDisabled_Seller/>
     }
 ]
