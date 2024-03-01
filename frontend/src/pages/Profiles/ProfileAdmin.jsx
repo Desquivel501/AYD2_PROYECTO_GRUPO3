@@ -9,21 +9,40 @@ const ProfileAdmin = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
+    // Función para realizar la solicitud POST
     const fetchData = async () => {
       try {
-        const response = await fetch("/profile");
+        // Obtener los datos del localStorage
+        const cui = localStorage.getItem("cui");
+        const role = localStorage.getItem("role");
+
+        // Verificar que cui y role no sean null
+        if (!cui || !role) {
+          throw new Error("No se encontraron datos en el localStorage");
+        }
+
+        // Realizar la solicitud POST
+        const response = await fetch("http://localhost:8080/profile", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ cui: parseInt(cui), role: role })
+        });
+
         if (!response.ok) {
-          throw new Error("Error al obtener los datos del Administrador");
+          throw new Error("Error al obtener los datos del usuario");
         }
         const data = await response.json();
-        setUserData(data);
+        setUserData(data); // Actualizar el estado con los datos obtenidos
       } catch (error) {
-        console.error("Error: ", error);
+        console.error("Error:", error);
       }
     };
 
     fetchData();
   }, []);
+  
   return (
     <div>
       <CustomNavbar />

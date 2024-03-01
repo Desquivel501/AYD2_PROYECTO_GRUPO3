@@ -8,7 +8,7 @@ const HistoryBuys = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/history-buys'); 
+        const response = await fetch('http://localhost:8080/history-buys'); 
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {

@@ -12,6 +12,7 @@ import ProfileAdmin from "../pages/Profiles/ProfileAdmin";
 import HistoryBuys from "../pages/History-buys-sales/History-buys";
 import HistorySales from "../pages/History-buys-sales/History_sales";
 import { EditProduct } from '../pages/CrearProducto/EditProduct';
+import SellerRequests from '../pages/SellerRequests/SellerRequests';
 
 
 
@@ -82,6 +83,11 @@ export const rutas = [
     {
         path:"/history-sales",
         element:<HistorySales/>
+
+    },
+    {
+        path:"/seller-requests",
+        element:<SellerRequests/>
 
     }
 ]
