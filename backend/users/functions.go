@@ -144,6 +144,6 @@ func GetAllUsers() ([]User, error) {
 	if err := rows.Err(); err != nil {
 		return []User{}, fmt.Errorf("error al iterar productos: %s", err)
 	}
-	
+
 	return users, nil
 }
