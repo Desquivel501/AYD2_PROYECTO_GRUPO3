@@ -105,11 +105,11 @@ func UpdateProduct(p UpdateProductStruct) (StatusResponse, error) {
 	).Scan(&s.Message, &s.Type)
 
 	if err != nil {
-		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
 	}
 
 	if s.Type == "ERROR" {
-		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
 	}
 
 	//Retorna el estado del query
@@ -129,11 +129,11 @@ func DeleteProduct(id int) (StatusResponse, error) {
 	err := db.QueryRow("CALL deleteProduct(?)", id).Scan(&s.Message, &s.Type)
 
 	if err != nil {
-		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
 	}
 
 	if s.Type == "ERROR" {
-		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
 	}
 
 	//Retorna el estado del query

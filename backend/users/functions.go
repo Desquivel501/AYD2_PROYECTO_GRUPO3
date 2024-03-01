@@ -50,7 +50,7 @@ func getProfile(user User) (User, error) {
 	db := database.GetConnection()
 	defer db.Close()
 
-	if user.Score == 0 || user.Score == 1 {
+	if user.Role == 0 || user.Role == 1 {
 		result := db.QueryRow("CALL getProfile(?)", user.Dpi)
 		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role)
 		if err != nil {
@@ -144,6 +144,6 @@ func GetAllUsers() ([]User, error) {
 	if err := rows.Err(); err != nil {
 		return []User{}, fmt.Errorf("error al iterar productos: %s", err)
 	}
-	
+
 	return users, nil
 }
