@@ -10,10 +10,11 @@ CREATE PROCEDURE IF NOT EXISTS login(
 login:BEGIN
 	DECLARE role INTEGER;
 	DECLARE status INTEGER;
+	DECLARE dpi BIGINT;
 
 	SELECT -1 INTO role;
 	
-	SELECT u.role, u.state INTO role, status
+	SELECT u.role, u.state, u.dpi INTO role, status, dpi
 	FROM users u 
 	WHERE u.email = email_in
 	AND u.password = password_in;
@@ -37,8 +38,8 @@ login:BEGIN
 	END IF;
 
 	SELECT role AS 'MESSAGE',
-	SELECT dpi AS 'DATA',
-	'SUCCESS' AS 'TYPE';
+	'SUCCESS' AS 'TYPE',
+	dpi AS 'DATA';
 END $$
 
 -- ########################################## PROCEDIMIENTO PARA REGISTRO DE CLIENTE ####################################################
@@ -174,9 +175,11 @@ END $$
 -- ########################################## PROCEDIMIENTO PARA OBTENER TODOS LOS VENDEDORES PENDIENTES DE ACEPTAR #################################################### 
 CREATE PROCEDURE IF NOT EXISTS getPendingSellers()
 get_pending_sellers:BEGIN
-	SELECT u.name AS name,
-	u.email AS email,
+	SELECT u.email AS email,
+	u.name AS name,
 	u.dpi AS dpi,
+	u.`role` AS role,
+	u.state AS state,
 	u.image AS image
 	FROM users u
 	WHERE u.`role` = 2
@@ -196,9 +199,11 @@ get_profile:BEGIN
 	END IF;
 
 	SELECT u.email AS email,
-	u.name AS NAME,
+	u.name AS name,
 	u.dpi AS dpi,
-	u.image AS image
+	u.image AS image,
+	u.`role` AS role,
+	u.state AS state
 	FROM users u 
 	WHERE u.dpi  = dpi_in;
 END $$
@@ -347,8 +352,9 @@ BEGIN
 	SELECT u.email AS email,
 	u.name AS name,
 	u.dpi AS dpi,
+	u.image AS image,
 	u.`role` AS role,
-	u.image AS image
+	u.state AS state
 	FROM users u
 	WHERE u.`role` != 0
 	AND u.state = 1;
@@ -361,6 +367,7 @@ BEGIN
 	u.name AS name,
 	u.dpi AS dpi,
 	u.`role` AS role,
+	u.state AS state,
 	u.image AS image
 	FROM users u
 	WHERE u.`role` != 0
