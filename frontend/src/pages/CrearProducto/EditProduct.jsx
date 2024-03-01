@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,18 +6,12 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'; 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-
-import logo from '../../assets/react.svg';
 import './CrearProducto.css';
-import productImage1 from '../../assets/camera.png';
-import productImage2 from '../../assets/camera2.png';
-import productImage3 from '../../assets/camera3.png';
-import productImage4 from '../../assets/camera4.png';
 
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import CustomNavbar from '../../components/navbar/navbar';
 
-import { getData, SubirImagen, postData } from '../../api/api';
+import { getData, SubirImagen, postData, deleteData } from '../../api/api';
 
 import {
   useParams,
@@ -76,14 +69,11 @@ export const EditProduct = (props) => {
         url = await SubirImagen(product.file);
       }
 
-      console.log(url);
-
       const endpoint = `edit-product`;
 
       const body = { 
         product_id: product.product_id,
         nombre: product.nombre,
-        // dpi_vendedor: product.dpi_vendedor,
         categoria: product.categoria,
         precio: product.precio,
         descripcion: product.descripcion,
@@ -91,10 +81,25 @@ export const EditProduct = (props) => {
         imagen: url ? url : product.imagen,
       }
 
-      console.log(body);
-
       postData({ endpoint, body }).then((data) => {
-          console.log(data);
+          // console.log(data);
+          if(data.Type === "SUCCESS"){
+            alert("Producto actualizado correctamente");
+          } else {
+            alert("Error al actualizar producto");
+          }
+      });
+    }
+
+    const deleteProduct = async () => {
+      const endpoint = `/delete-product?id=${id}`;
+
+      getData({ endpoint }).then((data) => {
+        if(data.Type === "SUCCESS"){
+          alert("Producto eliminado correctamente");
+        } else {
+          alert("Error al eliminar producto");
+        }
       });
     }
 
@@ -179,6 +184,17 @@ export const EditProduct = (props) => {
                   Guardar Cambios
                 </button>
               </div>
+
+              <div className='mt-4'>
+                <button type="button" class="btn-create"
+                  onClick={deleteProduct}
+                  style={{background:"#9d0000", color: '#fff', "&:hover": {background: '#b03232'}}}
+                >
+                  Eliminar Producto
+                </button>
+              </div>
+
+
           </Col>
         </Row>
 
