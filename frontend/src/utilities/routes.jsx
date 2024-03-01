@@ -57,7 +57,7 @@ export const rutas = [
     },
     {
         path: "/crear-producto",
-        element: <CrearProducto />
+        element: <EditProduct crear={true} />
     },
     {
         path: "*",

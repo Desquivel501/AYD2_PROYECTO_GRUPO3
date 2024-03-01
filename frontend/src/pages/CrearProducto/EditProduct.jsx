@@ -21,9 +21,13 @@ import {
 import Swal from 'sweetalert2';
 
 
-export const EditProduct = () => {
+export const EditProduct = (props) => {
 
-    const { id } = useParams();
+  const {
+      crear = false
+  } = props;
+
+    const { id = 0 } = useParams();
     const navigate = useNavigate();
 
     const [show, setShow] = useState(false);
@@ -45,15 +49,17 @@ export const EditProduct = () => {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        let endpoint = `product?id=${id}`
-        getData({ endpoint }).then((data) => {
-            // console.log(data);
-            setProduct({
-                ...data,
-                preview: data.imagen
-            })
+        if(!crear){
+          let endpoint = `product?id=${id}`
+          getData({ endpoint }).then((data) => {
+              // console.log(data);
+              setProduct({
+                  ...data,
+                  preview: data.imagen
+              })
 
-        });
+          });
+        }
     }, []);
 
     const updateProduct = async () => {
@@ -127,6 +133,49 @@ export const EditProduct = () => {
         }
       });
     }
+
+    const createProduct = async () => {
+
+      let url = null;
+      if(product.file){
+        url = await SubirImagen(product.file);
+      }
+  
+      const endpoint = `create-product`;
+  
+      const body = { 
+        product_id: 0,
+        nombre: product.nombre,
+        vendedor: "123456",
+        existencia: Number(product.existencia),
+        precio: Number(product.precio),
+        categoria: "Test",
+        descripcion: product.descripcion,
+        imagen: url ? url : product.imagen,
+      }
+      
+      postData({ endpoint, body }).then((data) => {
+        if(data.type === "SUCCESS"){
+          Swal.fire({
+            title: 'Producto creado!',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate(-1);
+            }
+          })
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: data.Error,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
+        }
+      });
+    }
+
 
   return (
     <div className="product-root">
@@ -202,22 +251,39 @@ export const EditProduct = () => {
 
               <hr class="mt-3 mb-1"/>
 
-              <div className='mt-4'>
-                <button type="button" class="btn-create"
-                  onClick={updateProduct}
-                >
-                  Guardar Cambios
-                </button>
-              </div>
+              {
+                !crear ? <>
+                
+                  <div className='mt-4'>
+                    <button type="button" class="btn-create"
+                      onClick={updateProduct}
+                    >
+                      Guardar Cambios
+                    </button>
+                  </div>
 
-              <div className='mt-4'>
-                <button type="button" class="btn-create"
-                  onClick={deleteProduct}
-                  style={{background:"#9d0000", color: '#fff', "&:hover": {background: '#b03232'}}}
-                >
-                  Eliminar Producto
-                </button>
-              </div>
+                  <div className='mt-4'>
+                    <button type="button" class="btn-create"
+                      onClick={deleteProduct}
+                      style={{background:"#9d0000", color: '#fff', "&:hover": {background: '#b03232'}}}
+                    >
+                      Eliminar Producto
+                    </button>
+                  </div>
+                </> 
+                :
+                <>
+                  <div className='mt-4'>
+                    <button type="button" class="btn-create"
+                      onClick={createProduct}
+                    >
+                      Guardar Cambios
+                    </button>
+                  </div>
+                </>
+              }
+
+              
 
 
           </Col>
