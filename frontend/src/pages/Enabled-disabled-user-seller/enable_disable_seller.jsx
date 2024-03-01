@@ -8,25 +8,9 @@ import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
 const EnableDisabledSeller = () => {
-  const [data_en, setData_en] = useState([
-    {
-      dpi: 2132130,
-      name: "",
-      email: "",
-      image: "",
-      role: 2,
-    },
-  ]);
+  const [data_en, setData_en] = useState([]);
 
-  const [data_dis, setData_dis] = useState([
-    {
-      dpi: 255132130,
-      name: "",
-      email: "",
-      image: "",
-      role: 0,
-    },
-  ]);
+  const [data_dis, setData_dis] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
