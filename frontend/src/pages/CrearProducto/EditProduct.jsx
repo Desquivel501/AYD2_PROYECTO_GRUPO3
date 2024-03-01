@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,28 +6,25 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'; 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-
-import logo from '../../assets/react.svg';
 import './CrearProducto.css';
-import productImage1 from '../../assets/camera.png';
-import productImage2 from '../../assets/camera2.png';
-import productImage3 from '../../assets/camera3.png';
-import productImage4 from '../../assets/camera4.png';
 
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import CustomNavbar from '../../components/navbar/navbar';
 
-import { getData, SubirImagen } from '../../api/api';
+import { getData, SubirImagen, postData, deleteData } from '../../api/api';
 
 import {
   useParams,
   useNavigate,
 } from 'react-router-dom';
 
+import Swal from 'sweetalert2';
+
 
 export const EditProduct = (props) => {
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const {
         logo,
@@ -70,11 +66,75 @@ export const EditProduct = (props) => {
         });
     }, []);
 
-    const uploadImage = async () => {
-        if (product.file){
-          const res = await SubirImagen(product.file);
-          console.log(res);
+    const updateProduct = async () => {
+      let url = null;
+      if(product.file){
+        url = await SubirImagen(product.file);
+      }
+
+      const endpoint = `edit-product`;
+
+      const body = { 
+        product_id: product.product_id,
+        nombre: product.nombre,
+        categoria: product.categoria,
+        precio: Number(product.precio),
+        descripcion: product.descripcion,
+        existencia: Number(product.existencia),
+        imagen: url ? url : product.imagen,
+      }
+
+      postData({ endpoint, body }).then((data) => {
+          // console.log(data);
+          if(data.Type === "SUCCESS"){
+            // alert("Producto actualizado correctamente");
+            Swal.fire({
+              title: 'Producto actualizado',
+              icon: 'success',
+              confirmButtonText: 'Ok',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate(0);
+              }
+            })
+          } else {
+            // alert("Error al actualizar producto");
+            Swal.fire({
+              title: 'Error!',
+              text: data.Error,
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            })
+          }
+      });
+    }
+
+    const deleteProduct = async () => {
+      const endpoint = `/delete-product?id=${id}`;
+
+      getData({ endpoint }).then((data) => {
+        console.log(data);
+        if(data.Type === "SUCCESS"){
+          // alert("Producto eliminado correctamente");
+          Swal.fire({
+            title: 'Producto eliminado',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate(-1);
+            }
+          })
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: data.Error,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
+
         }
+      });
     }
 
   return (
@@ -153,11 +213,22 @@ export const EditProduct = (props) => {
 
               <div className='mt-4'>
                 <button type="button" class="btn-create"
-                  onClick={uploadImage}
+                  onClick={updateProduct}
                 >
                   Guardar Cambios
                 </button>
               </div>
+
+              <div className='mt-4'>
+                <button type="button" class="btn-create"
+                  onClick={deleteProduct}
+                  style={{background:"#9d0000", color: '#fff', "&:hover": {background: '#b03232'}}}
+                >
+                  Eliminar Producto
+                </button>
+              </div>
+
+
           </Col>
         </Row>
 
