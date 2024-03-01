@@ -44,20 +44,18 @@ export default function Login() {
         setMessage(data.data.MESSAGE);
       } else {
         //TODO: segun el numero de rol, redirigir a una pagina u otra
-        /* setShowError(false);
+        setShowError(false);
 
 
-        if (data.data.rol === 4) {
-          navigate("/user");
-        } else if (data.data.rol === 2) {
-          navigate("/empresa");
-        } else if (data.data.rol === 3) {
-          navigate("/repartidor");
+         if (data.data.MESSAGE === '2') {
+          navigate("/profile-sale-person");
+        } else if (data.data.MESSAGE === "1") {
+          navigate("/catalogo");
         }
-        else if (data.data.rol === 1) {
-          navigate("/admin");
+        else if (data.data.MESSAGE === '0') {
+          navigate("/profile-admin");
         }
-        navigate("/home")
+        /* navigate("/home")
         else if (data.data.usuario.role === "turist") {
           navigate("/user");
         } else if (data.data.usuario.role === "recepcionist") {

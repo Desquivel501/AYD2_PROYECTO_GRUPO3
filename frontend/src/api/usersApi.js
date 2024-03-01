@@ -37,7 +37,8 @@ export const useUserLogin = () => {
             } else {
                 queryClient.setQueryData('user', data, { keepPreviousData: true });
                 localStorage.setItem('user', JSON.stringify({
-                    "type": data.data.MESSAGE,
+                    "type": parseInt(data.data.MESSAGE),
+                    "id":  parseInt(data.data.DATA),
                 }));
             }
         }

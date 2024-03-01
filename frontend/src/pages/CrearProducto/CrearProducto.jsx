@@ -17,6 +17,7 @@ import productImage4 from '../../assets/camera4.png';
 
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import CustomNavbar from '../../components/navbar/navbar';
+import { useUserPermission } from '../../utilities/Security/Permission';
 
 
 export const CrearProducto = (props) => {
@@ -30,6 +31,7 @@ export const CrearProducto = (props) => {
   const [preview, setPreview] = useState("https://i5.walmartimages.com/seo/NBD-Digital-Camera-4K-48MP-Compact-Camera-3-0-Inch-Ultra-Clear-Screen-YouTube-Vlogging-Camera-16x-Digital-Zoom-Video-Camera-Cameras-for-Photography_6ac10792-1adc-4637-9c53-e7890dea9fca.452220c9a4e75ac44f7bf578e6e517fe.jpeg");
   const [image, setImage] = useState("https://i5.walmartimages.com/seo/NBD-Digital-Camera-4K-48MP-Compact-Camera-3-0-Inch-Ultra-Clear-Screen-YouTube-Vlogging-Camera-16x-Digital-Zoom-Video-Camera-Cameras-for-Photography_6ac10792-1adc-4637-9c53-e7890dea9fca.452220c9a4e75ac44f7bf578e6e517fe.jpeg");
 
+  useUserPermission(2)
 
   const [show, setShow] = useState(false);
 

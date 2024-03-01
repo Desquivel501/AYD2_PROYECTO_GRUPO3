@@ -12,6 +12,7 @@ import ProfileAdmin from "../pages/Profiles/ProfileAdmin";
 import HistoryBuys from "../pages/History-buys-sales/History-buys";
 import HistorySales from "../pages/History-buys-sales/History_sales";
 import { EditProduct } from '../pages/CrearProducto/EditProduct';
+import ErrorView from '../views/404View/404View';
 
 
 
@@ -32,6 +33,7 @@ export const rutas = [
         path: "/register/repartidor",
         element: <RegisterRepartidorView />
     },
+    //Usuario
     {
         path: "/forget-password",
         element: <ForgetView />
@@ -41,44 +43,57 @@ export const rutas = [
         path: "/producto/:id",
         element: <Producto />
     },
+    //Usuario (ya)
     {
         path: "/catalogo",
         element: <Catalogo />
     },
+    //Vendedor (ya)
     {
         path: "/vendedor/:id/catalogo",
         element: <CatalogoVendedor/>
     },
+    //Vendedor (ya) 
     {
         path: "/producto/edit/:id",
         element: <EditProduct/>
     },
+    //Vendedor (ya)
     {
         path: "/crear-producto",
         element: <CrearProducto />
     },
     {
         path: "*",
-        element: <LandingView />
+        element: <ErrorView />
     },
+    {
+        path:"/404",
+        element:<ErrorView/>
+    },
+    // usuario (ya)
     {    
         path:"/profile-user",
         element:<ProfileUser/>
     },
+    //Vendedor (ya)
     {
         path:"/profile-sale-person",
         element:<ProfileSalePerson/>
     },
+    //Admin (ya)
     {
         path:"/profile-admin",
         element:<ProfileAdmin/>
 
     },
+    //usuario (ya)
     {
         path:"/history-buys",
         element:<HistoryBuys/>
 
     },
+    //Vendedor (ya)
     {
         path:"/history-sales",
         element:<HistorySales/>

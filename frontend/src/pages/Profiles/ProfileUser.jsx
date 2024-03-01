@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ProfileUser.css";
 import CustomNavbar from "../../components/navbar/navbar";
+import { useUserPermission } from "../../utilities/Security/Permission";
 
 const ProfileUser = () => {
   const [userData, setUserData] = useState(null);
@@ -22,6 +23,8 @@ const ProfileUser = () => {
 
     fetchData(); 
   }, []); 
+
+  useUserPermission(1)
 
   return (
     <div>

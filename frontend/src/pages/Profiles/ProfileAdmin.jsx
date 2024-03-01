@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ProfileUser.css";
 import CustomNavbar from "../../components/navbar/navbar";
+import { useUserPermission } from "../../utilities/Security/Permission";
 
 
 //import button_edit from "../assets/ButtonEdit/boton-editar.png";
@@ -24,6 +25,8 @@ const ProfileAdmin = () => {
 
     fetchData();
   }, []);
+
+  useUserPermission(0);
   return (
     <div>
       <CustomNavbar />
