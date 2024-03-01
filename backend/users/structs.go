@@ -23,4 +23,5 @@ type Credentials struct {
 type Message struct {
 	Message string `json:"MESSAGE"`
 	Type    string `json:"TYPE"`
+	Data 	int64  `json:"DATA"`
 }

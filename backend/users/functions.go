@@ -11,7 +11,7 @@ func Login(credentials Credentials) (Message, error) {
 	defer db.Close()
 
 	result := db.QueryRow("CALL login(?,?)", credentials.Email, credentials.Password)
-	err := result.Scan(&response.Message, &response.Type)
+	err := result.Scan(&response.Message, &response.Type, &response.Data)
 	if err != nil {
 		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado login(): %s", err.Error())
 	}
@@ -135,6 +135,60 @@ func GetAllUsers() ([]User, error) {
 	for rows.Next() {
 		var user User
 		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.State, &user.Image)
+		if err != nil {
+			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
+		}
+		users = append(users, user)
+	}
+
+	if err := rows.Err(); err != nil {
+		return []User{}, fmt.Errorf("error al iterar productos: %s", err)
+	}
+
+	return users, nil
+}
+
+func GetEnabledUsers() ([]User, error) {
+	var users []User
+	db := database.GetConnection()
+	defer db.Close()
+
+	rows, err := db.Query("CALL getEnabledUsers()")
+	if err != nil {
+		return []User{}, fmt.Errorf("error al ejecutar procedimiento almacenado getEnabledUsers(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image)
+		if err != nil {
+			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
+		}
+		users = append(users, user)
+	}
+
+	if err := rows.Err(); err != nil {
+		return []User{}, fmt.Errorf("error al iterar productos: %s", err)
+	}
+
+	return users, nil
+}
+
+func GetDisabledUsers() ([]User, error) {
+	var users []User
+	db := database.GetConnection()
+	defer db.Close()
+
+	rows, err := db.Query("CALL getDisabledUsers()")
+	if err != nil {
+		return []User{}, fmt.Errorf("error al ejecutar procedimiento almacenado getDisabledUsers(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image)
 		if err != nil {
 			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
 		}

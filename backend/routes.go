@@ -19,7 +19,9 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/user/accept-seller", users.AcceptSellerHandler)
 	mux.HandleFunc("/user/disable-user", users.DisableUserHandler)
 	mux.HandleFunc("/user/enable-user", users.EnableUserHandler)
-	mux.HandleFunc("/all-users", users.AllUsers)
+	mux.HandleFunc("/all-users", users.AllUsersHandler)
+	mux.HandleFunc("/disabled-users", users.DisabledUsersHandler)
+	mux.HandleFunc("/enabled-users", users.EnabledUsersHandler)
 	//Handlers de productos
 	mux.HandleFunc("/all-products", productos.GetAllProductsHandler)
 	mux.HandleFunc("/product", productos.GetProductHandler)
