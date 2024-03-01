@@ -18,10 +18,13 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
+import Swal from 'sweetalert2';
+
 
 export const EditProduct = (props) => {
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const {
         logo,
@@ -75,7 +78,7 @@ export const EditProduct = (props) => {
         product_id: product.product_id,
         nombre: product.nombre,
         categoria: product.categoria,
-        precio: product.precio,
+        precio: Number(product.precio),
         descripcion: product.descripcion,
         existencia: Number(product.existencia),
         imagen: url ? url : product.imagen,
@@ -84,9 +87,24 @@ export const EditProduct = (props) => {
       postData({ endpoint, body }).then((data) => {
           // console.log(data);
           if(data.Type === "SUCCESS"){
-            alert("Producto actualizado correctamente");
+            // alert("Producto actualizado correctamente");
+            Swal.fire({
+              title: 'Producto actualizado',
+              icon: 'success',
+              confirmButtonText: 'Ok',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate(0);
+              }
+            })
           } else {
-            alert("Error al actualizar producto");
+            // alert("Error al actualizar producto");
+            Swal.fire({
+              title: 'Error!',
+              text: data.Error,
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            })
           }
       });
     }
@@ -95,10 +113,26 @@ export const EditProduct = (props) => {
       const endpoint = `/delete-product?id=${id}`;
 
       getData({ endpoint }).then((data) => {
+        console.log(data);
         if(data.Type === "SUCCESS"){
-          alert("Producto eliminado correctamente");
+          // alert("Producto eliminado correctamente");
+          Swal.fire({
+            title: 'Producto eliminado',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate(-1);
+            }
+          })
         } else {
-          alert("Error al eliminar producto");
+          Swal.fire({
+            title: 'Error!',
+            text: data.Error,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
+
         }
       });
     }
