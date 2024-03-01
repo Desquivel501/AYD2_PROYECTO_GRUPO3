@@ -1,0 +1,176 @@
+//Get variables from variables.scss
+@import '../../styles/variables.scss';
+
+@media all and (min-width: 480px) {
+    .Login {
+        //padding: 60px 0;
+    }
+
+    .Login form {
+        margin: 0 auto;
+        max-width: 320px;
+    }
+}
+
+.brand {
+    color: white;
+}
+
+.title {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.navbar-brand {
+    margin-left: 20px;
+}
+
+.SubmitBtn {
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+.option {
+    margin-top: 20px;
+}
+
+.Login {
+    color: white;
+    /* max-width: 600px; */
+    /* margin: auto; */
+    background-color: #1c171671;
+    border-radius: 5px;
+    padding: 20px;
+
+    //padding: 20px;
+    .SubmitBtn {
+        background-color: $main-color !important;
+        border-color: $main-color !important;
+    }
+
+    .link-to-registro {
+        color: $main-color;
+    }
+
+    .row {
+        min-height: 85.3vh;
+        margin-right: 0 !important;
+    }
+}
+
+.link-to-registro {
+    color: $main-color;
+}
+
+.sig-main {
+    padding-top: 50px;
+    /*display: flex;
+    justify-content: end;*/
+}
+
+.Signin {
+    color: white;
+    /* max-width: 600px; */
+    /* margin: auto; */
+    background-color: #1c171671;
+    border-radius: 5px;
+    padding: 20px;
+
+    //margin-top: 20px;
+    .SubmitBtn {
+        background-color: $main-color !important;
+        border-color: $main-color !important;
+
+        &:hover {
+            background-color: $main-color !important;
+            border-color: $main-color !important;
+        }
+    }
+
+    .take-picture {
+        position: relative;
+        .captured-image{
+            width: 100%;
+            height: 100%;
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+
+            button {
+                //width: 30px;
+                height: 36px;
+                border-radius: 50%;
+                padding: 0px !important;
+                font-size: 30px !important;
+                background-color: rgb(153, 153, 153) !important;
+                border: none;
+                svg{
+                    vertical-align: baseline !important;
+                }
+            }
+        }
+
+        .take-picture-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 43%;
+
+            .btn-margin {
+                border-radius: 50%; 
+                border: white 5px solid;
+                button {
+                    width: 60px;
+                    height: 60px; 
+                    border-radius: 50%; 
+                    margin: 2px;
+                    background-color: white !important;
+                    border: none;
+                    &:hover{
+                        background-color: rgb(233, 233, 233) !important;
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .link-to-inicio-sesion {
+        color: $main-color;
+
+        &:hover {
+            color: $main-color;
+        }
+    }
+}
+
+.btns {
+    text-align: center;
+}
+
+.signin {
+    margin-top: 10px;
+}
+
+.image-updater {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .WebcamToggleBtn {
+        width: 200px;
+    }
+
+    .web-cam {
+        video {
+            width: 100%;
+        }
+    }
+}

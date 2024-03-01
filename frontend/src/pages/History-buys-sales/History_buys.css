@@ -1,0 +1,18 @@
+.tittle-history{
+    
+    width: 60%;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    margin: 5% auto;
+    
+    
+
+}
+.box-table{
+    margin: 0 auto;
+    width: 50%;
+    box-shadow: 10px 10px 5px -3px rgba(115,115,115,1);
+    
+    
+}

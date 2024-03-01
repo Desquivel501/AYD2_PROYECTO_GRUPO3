@@ -1,0 +1,18 @@
+.f-body{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 20px;
+    .main-title{
+        text-align: center;
+    }
+    .option-container{
+        /* border-top: 1px solid #ccc; */
+        border-bottom: 1px solid #ccc;
+        padding: 20px 0;
+        .option-title{
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+    }
+}
