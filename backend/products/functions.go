@@ -147,7 +147,7 @@ func CreateProduct(p Product) (StatusResponse, error) {
 
 	var s StatusResponse
 
-	err := db.QueryRow("CALL addProduct(?,?,?,?,?,?,?,?)",
+	err := db.QueryRow("CALL addProduct(?,?,?,?,?,?,?)",
 		p.Imagen,
 		p.Nombre,
 		p.Descripcion,
