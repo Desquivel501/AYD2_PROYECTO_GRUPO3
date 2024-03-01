@@ -74,10 +74,7 @@ export const CrearProducto = () => {
           confirmButtonText: 'Ok'
         })
       }
-  });
-
-
-    
+    });
   }
 
   return (
