@@ -29,6 +29,7 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/my-products", productos.GetSellerProductsHandler)
 	mux.HandleFunc("/edit-product", productos.UpdateProductHandler)
 	mux.HandleFunc("/delete-product", productos.DeleteProductHandler)
+	mux.HandleFunc("/create-product", productos.CreateProductHandler)
 	//Handler de categorias
 	mux.HandleFunc("/categories", categoryfilter.GetAllCategoriesHandler)
 
