@@ -52,14 +52,14 @@ func getProfile(user User) (User, error) {
 
 	if user.Role == 0 || user.Role == 1 {
 		result := db.QueryRow("CALL getProfile(?)", user.Dpi)
-		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role)
+		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role, &response.State)
 		if err != nil {
 			return User{}, fmt.Errorf("error al ejecutar procedimiento almacenado getProfile(): %s", err.Error())
 		}
 
 	} else {
 		result := db.QueryRow("CALL getSellerProfile(?)", user.Dpi)
-		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role, &response.Score)
+		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role, &response.Score, &response.State)
 		if err != nil {
 			return User{}, fmt.Errorf("error al ejecutar procedimiento almacenado getSellerProfile(): %s", err.Error())
 		}
@@ -161,7 +161,7 @@ func GetEnabledUsers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image)
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image, &user.State)
 		if err != nil {
 			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
 		}
@@ -188,7 +188,7 @@ func GetDisabledUsers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image)
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image, &user.State)
 		if err != nil {
 			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
 		}
@@ -215,7 +215,7 @@ func GetPendingSellers() ([]User, error) {
 
 	for rows.Next() {
 		var user User
-		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Image)
+		err := rows.Scan(&user.Email, &user.Name, &user.Dpi, &user.Role, &user.Image, &user.State)
 		if err != nil {
 			return []User{}, fmt.Errorf("error al convertir los usuarios: %s", err)
 		}

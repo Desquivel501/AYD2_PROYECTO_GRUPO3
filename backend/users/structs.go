@@ -8,9 +8,9 @@ type User struct {
 	Password string `json:"password"`
 	Image    string `json:"image"`
 	Role     int16  `json:"role"`
+	State    int16  `json:"state"`
 	Score    int32  `json:"score"`
 	Type     string `json:"type"`
-	State    int16  `json:"state"`
 }
 
 //Estructura para credenciales
