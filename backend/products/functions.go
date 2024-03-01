@@ -105,11 +105,11 @@ func UpdateProduct(p UpdateProductStruct) (StatusResponse, error) {
 	).Scan(&s.Message, &s.Type)
 
 	if err != nil {
-		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
 	}
 
 	if s.Type == "ERROR" {
-		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
 	}
 
 	//Retorna el estado del query
@@ -129,13 +129,41 @@ func DeleteProduct(id int) (StatusResponse, error) {
 	err := db.QueryRow("CALL deleteProduct(?)", id).Scan(&s.Message, &s.Type)
 
 	if err != nil {
-		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", err.Error())
 	}
 
 	if s.Type == "ERROR" {
-		return StatusResponse{Type: "ERROR", Error: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado updateProduct(): %s", s.Message)
 	}
 
 	//Retorna el estado del query
+	return s, nil
+}
+
+// Método que crea producto
+func CreateProduct(p Product) (StatusResponse, error) {
+	db := database.GetConnection()
+	defer db.Close()
+
+	var s StatusResponse
+
+	err := db.QueryRow("CALL addProduct(?,?,?,?,?,?,?,?)",
+		p.Imagen,
+		p.Nombre,
+		p.Descripcion,
+		p.Existencia,
+		p.Precio,
+		p.Vendedor,
+		p.Categoria,
+	).Scan(&s.Message, &s.Type)
+
+	if err != nil {
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado addProduct(): %s", err.Error())
+	}
+
+	if s.Type == "ERROR" {
+		return StatusResponse{Type: "ERROR", Message: s.Message}, fmt.Errorf("error al ejecutar procedimiento almacenado addProduct(): %s", s.Message)
+	}
+
 	return s, nil
 }

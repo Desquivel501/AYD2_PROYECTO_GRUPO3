@@ -111,3 +111,19 @@ BEGIN
 	RETURN(prod_exists);
 END $$
 
+-- ########################################## VERIFICAR SI UN PRODUCTO YA EXISTE POR MEDIO DE SU ID ####################################################
+CREATE FUNCTION IF NOT EXISTS ProducIdExists(
+	prod_id_in INTEGER
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE prod_exists BOOLEAN;
+	SELECT EXISTS(
+		SELECT 1 
+		FROM products p 
+		WHERE p.prod_id = prod_id_in
+	) INTO prod_exists;
+
+	RETURN(prod_exists);
+END $$

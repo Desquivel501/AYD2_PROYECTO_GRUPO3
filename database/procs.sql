@@ -10,10 +10,11 @@ CREATE PROCEDURE IF NOT EXISTS login(
 login:BEGIN
 	DECLARE role INTEGER;
 	DECLARE status INTEGER;
+	DECLARE dpi BIGINT;
 
 	SELECT -1 INTO role;
 	
-	SELECT u.role, u.state INTO role, status
+	SELECT u.role, u.state, u.dpi INTO role, status, dpi
 	FROM users u 
 	WHERE u.email = email_in
 	AND u.password = password_in;
@@ -37,7 +38,8 @@ login:BEGIN
 	END IF;
 
 	SELECT role AS 'MESSAGE',
-	'SUCCESS' AS 'TYPE';
+	'SUCCESS' AS 'TYPE',
+	dpi AS 'DATA';
 END $$
 
 -- ########################################## PROCEDIMIENTO PARA REGISTRO DE CLIENTE ####################################################
@@ -140,6 +142,49 @@ accept_seller:BEGIN
 	'SUCCESS' AS 'TYPE';
 END $$
 
+-- ########################################## PROCEDIMIENTO PARA RECHAZAR LA CUENTA DE UN VENDEDOR ####################################################
+CREATE PROCEDURE IF NOT EXISTS declineSeller(
+	IN dpi_in BIGINT
+)
+decline_seller:BEGIN
+	IF(NOT UserExists(dpi_in)) THEN
+		SELECT 'El correo ingresado no está registrado en la base de datos' AS 'MENSAJE',
+        'ERROR' AS 'TIPO';
+        LEAVE decline_seller;
+	END IF;
+
+	IF(NOT StatePending(dpi_in)) THEN
+		SELECT 'El usuario que se intenta aceptar no tiene estado pendiente' AS 'MENSAJE',
+        'ERROR' AS 'TIPO';
+        LEAVE decline_seller;
+	END IF;
+
+	IF(NOT IsSeller(dpi_in)) THEN
+		SELECT 'El correo ingresado no pertenece a un vendedor' AS 'MENSAJE',
+        'ERROR' AS 'TIPO';
+        LEAVE decline_seller;	
+	END IF;
+
+	DELETE FROM users u
+	WHERE u.dpi = dpi_in;
+
+	SELECT 'La cuenta fue rechazara correctamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER TODOS LOS VENDEDORES PENDIENTES DE ACEPTAR #################################################### 
+CREATE PROCEDURE IF NOT EXISTS getPendingSellers()
+get_pending_sellers:BEGIN
+	SELECT u.email AS email,
+	u.name AS name,
+	u.dpi AS dpi,
+	u.`role` AS role,
+	u.state AS state,
+	u.image AS image
+	FROM users u
+	WHERE u.`role` = 2
+	AND u.state = 2;
+END $$
 
 -- ########################################## PROCEDIMIENTO PARA VER EL PERFIL DE UN USUARIO ####################################################
 CREATE PROCEDURE IF NOT EXISTS getProfile(
@@ -154,9 +199,11 @@ get_profile:BEGIN
 	END IF;
 
 	SELECT u.email AS email,
-	u.name AS NAME,
+	u.name AS name,
 	u.dpi AS dpi,
-	u.image AS image
+	u.image AS image,
+	u.`role` AS role,
+	u.state AS state
 	FROM users u 
 	WHERE u.dpi  = dpi_in;
 END $$
@@ -296,6 +343,35 @@ enable_user:BEGIN
 
 	SELECT 'El usuario ha sido habilitado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
+END $$
+
+
+--  ########################################## PROCEDIMIENTO PARA OBTENER USUARIOS HABILITADOS ####################################################
+CREATE PROCEDURE IF NOT EXISTS getEnabledUsers()
+BEGIN
+	SELECT u.email AS email,
+	u.name AS name,
+	u.dpi AS dpi,
+	u.image AS image,
+	u.`role` AS role,
+	u.state AS state
+	FROM users u
+	WHERE u.`role` != 0
+	AND u.state = 1;
+END $$
+
+--  ########################################## PROCEDIMIENTO PARA OBTENER USUARIOS DESHABILITADOS ####################################################
+CREATE PROCEDURE IF NOT EXISTS getDisabledUsers()
+BEGIN
+	SELECT u.email AS email,
+	u.name AS name,
+	u.dpi AS dpi,
+	u.`role` AS role,
+	u.state AS state,
+	u.image AS image
+	FROM users u
+	WHERE u.`role` != 0
+	AND u.state = 0;
 END $$
 
 
@@ -580,6 +656,25 @@ BEGIN
 		JOIN prod_categories pc 
 		ON p.cat_id = pc.cat_id 
 		AND p.prod_id = prod_id_in;
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA RETORNAR UN PRODUCTO EN CONCRETO ####################################################
+CREATE PROCEDURE IF NOT EXISTS deleteProduct(
+	IN prod_id_in INTEGER
+)
+delete_product:BEGIN
+	IF NOT ProducIdExists(prod_id_in) THEN
+		SELECT 'El producto que desea eliminar no existe' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE delete_product;
+	END IF;
+
+	DELETE FROM products p
+	WHERE p.prod_id = prod_id_in;
+
+	SELECT 'El producto ha sido eliminado exitosamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
 END $$
 
 

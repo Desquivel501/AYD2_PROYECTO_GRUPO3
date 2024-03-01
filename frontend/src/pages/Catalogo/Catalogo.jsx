@@ -31,7 +31,10 @@ export const Catalogo = () => {
     useEffect(() => {
         const endpoint = `all-products`
         getData({ endpoint }).then((data) => {
-            console.log(data);
+
+            if(data === undefined) return console.log("Error al cargar productos");
+
+            // console.log(data);
             setProducts(data);
 
             let categories = new Set();
