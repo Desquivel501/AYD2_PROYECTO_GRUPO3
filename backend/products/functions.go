@@ -138,7 +138,6 @@ func DeleteProduct(id int) (StatusResponse, error) {
 // Método que crea producto
 func CreateProduct(p Product) (StatusResponse, error) {
 	db := database.GetConnection()
-	defer db.Close()
 
 	var s StatusResponse
 
