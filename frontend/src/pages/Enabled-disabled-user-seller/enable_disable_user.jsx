@@ -12,57 +12,60 @@ const EnableDisabledUser = () => {
 
   const [data_dis, setData_dis] = useState([]);
 
+  const fetchDataEnable = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/enabled-users");
+      const jsonData = await response.json();
+      setData_en(jsonData);
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+    }
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/enabled-users");
-        const jsonData = await response.json();
-        setData_en(jsonData);
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      }
-    };
-
-    fetchData();
+    fetchDataEnable();
   }, []);
 
+  const fetchDataDisable = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/disabled-users");
+      const jsonData = await response.json();
+      setData_dis(jsonData);
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+    }
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/disabled-users");
-        const jsonData = await response.json();
-        setData_dis(jsonData);
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      }
-    };
-
-    fetchData();
+    fetchDataDisable();
   }, []);
+  
 
-  const handleDisableClick = (dpi) => {
+  const handleDisableClick = async (dpi) => {
     Swal.fire({
       title: "Estas seguro de deshabilitar este usuario " + dpi + " ?",
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Don't save`,
-    }).then((result) => {
+    }).then(async (result) => { // Utilizamos async aquí también
       if (result.isConfirmed) {
         try {
-          const response = fetch("http://localhost:8080/user/disable-user", {
+          const response = await fetch("http://localhost:8080/user/disable-user", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ dpi: parseInt(dpi) }),
           });
-          const ok = response.json();
-
-          if (ok.type === "SUCCESS") {
+          const ok = await response.json(); // Esperamos la resolución de la promesa
+          console.log(ok);
+          if (ok.TYPE === "SUCCESS") {
             Swal.fire("Se deshabilitó al usuario!", "", "success");
-            setData((prevData) => {
+            setData_en((prevData) => {
               return prevData.filter((item) => item.dpi !== dpi);
             });
+            fetchDataEnable();
+            fetchDataDisable();
           } else {
             Swal.fire("No se pudo deshabilitar al usuario!", "", "error");
           }
@@ -73,30 +76,33 @@ const EnableDisabledUser = () => {
       }
     });
   };
+  
 
-  const handleEnableClick = (dpi) => {
+  const handleEnableClick = async (dpi) => {
     Swal.fire({
       title: "Estas seguro de habilitar este usuario " + dpi + " ?",
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Don't save`,
-    }).then((result) => {
+    }).then(async (result) => { // Utilizamos async aquí también
       if (result.isConfirmed) {
         try {
-          const response = fetch("http://localhost:8080/user/enable-user", {
+          const response = await fetch("http://localhost:8080/user/enable-user", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ dpi: parseInt(dpi) }),
           });
-          const ok = response.json();
-
-          if (ok.type === "SUCCESS") {
+          const ok = await response.json(); // Esperamos la resolución de la promesa
+  
+          if (ok.TYPE === "SUCCESS") {
             Swal.fire("Se habilitó el usuario!", "", "success");
-            setData((prevData) => {
+            setData_dis((prevData) => {
               return prevData.filter((item) => item.dpi !== dpi);
             });
+            fetchDataEnable();
+            fetchDataDisable();
           } else {
             Swal.fire("No se pudo habilitar al usuario!", "", "error");
           }
@@ -107,6 +113,7 @@ const EnableDisabledUser = () => {
       }
     });
   };
+  
 
   return (
     <div>

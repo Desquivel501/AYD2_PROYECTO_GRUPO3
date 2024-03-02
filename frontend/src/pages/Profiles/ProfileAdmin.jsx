@@ -13,8 +13,8 @@ const ProfileAdmin = () => {
     const fetchData = async () => {
       try {
         // Obtener los datos del localStorage
-        const cui = localStorage.getItem("cui");
-        const role = localStorage.getItem("role");
+        const cui = localStorage.getItem("id_user");
+       const rol = localStorage.getItem("type");
 
         // Verificar que cui y role no sean null
         if (!cui || !role) {
@@ -27,13 +27,16 @@ const ProfileAdmin = () => {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ cui: parseInt(cui), role: role })
+          body: JSON.stringify({ cui: parseInt(cui), role: rol })
         });
 
         if (!response.ok) {
           throw new Error("Error al obtener los datos del usuario");
         }
         const data = await response.json();
+        if (data.role === 1) {
+          data.role = "Administrador";
+        }
         setUserData(data); // Actualizar el estado con los datos obtenidos
       } catch (error) {
         console.error("Error:", error);
@@ -73,7 +76,7 @@ const ProfileAdmin = () => {
                       </h6>
                     </div>
                     <div className="profile-cui">
-                      <h6>CUI - {userData.cui}</h6>
+                      <h6>DPI - {userData.cui}</h6>
                       <h5 style={{ color: "#D35400" }}>{userData.role}</h5>
                     </div>
                   </>

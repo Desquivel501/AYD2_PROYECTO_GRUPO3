@@ -10,7 +10,25 @@
     position:absolute;
     box-shadow: 10px 12px 10px 0px rgba(64,64,64,0.52);  
 }
-
+.edit-profile {
+    position: absolute;
+    transform: translate(25%, -40%);
+    background-color: #D8EBFE;
+    padding: 10%;
+    border-radius: 10%;
+    box-shadow: 10px 12px 10px 0px rgba(64, 64, 64, 0.52);
+    z-index: 9999;
+  }
+  
+  .edit-mode-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro transparente */
+    z-index: 9999; /* Asegura que esté por encima de otros elementos */
+  }
 
 .checked {
   color: orange;
@@ -86,6 +104,10 @@
 
 .profile-cui h6{
     font-size: 15px;
+}
+
+.profile-cui h5{
+    padding-left: 20%;
 }
 
 *{
