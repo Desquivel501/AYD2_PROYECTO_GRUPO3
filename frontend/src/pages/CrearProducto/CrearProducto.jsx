@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button';
 
 import './CrearProducto.css';
 import CustomNavbar from '../../components/navbar/navbar';
+import { useUserPermission } from '../../utilities/Security/Permission';
 
 import { getData, SubirImagen, postData, deleteData } from '../../api/api';
 
@@ -17,6 +18,8 @@ import Swal from 'sweetalert2';
 
 
 export const CrearProducto = () => {
+
+  useUserPermission(2)
 
   const [show, setShow] = useState(false);
 
