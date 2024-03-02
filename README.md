@@ -8,6 +8,8 @@
 - [Diagrama de implementación](#implementacion)
     - [Diagrama de despliegue](#despliegue)
     - [Diagrama de componentes](#componentes)
+- [Manual técnico](documentation/Tecnico.md)
+- [Manual del usuario](documentation/Usuario.md)
 - [Ceremonias Scrum](#ceremonias)
 
 ---
