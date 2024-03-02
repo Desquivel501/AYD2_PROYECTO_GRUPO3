@@ -206,7 +206,8 @@ get_profile:BEGIN
 	u.dpi AS dpi,
 	u.image AS image,
 	u.`role` AS role,
-	u.state AS state
+	u.state AS state,
+	u.password AS password
 	FROM users u 
 	WHERE u.dpi  = dpi_in;
 END $$
@@ -236,7 +237,8 @@ get_seller_profile:BEGIN
 	u.image AS image,
 	u.`role` AS role,
 	s.score AS score,
-	u.state AS state
+	u.state AS state,
+	u.password AS password
 	FROM users u 
 	JOIN sellers s 
 	ON u.dpi = s.dpi  
