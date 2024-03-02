@@ -3,41 +3,34 @@ import "./ProfileUser.css";
 import CustomNavbar from "../../components/navbar/navbar";
 import { useUserPermission } from "../../utilities/Security/Permission";
 //import button_edit from "../assets/ButtonEdit/boton-editar.png";
+import { postData } from "../../api/api";
 
 const ProfileSalesPerson = () => {
   const [userData, setUserData] = useState(null);
+  const user = localStorage.getItem("user");
+
+  const cui = JSON.parse(user).id;
+  const rol = JSON.parse(user).type;
 
     useEffect(() => {
+
       // Función para realizar la solicitud POST
-      const fetchData = async () => {
-        try {
-          // Obtener los datos del localStorage
-         const cui = localStorage.getItem("id_user");
-          const rol = localStorage.getItem("type");
-          if (rol !== 2) {
-            window.location.href = "http://localhost:3000"; 
-            return; 
-          }
-  
-          // Verificar que cui y role no sean null
-          if (!cui || !role) {
-            throw new Error("No se encontraron datos en el localStorage");
-          }
-  
-          // Realizar la solicitud POST
-          const response = await fetch("http://localhost:8080/user/profile", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ dpi: cui, role: rol })
-          });
-  
-          if (!response.ok) {
-            throw new Error("Error al obtener los datos del usuario");
-          }
-          const data = await response.json();
-          console.log(data)
+
+      try {
+        // Obtener los datos del localStorage
+
+        if (rol !== 2) {
+          window.location.href = "http://localhost:3000";
+          return;
+        }
+
+        // Verificar que cui y role no sean null
+        if (!cui || !rol) {
+          throw new Error("No se encontraron datos en el localStorage");
+        }
+
+        postData({ endpoint: "user/profile", body: { dpi: cui, role: rol } }).then((data) => {
+          console.log(data);
           if(data.role ==2){
             data.role = "Vendedor";
           }
@@ -46,12 +39,35 @@ const ProfileSalesPerson = () => {
           }else{
             setUserData({name:"Usuario deshabilitado"})
           }
-        
-        } catch (error) {
-          console.error("Error:", error);
-        }
-        fetchData()
-    }}, []);
+        });
+
+
+        // Realizar la solicitud POST
+        // const response = await fetch("http://localhost:8080/user/profile", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json"
+        //   },
+        //   body: JSON.stringify({ dpi: cui, role: rol })
+        // });
+
+        // console.log(response)
+
+        // console.log(data)
+        // if(data.role ==2){
+        //   data.role = "Vendedor";
+        // }
+        // if(data.state==1){
+        //   setUserData(data); // Actualizar el estado con los datos obtenidos
+        // }else{
+        //   setUserData({name:"Usuario deshabilitado"})
+        // }
+
+      } catch (error) {
+        console.error("Error:", error);
+      }
+
+    }, []);
 
   useUserPermission(2)
 
@@ -73,7 +89,7 @@ const ProfileSalesPerson = () => {
                 <div className="profile-info" style={{color:"#229954"}}>
                   <h1 style={{textAlign:"center"}}>{userData.name}</h1>
                   <div className="box-edit">
-                    
+
                   </div>
                   <hr />
                   <h6 style={{textAlign:"center"}}>
