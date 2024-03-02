@@ -18,6 +18,11 @@ const ProfileUser = () => {
   const fetchData = async () => {
     const cui = localStorage.getItem("id_user");
     const rol = localStorage.getItem("type");
+    
+    if (rol !== 1) {
+      window.location.href = "http://localhost:3000/"; 
+      return; 
+    }
     try {
       const response = await fetch("http://localhost:8080/user/profile", {
         method: "POST",

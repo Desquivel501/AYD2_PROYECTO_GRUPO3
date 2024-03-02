@@ -10,7 +10,12 @@ const MySwal = withReactContent(Swal)
 const SellerRequests = () => {
   const [data, setData] = useState([]);
 
-
+  const cui = localStorage.getItem("id_user");
+       const rol = localStorage.getItem("type");
+       if (rol !== 0) {
+        window.location.href = "http://localhost:3000"; 
+        return; 
+       }
   useEffect(() => {
     const fetchData = async () => {
       try {

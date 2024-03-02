@@ -12,6 +12,13 @@ const EnableDisabledUser = () => {
 
   const [data_dis, setData_dis] = useState([]);
 
+  const cui = localStorage.getItem("id_user");
+       const rol = localStorage.getItem("type");
+       if (rol !== 0) {
+        window.location.href = "http://localhost:3000"; 
+        return; 
+      }
+
   const fetchDataEnable = async () => {
     try {
       const response = await fetch("http://localhost:8080/enabled-users");

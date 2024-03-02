@@ -15,6 +15,10 @@ const ProfileAdmin = () => {
         // Obtener los datos del localStorage
         const cui = localStorage.getItem("id_user");
        const rol = localStorage.getItem("type");
+       if (rol !== 0) {
+        window.location.href = "http://localhost:3000"; 
+        return; 
+      }
 
         // Verificar que cui y role no sean null
         if (!cui || !role) {
