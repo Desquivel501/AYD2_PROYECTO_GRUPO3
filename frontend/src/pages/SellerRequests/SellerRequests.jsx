@@ -36,28 +36,27 @@ const SellerRequests = () => {
     fetchData();
   }, []); 
 
-  const handleDeleteClick = (dpi) => {
+  const handleDeleteClick = async (dpi) => {
     
     Swal.fire({
-      title: "Estas seguro de denegar la solicitud a este vendedor "+dpi+" ?",
+      title: "Estás seguro de denegar la solicitud a este vendedor "+dpi+" ?",
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Don't save`
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         
-
         try {
-          const response =  fetch('http://localhost:8080/user/decline-seller', {
+          const response = await fetch('http://localhost:8080/user/decline-seller', {
             method:'POST',
             headers:{
               'Content-Type':'application/json'
             },
             body:JSON.stringify({dpi: parseInt(dpi)})
           });  
-          const ok = response.json();
-
-          if(ok.type === 'SUCCESS'){
+          const ok = await response.json();
+          console.log(ok)
+          if(ok.TYPE === 'SUCCESS'){
             Swal.fire("Se denegó la solicitud!", "", "success");
             setData(prevData => {
               return prevData.filter(item => item.dpi !== dpi);
@@ -67,35 +66,35 @@ const SellerRequests = () => {
           }
         } catch (error) {
           console.log('Error', error);
-          Swal.fire("Ocurrio un error!", "", "error");
+          Swal.fire("Ocurrió un error!", "", "error");
         }
         
       }
     });
   };
 
-  const handleAcceptClick = (dpi) => {
+const handleAcceptClick = async (dpi) => {
     
     Swal.fire({
-      title: "Estas seguro de aceptar la solicitud a este vendedor "+dpi+" ?",
+      title: "Estás seguro de aceptar la solicitud a este vendedor "+dpi+" ?",
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Don't save`
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         
-
         try {
-          const response =  fetch('http://localhost:8080/user/accept-seller', {
+          const response = await fetch('http://localhost:8080/user/accept-seller', {
             method:'POST',
             headers:{
               'Content-Type':'application/json'
             },
             body:JSON.stringify({dpi: parseInt(dpi)})
           });  
-          const ok = response.json();
+          const ok = await response.json();
+          console.log(ok)
 
-          if(ok.type === 'SUCCESS'){
+          if(ok.TYPE === 'SUCCESS'){
             Swal.fire("Se aceptó la solicitud!", "", "success");
             setData(prevData => {
               return prevData.filter(item => item.dpi !== dpi);
@@ -105,12 +104,13 @@ const SellerRequests = () => {
           }
         } catch (error) {
           console.log('Error', error);
-          Swal.fire("Ocurrio un error!", "", "error");
+          Swal.fire("Ocurrió un error!", "", "error");
         }
         
       }
     });
   };
+
 
   return (
     <div>
