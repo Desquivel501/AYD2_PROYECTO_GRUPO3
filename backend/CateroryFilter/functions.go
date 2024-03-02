@@ -10,7 +10,6 @@ func GetAllCategories() ([]Categoria, error) {
 	var categories []Categoria
 
 	db := database.GetConnection()
-	defer db.Close()
 
 	rows, err := db.Query("CALL getProdCategories()")
 	if err != nil {
