@@ -80,5 +80,7 @@ A continuación se muestran las ceremonias de Scrum realizadas:
 | 26/02/2024 | Daily Scrum | [link](https://drive.google.com/file/d/1Xk7hSJVVO9SnaVuPaqzfXcDlP2oo14LR/view?usp=drive_link) |
 | 27/02/2024 | Daily Scrum | [link](https://drive.google.com/file/d/1xfMDcFdBJoMHntoWQyfzcYGfwT3rdH_O/view?usp=drive_link) |
 | 28/02/2024 | Daily Scrum | [link](https://drive.google.com/file/d/1pD9NwYMb-GzucVuEstX8IX4fi-1sUsB1/view?usp=drive_link) |
+| 29/02/2024 | Daily Scrum | [link](https://drive.google.com/file/d/1S83FsuJ8sYiYvzTjcE7pqAOG8BgsOvOW/view?usp=drive_link) |
+| 01/03/2024 | Sprint Retrospective | [link](https://drive.google.com/file/d/1reqdSgcvxnTuGjFw5APkQhBUVKA06CJE/view?usp=drive_link) |
 
 ---
