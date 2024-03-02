@@ -25,7 +25,7 @@ const ProfileSalesPerson = () => {
         }
 
         // Verificar que cui y role no sean null
-        if (!cui || !rol) {
+        if (!user) {
           throw new Error("No se encontraron datos en el localStorage");
         }
 

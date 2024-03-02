@@ -7,15 +7,21 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 const MySwal = withReactContent(Swal)
+
 const SellerRequests = () => {
   const [data, setData] = useState([]);
 
-  const cui = localStorage.getItem("id_user");
-       const rol = localStorage.getItem("type");
-       if (rol !== 0) {
-        window.location.href = "http://localhost:3000"; 
-        return; 
-       }
+  const user = localStorage.getItem("user");
+
+  const cui = JSON.parse(user).id;
+  const rol = JSON.parse(user).type;
+
+  if (rol !== 0) {
+  window.location.href = "http://localhost:3000"; 
+  return; 
+  }
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {

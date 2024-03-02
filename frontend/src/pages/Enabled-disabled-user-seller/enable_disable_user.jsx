@@ -12,12 +12,19 @@ const EnableDisabledUser = () => {
 
   const [data_dis, setData_dis] = useState([]);
 
-  const cui = localStorage.getItem("id_user");
-       const rol = localStorage.getItem("type");
-       if (rol !== 0) {
-        window.location.href = "http://localhost:3000"; 
-        return; 
-      }
+  // const cui = localStorage.getItem("id_user");
+  // const rol = localStorage.getItem("type");
+
+  const user = localStorage.getItem("user");
+  const cui = JSON.parse(user).id;
+  const rol = JSON.parse(user).type;
+
+
+
+  if (rol !== 0) {
+  window.location.href = "http://localhost:3000"; 
+  return; 
+}
 
   const fetchDataEnable = async () => {
     try {

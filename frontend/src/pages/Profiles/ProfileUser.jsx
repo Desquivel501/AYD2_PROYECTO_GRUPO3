@@ -53,52 +53,6 @@ const ProfileUser = () => {
     }
   };
 
-  /*const handleEditClick = () => {
-    setEditMode(true);
-    setEditedUserData({
-      name: userData.name,
-      email: userData.email,
-      image: userData.image,
-    });
-  };*/
-
-  /*const handleSaveClick = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/user/update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          dpi: parseInt(12345687897), // Aquí deberías enviar el DPI o identificador único del usuario
-          name: editedUserData.name,
-          email: editedUserData.email,
-          image: editedUserData.image,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al actualizar los datos del usuario");
-      }
-
-      const updatedData = await response.json();
-      setUserData(updatedData);
-      setEditMode(false);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };*/
-
-  /*const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedUserData({ ...editedUserData, [name]: value });
-  };
-
-  const handleImageChange = (e) => {
-    const imageFile = e.target.files[0];
-    setEditedUserData({ ...editedUserData, image: imageFile });
-  };*/
-
   useUserPermission(1)
 
   return (
