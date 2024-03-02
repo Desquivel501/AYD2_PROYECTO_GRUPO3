@@ -4,6 +4,7 @@
 - [Datos del grupo 3](#datos)
 - [Patrones de diseño](documentation/Patrones%20de%20disenio.md)
 - [Modelo de base de datos](#database)
+- [Historias de usuario](documentation/UsersHistory.md)
 - [Ceremonias Scrum](#ceremonias)
 
 ---
@@ -57,3 +58,4 @@ A continuación se muestran las ceremonias de Scrum realizadas:
 | 27/02/2024 | Daily Scrum | [link](https://drive.google.com/file/d/1xfMDcFdBJoMHntoWQyfzcYGfwT3rdH_O/view?usp=drive_link) |
 | 28/02/2024 | Daily Scrum | [link](https://drive.google.com/file/d/1pD9NwYMb-GzucVuEstX8IX4fi-1sUsB1/view?usp=drive_link) |
 
+---
