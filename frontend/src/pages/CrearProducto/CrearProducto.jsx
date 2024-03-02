@@ -8,33 +8,74 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-import logo from '../../assets/react.svg';
 import './CrearProducto.css';
-import productImage1 from '../../assets/camera.png';
-import productImage2 from '../../assets/camera2.png';
-import productImage3 from '../../assets/camera3.png';
-import productImage4 from '../../assets/camera4.png';
-
-import { ProductCard } from '../../components/ProductCard/ProductCard';
 import CustomNavbar from '../../components/navbar/navbar';
 
+import { getData, SubirImagen, postData, deleteData } from '../../api/api';
 
-export const CrearProducto = (props) => {
+import Swal from 'sweetalert2';
 
-  const {
-    logo,
-    price,
-    name
-  } = props;
 
-  const [preview, setPreview] = useState("https://i5.walmartimages.com/seo/NBD-Digital-Camera-4K-48MP-Compact-Camera-3-0-Inch-Ultra-Clear-Screen-YouTube-Vlogging-Camera-16x-Digital-Zoom-Video-Camera-Cameras-for-Photography_6ac10792-1adc-4637-9c53-e7890dea9fca.452220c9a4e75ac44f7bf578e6e517fe.jpeg");
-  const [image, setImage] = useState("https://i5.walmartimages.com/seo/NBD-Digital-Camera-4K-48MP-Compact-Camera-3-0-Inch-Ultra-Clear-Screen-YouTube-Vlogging-Camera-16x-Digital-Zoom-Video-Camera-Cameras-for-Photography_6ac10792-1adc-4637-9c53-e7890dea9fca.452220c9a4e75ac44f7bf578e6e517fe.jpeg");
-
+export const CrearProducto = () => {
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [product, setProduct] = useState({
+    nombre: "",
+    descripcion: "",
+    precio: 0,
+    existencia: 0,
+    categoria: "",
+    vendedor: "",
+    imagen: "https://placehold.co/800",
+    preview: "https://placehold.co/800",
+    file: null
+  });
+
+  const createProduct = async () => {
+
+    let url = null;
+    if(product.file){
+      url = await SubirImagen(product.file);
+    }
+
+    const endpoint = `create-product`;
+
+    const body = { 
+      product_id: 0,
+      nombre: product.nombre,
+      vendedor: "123456",
+      existencia: Number(product.existencia),
+      precio: Number(product.precio),
+      categoria: "Test",
+      descripcion: product.descripcion,
+      imagen: url ? url : product.imagen,
+    }
+    
+    postData({ endpoint, body }).then((data) => {
+      if(data.type === "SUCCESS"){
+        Swal.fire({
+          title: 'Producto creado!',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(0);
+          }
+        })
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: data.Error,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+      }
+    });
+  }
 
   return (
     <div className="product-root">
@@ -46,7 +87,7 @@ export const CrearProducto = (props) => {
               <div className='product-image-container'>
                 <img
                     alt=""
-                    src={image}
+                    src={product.imagen}
                     width="80%"
                     height="auto"
                     className="d-inline-block align-top "
@@ -60,48 +101,62 @@ export const CrearProducto = (props) => {
 
           </Col>
           <Col xs={5} className='product-info-container'>
-              {/* <h1 style={{color:"black", fontWeight:'bold'}}>Nombre Producto</h1> */}
 
-              <Form.Control type="text" placeholder="Nombre del producto" style={{color:"black", fontWeight:'bold', fontSize:'2.5rem'}}/>
+              <Form.Control type="text" placeholder="Nombre del producto" style={{color:"black", fontWeight:'bold', fontSize:'2.5rem'}}
+                value={product.nombre}
+                onChange={
+                    (e) => setProduct({...product, nombre: e.target.value})
+                }
+              />
 
               <div className='mt-3'>
-                <h5 style={{color:"blue", textAlign:"left"}} > Vendedor: Nombre Vendedor </h5>
+                <h5 style={{color:"blue", textAlign:"left"}} > Vendedor: {product.vendedor} </h5>
               </div>
 
               <hr class="mt-3 mb-1"/>
-              
-              {/* <div className='mt-3'>
-                <h3 style={{color:"green", textAlign:"left"}} > Disponible. </h3>
-              </div> */}
+            
+              <div className='mt-4'>
+                <h4 style={{color:"black", textAlign:"left"}} > Existencias: </h4>
+                <input class="form-control" placeholder="0.00" aria-label="precio" type='number' style={{fontSize:'1.5rem'}} 
+                    value={product.existencia} 
+                    onChange={
+                        (e) => setProduct({...product, existencia: e.target.value})
+                    }/>
+              </div>
 
-              <Form.Check className='custom-checkbox mt-3' id='disponibilidad' label='Disponible?' style={{color:"green", textAlign:"left", fontSize:'1.5rem'}}/>
-
-              {/* <Form.Control className='mt-3' type="number" placeholder="Price" style={{color:"black", fontWeight:'bold', fontSize:'1.5rem'}}/> */}
-
-              {/* <Form.Control className='mt-3' type="number" placeholder="Precio" style={{color:"black", fontWeight:'bold', fontSize:'1.5rem'}}/> */}
+              <hr class="mt-3 mb-1"/>
 
               <InputGroup className="mt-3">
                   {/* <input class="form-control" placeholder="Min" aria-label="Username"/> */}
                   <span class="input-group-text" style={{fontSize:'1.5rem'}}>Q</span>
-                  <input class="form-control" placeholder="0.00" aria-label="precio" type='number' style={{fontSize:'1.5rem'}}/>
+                  <input class="form-control" placeholder="0.00" aria-label="precio" type='number' style={{fontSize:'1.5rem'}}
+                    value={product.precio}
+                    onChange={
+                        (e) => setProduct({...product, precio: e.target.value})
+                    }
+                  />
               </InputGroup>
-
-              {/* <div className='mt-3'>
-                <h2 style={{color:"black", fontWeight:'bold'}} > Q 300.00 </h2>
-              </div> */}
 
               <hr class="mt-3 mb-1"/>
 
               <div className='mt-4'>
                 <h4 style={{color:"black", textAlign:"left"}} > Descripcion: </h4>
-                {/* <p style={{color:"black", textAlign:"left"}} > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt urna ut massa pharetra semper. Etiam tortor odio, posuere in suscipit vitae, faucibus non felis. Fusce suscipit tellus facilisis nisl faucibus pretium. Morbi quis nunc id justo euismod volutpat. Maecenas eget dolor tempor, commodo magna rhoncus, aliquet urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p> */}
-                <Form.Control as="textarea" placeholder="" style={{color:"black", textAlign:"left", fontSize:'1rem'}} rows={5}/>
+                <Form.Control as="textarea" placeholder="" style={{color:"black", textAlign:"left", fontSize:'1rem'}} rows={5}
+                    value={product.descripcion}
+                    onChange={
+                        (e) => setProduct({...product, descripcion: e.target.value})
+                    }
+                />
               </div>
 
               <hr class="mt-3 mb-1"/>
 
               <div className='mt-4'>
-                <button type="button" class="btn-create">Crear</button>
+                <button type="button" class="btn-create"
+                  onClick={createProduct}
+                >
+                  Guardar Cambios
+                </button>
               </div>
           </Col>
         </Row>
@@ -112,32 +167,38 @@ export const CrearProducto = (props) => {
           </Modal.Header>
           <Modal.Body style={{display:'flex', flexDirection:'column', justifyContent:'flex-end', alignItems:'center'}}>
 
-              <img src={preview}
+              <img src={product.preview}
                 alt="Avatar" className="img-fluid my-5" style={{ width: '200px' }} />
               <input type="file" name="cover" sx={{ align:'center' }}
                 onChange= {(e) => {
-                  setPreview(URL.createObjectURL(e.target.files[0]))
+                //   setPreview(URL.createObjectURL(e.target.files[0]))
+                setProduct({...product, preview: URL.createObjectURL(e.target.files[0]), file: e.target.files[0]})
               }} />
 
 
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary"
-              onClick={() => {setPreview(image); setShow(false);}} 
-                        style={{
-                          background:"#9d0000",
-                          color: '#fff',
-                          "&:hover": {
-                              background: '#b03232'
-                          }
-                        }}
+                onClick={() => {
+                        // setPreview(image); 
+                        setProduct({...product, preview: product.imagen, file: null})
+                        setShow(false)
+                    }} 
+                style={{
+                    background:"#9d0000",
+                    color: '#fff',
+                    "&:hover": {
+                        background: '#b03232'
+                    }
+                }}
             >
               Close
             </Button>
             <Button variant="primary" 
               onClick={() => {
-                  setImage(preview)
-                  setShow(false)
+                //   setImage(preview)
+                setProduct({...product, imagen: product.preview})
+                setShow(false)
               }}
               style={{
                   mr: 3,
@@ -154,12 +215,6 @@ export const CrearProducto = (props) => {
         </Modal>
 
       </Container>
-    
-
-   
-
-
-
     </div>
   );
 }

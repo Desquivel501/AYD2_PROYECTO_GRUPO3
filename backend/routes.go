@@ -1,7 +1,7 @@
 package main
 
 import (
-	categoryfilter "main/categoryFilter"
+	categoryfilter "main/CateroryFilter"
 	productos "main/products"
 	"main/root"
 	users "main/users"
@@ -10,7 +10,6 @@ import (
 
 func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/", root.RootHandler)
-	mux.HandleFunc("/category_filter", categoryfilter.CategoryFilterHandler)
 	//Handlers de usuarios
 	mux.HandleFunc("/user/login", users.LoginHandler)
 	mux.HandleFunc("/user/register", users.RegisterHandler)
@@ -30,5 +29,8 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/my-products", productos.GetSellerProductsHandler)
 	mux.HandleFunc("/edit-product", productos.UpdateProductHandler)
 	mux.HandleFunc("/delete-product", productos.DeleteProductHandler)
+	mux.HandleFunc("/create-product", productos.CreateProductHandler)
+	//Handler de categorias
+	mux.HandleFunc("/categories", categoryfilter.GetAllCategoriesHandler)
 
 }

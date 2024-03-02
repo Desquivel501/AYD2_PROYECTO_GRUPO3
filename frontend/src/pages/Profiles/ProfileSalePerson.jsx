@@ -6,21 +6,53 @@ import CustomNavbar from "../../components/navbar/navbar";
 const ProfileSalesPerson = () => {
     const [userData, setUserData] = useState(null);
 
-    useEffect(()=>{
-        const fetchData = async () =>{
-            try{
-                const response = await fetch("/profile")
-                if(!response.ok){
-                    throw new Error("Error al obtener los datos del vendedor")
-                }
-                const data = await response.json()
-                setUserData(data)
-            }catch(error){
-                console.lop("Error: ", error)
-            }
+    useEffect(() => {
+      // Función para realizar la solicitud POST
+      const fetchData = async () => {
+        try {
+          // Obtener los datos del localStorage
+         const cui = localStorage.getItem("id_user");
+          const rol = localStorage.getItem("type");
+          if (rol !== 2) {
+            window.location.href = "http://localhost:3000"; 
+            return; 
+          }
+  
+          // Verificar que cui y role no sean null
+          if (!cui || !role) {
+            throw new Error("No se encontraron datos en el localStorage");
+          }
+  
+          // Realizar la solicitud POST
+          const response = await fetch("http://localhost:8080/user/profile", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ dpi: cui, role: rol })
+          });
+  
+          if (!response.ok) {
+            throw new Error("Error al obtener los datos del usuario");
+          }
+          const data = await response.json();
+          console.log(data)
+          if(data.role ==2){
+            data.role = "Vendedor";
+          }
+          if(data.state==1){
+            setUserData(data); // Actualizar el estado con los datos obtenidos
+          }else{
+            setUserData({name:"Usuario deshabilitado"})
+          }
+        
+        } catch (error) {
+          console.error("Error:", error);
         }
-        fetchData()
-    }, [])
+      };
+  
+      fetchData();
+    }, []);
 
   return (
     <div>
@@ -35,7 +67,7 @@ const ProfileSalesPerson = () => {
                 {userData &&(
                     <>
               <div className="profile-photo">
-                  <img src={userData.imagen} alt="Profile" />
+                  <img src={userData.image} alt="Profile" />
                 </div>
                 <div className="profile-info" style={{color:"#229954"}}>
                   <h1 style={{textAlign:"center"}}>{userData.name}</h1>
@@ -48,17 +80,17 @@ const ProfileSalesPerson = () => {
                   </h6>
                 </div>
                 <div className="profile-cui">
-                  <h6>CUI - {userData.cui}</h6>
+                  <h6>DPI - {userData.dpi}</h6>
                   <h5 style={{color:"#229954"}}>{userData.role}</h5>
                 </div>
                 </>
                 )}
                 <div className="rate">
-                <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
+                <span className="fa fa-star checked"></span>
+                  <span className="fa fa-star checked"></span>
+                  <span className="fa fa-star checked"></span>
+                  <span className="fa fa-star checked"></span>
+                  <span className="fa fa-star checked"></span>
                 </div>
 
               </div>

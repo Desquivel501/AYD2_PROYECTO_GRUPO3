@@ -16,6 +16,8 @@ import {
     useNavigate,
 } from 'react-router-dom';
 
+import Swal from 'sweetalert2';
+
 
 export const CatalogoVendedor = () => {
 
@@ -37,7 +39,14 @@ export const CatalogoVendedor = () => {
         const endpoint = `my-products?id=${id}`
         getData({ endpoint }).then((data) => {
 
-           if(data === undefined) return console.log("Error al cargar productos");
+           if(data === undefined || data == null){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'No se encontraron productos',
+                })
+                return;
+           };
 
             setProducts(data);
 
