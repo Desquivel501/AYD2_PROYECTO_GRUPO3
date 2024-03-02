@@ -4,7 +4,6 @@ import LoginView from '../views/LoginView/LoginView';
 import RegisterRepartidorView from '../views/RegisterRepatidorView/RegisterRepatidorView';
 import { Producto } from '../pages/Producto/Producto';
 import { Catalogo } from '../pages/Catalogo/Catalogo';
-import { CrearProducto } from '../pages/CrearProducto/CrearProducto';
 import { CatalogoVendedor } from '../pages/Catalogo/CatalogoVendedor';
 import ProfileSalePerson from "../pages/Profiles/ProfileSalePerson";
 import ProfileUser from "../pages/Profiles/ProfileUser";
