@@ -1,5 +1,3 @@
-
-
 const user = localStorage.getItem("user");
 
 export const navbar_routes = {
@@ -9,7 +7,8 @@ export const navbar_routes = {
         //     name: "Inicio"
         // },
         {
-            path: `/vendedor/${JSON.parse(user).id}/catalogo`,	
+            // path: `/vendedor/${JSON.parse(user).id}/catalogo`,	
+            path: user ? `/vendedor/${JSON.parse(user).id}/catalogo` : "/404",	
             name: "Catalogo"
         },
         // {
