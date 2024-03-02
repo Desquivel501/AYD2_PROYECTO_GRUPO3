@@ -48,12 +48,12 @@ export default function Login() {
 
 
          if (data.data.MESSAGE === '2') {
-          navigate("/profile-sale-person");
+          navigate("/profile");
         } else if (data.data.MESSAGE === "1") {
           navigate("/catalogo");
         }
         else if (data.data.MESSAGE === '0') {
-          navigate("/profile-admin");
+          navigate("/profile");
         }
         /* navigate("/home")
         else if (data.data.usuario.role === "turist") {

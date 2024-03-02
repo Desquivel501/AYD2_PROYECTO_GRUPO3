@@ -15,6 +15,7 @@ import SellerRequests from '../pages/SellerRequests/SellerRequests';
 import EnableDisabled_User from '../pages/Enabled-disabled-user-seller/enable_disable_user';
 import EnableDisabled_Seller from '../pages/Enabled-disabled-user-seller/enable_disable_seller';
 import ErrorView from '../views/404View/404View';
+import CustomProfile from '../pages/Profiles/Profile';
 
 
 export const rutas = [
@@ -112,5 +113,11 @@ export const rutas = [
     {
         path:"/enable-disable-seller",
         element:<EnableDisabled_Seller/>
+    },
+
+    {
+        path:"/profile",
+        element:<CustomProfile/>
     }
+
 ]

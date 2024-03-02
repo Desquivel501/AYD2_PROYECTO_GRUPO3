@@ -74,8 +74,15 @@ const ProfileUser = () => {
                 {userData && (
                   <>
                     <div className="profile-photo">
-                      <img src={userData.image} alt="Profile" />
+                      <img
+                          alt="Profile"
+                          src={userData.image}
+                          // width="80%"
+                          // height="auto"
+                          // className="d-inline-block align-top mb-3"
+                      />
                     </div>
+
                     <div className="profile-info" style={{ color: "#007FAF" }}>
                     {editMode && <div className="edit-mode-overlay"></div>}
                       {editMode ? (
@@ -128,9 +135,9 @@ const ProfileUser = () => {
                                 
                               </div>
                               <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1"/>
-  </div>
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1"/>
+                              </div>
                               
                               <div class="mb-3">
                                 <label for="formFileSm" class="form-label">

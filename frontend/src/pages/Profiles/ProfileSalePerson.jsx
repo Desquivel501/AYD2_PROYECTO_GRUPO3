@@ -102,6 +102,7 @@ const ProfileSalesPerson = () => {
                 </div>
                 </>
                 )}
+                
                 <div className="rate">
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>

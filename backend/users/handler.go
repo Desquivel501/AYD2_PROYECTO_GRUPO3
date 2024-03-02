@@ -2,7 +2,7 @@ package users
 
 import (
 	// "encoding/json"
-	// "fmt"
+	"fmt"
 	// "io/ioutil"
 	"encoding/json"
 	"net/http"
@@ -50,6 +50,7 @@ func ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := decoder.Decode(&user)
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

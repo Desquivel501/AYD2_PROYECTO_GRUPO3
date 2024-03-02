@@ -49,19 +49,18 @@ func getProfile(user User) (User, error) {
 
 	if user.Role == 0 || user.Role == 1 {
 		result := db.QueryRow("CALL getProfile(?)", user.Dpi)
-		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role, &response.State)
+		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role, &response.State, &response.Password)
 		if err != nil {
 			return User{}, fmt.Errorf("error al ejecutar procedimiento almacenado getProfile(): %s", err.Error())
 		}
 
 	} else {
 		result := db.QueryRow("CALL getSellerProfile(?)", user.Dpi)
-		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role, &response.Score, &response.State)
+		err := result.Scan(&response.Email, &response.Name, &response.Dpi, &response.Image, &response.Role, &response.Score, &response.State, &response.Password)
 		if err != nil {
 			return User{}, fmt.Errorf("error al ejecutar procedimiento almacenado getSellerProfile(): %s", err.Error())
 		}
 	}
-
 	return response, nil
 }
 
