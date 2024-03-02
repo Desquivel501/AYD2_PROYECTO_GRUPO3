@@ -21,19 +21,22 @@ login:BEGIN
 
 	IF role = -1 THEN
 		SELECT 'Credenciales de inicio de sesión incorrectas, revise su usuario o contraseña' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 as 'DATA';
 		LEAVE login;
 	END IF;
 
 	IF status = 0 THEN
 		SELECT 'Error de inicio de sesión, su cuenta se encuentra deshabilitada' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 as 'DATA';
 		LEAVE login;
 	END IF;
 
 	IF status = 2 THEN
 		SELECT 'Error de inicio de sesión, su cuenta se encuentra pendiente de confirmación por parte de un administrador' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 as 'DATA';
 		LEAVE login;
 	END IF;
 
@@ -231,7 +234,9 @@ get_seller_profile:BEGIN
 	u.name AS name,
 	u.dpi AS dpi,
 	u.image AS image,
-	s.score AS score 
+	u.`role` AS role,
+	s.score AS score,
+	u.state AS state
 	FROM users u 
 	JOIN sellers s 
 	ON u.dpi = s.dpi  

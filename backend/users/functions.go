@@ -8,7 +8,6 @@ import (
 func Login(credentials Credentials) (Message, error) {
 	var response Message
 	db := database.GetConnection()
-	defer db.Close()
 
 	result := db.QueryRow("CALL login(?,?)", credentials.Email, credentials.Password)
 	err := result.Scan(&response.Message, &response.Type, &response.Data)
@@ -27,7 +26,6 @@ func Register(new_user User) (Message, error) {
 	}
 
 	db := database.GetConnection()
-	defer db.Close()
 
 	result := db.QueryRow("CALL register(?,?,?,?,?,?)",
 		new_user.Email,
@@ -48,7 +46,6 @@ func Register(new_user User) (Message, error) {
 func getProfile(user User) (User, error) {
 	var response User
 	db := database.GetConnection()
-	defer db.Close()
 
 	if user.Role == 0 || user.Role == 1 {
 		result := db.QueryRow("CALL getProfile(?)", user.Dpi)
@@ -71,7 +68,6 @@ func getProfile(user User) (User, error) {
 func AcceptSeller(seller User) (Message, error) {
 	var response Message
 	db := database.GetConnection()
-	defer db.Close()
 
 	result := db.QueryRow("CALL AcceptSeller(?)", seller.Dpi)
 	err := result.Scan(&response.Message, &response.Type)
@@ -85,7 +81,6 @@ func AcceptSeller(seller User) (Message, error) {
 func DisableUser(user User) (Message, error) {
 	var response Message
 	db := database.GetConnection()
-	defer db.Close()
 
 	result := db.QueryRow("Call DisableUser(?)", user.Dpi)
 	err := result.Scan(&response.Message, &response.Type)
@@ -98,7 +93,6 @@ func DisableUser(user User) (Message, error) {
 func EnableUser(user User) (Message, error) {
 	var response Message
 	db := database.GetConnection()
-	defer db.Close()
 
 	result := db.QueryRow("Call EnableUser(?)", user.Dpi)
 	err := result.Scan(&response.Message, &response.Type)
@@ -111,7 +105,6 @@ func EnableUser(user User) (Message, error) {
 func UpdateProfile(user User) (Message, error) {
 	var response Message
 	db := database.GetConnection()
-	defer db.Close()
 
 	result := db.QueryRow("Call UpdateProfile(?,?,?,?,?)", user.Email, user.Name, user.Password, user.Dpi, user.Image)
 	err := result.Scan(&response.Message, &response.Type)
@@ -124,7 +117,6 @@ func UpdateProfile(user User) (Message, error) {
 func GetAllUsers() ([]User, error) {
 	var users []User
 	db := database.GetConnection()
-	defer db.Close()
 
 	rows, err := db.Query("CALL getAllUsers()")
 	if err != nil {
@@ -151,7 +143,6 @@ func GetAllUsers() ([]User, error) {
 func GetEnabledUsers() ([]User, error) {
 	var users []User
 	db := database.GetConnection()
-	defer db.Close()
 
 	rows, err := db.Query("CALL getEnabledUsers()")
 	if err != nil {
@@ -178,7 +169,6 @@ func GetEnabledUsers() ([]User, error) {
 func GetDisabledUsers() ([]User, error) {
 	var users []User
 	db := database.GetConnection()
-	defer db.Close()
 
 	rows, err := db.Query("CALL getDisabledUsers()")
 	if err != nil {
@@ -205,7 +195,6 @@ func GetDisabledUsers() ([]User, error) {
 func GetPendingSellers() ([]User, error) {
 	var users []User
 	db := database.GetConnection()
-	defer db.Close()
 
 	rows, err := db.Query("CALL getPendingSellers()")
 	if err != nil {
@@ -232,7 +221,6 @@ func GetPendingSellers() ([]User, error) {
 func DeclineSeller(user User) (Message, error) {
 	var response Message
 	db := database.GetConnection()
-	defer db.Close()
 
 	result := db.QueryRow("Call declineSeller(?)", user.Dpi)
 	err := result.Scan(&response.Message, &response.Type)

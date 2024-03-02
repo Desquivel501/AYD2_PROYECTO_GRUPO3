@@ -11,7 +11,6 @@ func GetAllProducts() ([]Product, error) {
 	var products []Product
 
 	db := database.GetConnection()
-	defer db.Close()
 
 	rows, err := db.Query("CALL getAllProducts()")
 	if err != nil {
@@ -42,7 +41,6 @@ func GetProduct(id int) (Product, error) {
 	var p Product
 
 	db := database.GetConnection()
-	defer db.Close()
 
 	err := db.QueryRow("CALL getProduct(?)", id).Scan(&p.ProductID, &p.Nombre, &p.Existencia, &p.Precio, &p.Descripcion, &p.Imagen, &p.Categoria, &p.Vendedor)
 	if err != nil {
@@ -58,7 +56,6 @@ func GetSellerProducts(id int) ([]SellerProduct, error) {
 	var products []SellerProduct
 
 	db := database.GetConnection()
-	defer db.Close()
 
 	rows, err := db.Query("CALL getSellerProducts(?)", id)
 	if err != nil {
@@ -87,7 +84,6 @@ func GetSellerProducts(id int) ([]SellerProduct, error) {
 func UpdateProduct(p UpdateProductStruct) (StatusResponse, error) {
 	//Obtiene la conexion a la base de datos
 	db := database.GetConnection()
-	defer db.Close()
 
 	//Resltado del procedimiento
 	var s StatusResponse
@@ -120,7 +116,6 @@ func UpdateProduct(p UpdateProductStruct) (StatusResponse, error) {
 func DeleteProduct(id int) (StatusResponse, error) {
 	//Obtiene la conexion a la base de datos
 	db := database.GetConnection()
-	defer db.Close()
 
 	//Resultado del procedimiento
 	var s StatusResponse
