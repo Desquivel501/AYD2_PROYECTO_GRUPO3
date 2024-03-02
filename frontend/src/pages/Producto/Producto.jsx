@@ -59,7 +59,16 @@ export const Producto = (props) => {
     endpoint = `all-products`
     getData({ endpoint }).then((data) => {
         console.log(data);
-        setRecommendedProducts(data.slice(0, 3))
+        for(let i = data.length - 1; i > 0; i--){
+          if(data[i].product_id == id){
+            data.splice(i, 1);
+            break;
+          }
+        }
+
+        const random = data.sort(() => .5 - Math.random()).slice(0,3)
+
+        setRecommendedProducts(random)
     });
 
   }, [id]);

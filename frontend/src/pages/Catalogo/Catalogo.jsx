@@ -71,11 +71,11 @@ export const Catalogo = () => {
         setCategories(categories)
     }
 
-    const handleClick = (e) => {
-        console.log(e);
-        const route = `/producto/${e}`;
-        navigate(route);
-    }
+    // const handleClick = (e) => {
+    //     console.log(e);
+    //     const route = `/producto/${e}`;
+    //     navigate(route);
+    // }
 
 
     function filter(item) {
@@ -156,7 +156,7 @@ export const Catalogo = () => {
                     <Row>
                         {products.map((product, i) => (
                             filter(product) &&
-                            <Col xl={3} className='px-1 mb-2' key={i} onClick={() => handleClick(product.product_id)}>
+                            <Col xl={3} className='px-1 mb-2' key={i}>
                                 <ProductCard
                                     id={product.product_id}
                                     logo={product.imagen}

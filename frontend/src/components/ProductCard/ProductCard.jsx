@@ -1,7 +1,10 @@
 import React from 'react';
 import './ProductCard.css';
+import { useNavigate } from 'react-router-dom';
 
 export const ProductCard = (props) => {
+
+    const navigate = useNavigate();
 
     const {
         id,
@@ -12,7 +15,12 @@ export const ProductCard = (props) => {
     } = props;
 
   return (
-    <div className='product-container p-4'>
+    <div className='product-container p-4'
+        onClick={() => {
+            const route = `/producto/${id}`;
+            navigate(route);
+        }}
+    >
         
         <div className='product-image'>
             <img
