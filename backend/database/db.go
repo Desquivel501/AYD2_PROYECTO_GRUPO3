@@ -15,6 +15,8 @@ var dbPassword string
 var dbHost string
 var dbPort string
 var dbName string
+
+//Variable con la conexión activa
 var Connection *sql.DB
 var err error
 
