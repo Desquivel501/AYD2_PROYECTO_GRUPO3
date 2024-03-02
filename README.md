@@ -5,6 +5,9 @@
 - [Patrones de diseño](documentation/Patrones%20de%20disenio.md)
 - [Modelo de base de datos](#database)
 - [Historias de usuario](documentation/UsersHistory.md)
+- [Diagrama de implementación](#implementacion)
+    - [Diagrama de despliegue](#despliegue)
+    - [Diagrama de componentes](#componentes)
 - [Ceremonias Scrum](#ceremonias)
 
 ---
@@ -32,6 +35,24 @@ A continuación se muestra el diagrama entidad relación de la base de datos alm
 
 ---
 
+<a name="implementacion"></a>
+## Diagrama de implementación
+
+<a name="despliegue"></a>
+### Diagrama de despliegue
+
+A continuación se muestra el diagrama de despliegue
+
+![despliegue](documentation/imagenes/Diagrama%20de%20Despliegue.jpg)
+
+<a name="componentes"></a>
+### Diagrama de componentes
+
+A continuación se muestra el diagrama de componentes
+
+![componentes](documentation/imagenes/Diagrama%20de%20Componentes.jpg)
+
+---
 <a name="ceremonias"></a>
 ## Ceremonias Scrum
 
