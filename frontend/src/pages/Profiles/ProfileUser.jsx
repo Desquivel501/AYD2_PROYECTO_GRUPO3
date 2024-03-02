@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ProfileUser.css";
 import CustomNavbar from "../../components/navbar/navbar";
+import { useUserPermission } from "../../utilities/Security/Permission";
 
 const ProfileUser = () => {
   const [userData, setUserData] = useState(null);
@@ -94,6 +95,8 @@ const ProfileUser = () => {
     const imageFile = e.target.files[0];
     setEditedUserData({ ...editedUserData, image: imageFile });
   };*/
+
+  useUserPermission(1)
 
   return (
     <div>

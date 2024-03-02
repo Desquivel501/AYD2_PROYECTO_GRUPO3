@@ -15,6 +15,7 @@ import {
     useParams,
     useNavigate,
 } from 'react-router-dom';
+import { useUserPermission } from '../../utilities/Security/Permission';
 
 import Swal from 'sweetalert2';
 
@@ -34,6 +35,8 @@ export const CatalogoVendedor = () => {
     const [maxPrice, setMaxPrice] = useState(10000);
 
     const navigate = useNavigate();
+
+    useUserPermission(2);
 
     useEffect(() => {
         const endpoint = `my-products?id=${id}`

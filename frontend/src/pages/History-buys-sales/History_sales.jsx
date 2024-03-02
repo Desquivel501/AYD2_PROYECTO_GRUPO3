@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomNavbar from "../../components/navbar/navbar.jsx";
 import "./History_buys.css";
+import { useUserPermission } from '../../utilities/Security/Permission.js';
 
 const HistorySales = () => {
   const [data, setData] = useState([]);
@@ -18,6 +19,8 @@ const HistorySales = () => {
 
     fetchData();
   }, []); 
+
+  useUserPermission(2);
 
   return (
     <div>

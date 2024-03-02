@@ -6,7 +6,7 @@ import '../LandingView/LandingView.scss'
 //import Signin from '../../components/RegistroForm/Signin'
 import { useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import { useUserPermission } from '../../utilities/Security/Permission'
+import { usePermissionNavigation, useUserPermission } from '../../utilities/Security/Permission'
 import Login from '../../components/Login/Login'
 import logo from '../../assets/market_logo_white.png';
 import FogetPasswordForm from '../../components/FogetPasswordForm/FogetPasswordForm'
@@ -18,6 +18,8 @@ export default function ForgetView() {
         const queryClient = useQueryClient();
         return queryClient.getQueryData(name);
     };
+
+    usePermissionNavigation()
 
     //const dataU = useGetFetchQuery('user');
     //useUserPermission(0, true);

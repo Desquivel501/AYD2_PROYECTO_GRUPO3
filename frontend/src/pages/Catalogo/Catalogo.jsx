@@ -12,6 +12,7 @@ import { Cart, Search } from 'react-bootstrap-icons';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { getData } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
+import { useUserPermission } from '../../utilities/Security/Permission';
 
 
 export const Catalogo = () => {
@@ -21,6 +22,8 @@ export const Catalogo = () => {
     const [categories, setCategories] = useState([]);
     const [categories2, setCategories2] = useState([]);
 
+
+    useUserPermission(1);
 
     const [search, setSearch] = useState('');
     const [minPrice, setMinPrice] = useState(0);

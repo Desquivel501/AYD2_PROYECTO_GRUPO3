@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./ProfileUser.css";
 import CustomNavbar from "../../components/navbar/navbar";
+import { useUserPermission } from "../../utilities/Security/Permission";
 //import button_edit from "../assets/ButtonEdit/boton-editar.png";
 
 const ProfileSalesPerson = () => {
-    const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(null);
 
     useEffect(() => {
       // Función para realizar la solicitud POST
@@ -49,15 +50,15 @@ const ProfileSalesPerson = () => {
         } catch (error) {
           console.error("Error:", error);
         }
-      };
-  
-      fetchData();
-    }, []);
+        fetchData()
+    }, [])
+
+  useUserPermission(2)
 
   return (
     <div>
       <CustomNavbar />
-      <div className="container" style={{margin:"12% auto"}} >
+      <div className="container" style={{ margin: "12% auto" }} >
         <div className="row">
           <div className="col-md-6">
             <div className="aux">
@@ -86,11 +87,11 @@ const ProfileSalesPerson = () => {
                 </>
                 )}
                 <div className="rate">
-                <span className="fa fa-star checked"></span>
-                  <span className="fa fa-star checked"></span>
-                  <span className="fa fa-star checked"></span>
-                  <span className="fa fa-star checked"></span>
-                  <span className="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
+                  <span class="fa fa-star checked"></span>
                 </div>
 
               </div>

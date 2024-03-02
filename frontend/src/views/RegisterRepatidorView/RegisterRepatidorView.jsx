@@ -6,7 +6,7 @@ import './RegisterRepartidorView.scss'
 import Signin from '../../components/RegistroForm/Signin'
 import { useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import { useUserPermission } from '../../utilities/Security/Permission'
+import { usePermissionNavigation, useUserPermission } from '../../utilities/Security/Permission'
 /* import logo from "../../media/images/logo.png"; */
 import logo from '../../assets/market_logo_white.png';
 import { getLogUser } from '../../utilities/LogUser'
@@ -22,6 +22,7 @@ export default function RegisterRepartidorView() {
 
   //const dataU = useGetFetchQuery('user');
   //useUserPermission(0, true);
+  usePermissionNavigation()
 
   let dataU = getLogUser();
 

@@ -19,6 +19,7 @@ import {
 } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
+import { useUserPermission } from '../../utilities/Security/Permission';
 
 
 export const EditProduct = (props) => {
@@ -29,6 +30,8 @@ export const EditProduct = (props) => {
 
     const { id = 0 } = useParams();
     const navigate = useNavigate();
+
+    useUserPermission(2);
 
     const [show, setShow] = useState(false);
 
