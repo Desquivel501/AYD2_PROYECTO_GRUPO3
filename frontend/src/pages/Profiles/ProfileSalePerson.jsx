@@ -51,7 +51,7 @@ const ProfileSalesPerson = () => {
           console.error("Error:", error);
         }
         fetchData()
-    }, [])
+    }}, []);
 
   useUserPermission(2)
 
