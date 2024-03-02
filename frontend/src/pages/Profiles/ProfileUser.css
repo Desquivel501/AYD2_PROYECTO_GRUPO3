@@ -48,7 +48,6 @@
 .profile-photo{
     position: absolute;
     height: 50%;
-    width: 18%;
     background-color: #fff;
     border-radius: 5%;
     box-shadow: 10px 12px 10px 0px rgba(64,64,64,0.52);
@@ -59,7 +58,7 @@
 }
 
 .profile-photo img {
-    width: 100%; 
+    width:auto;
     height: 100%;
     object-fit: cover; 
 }

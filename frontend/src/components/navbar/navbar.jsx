@@ -63,7 +63,7 @@ function CustomNavbar() {
                             : null
                     }
 
-                    <Nav.Link href={ (user && JSON.parse(user).type === 1) ? `profile-user` : (user && JSON.parse(user).type === 2) ? `/profile-sale-person` : `/profile-admin`} 
+                    <Nav.Link href="/profile" 
                     className='mx-2'>Mi Perfil</Nav.Link>
                     <Button
                         style={{
