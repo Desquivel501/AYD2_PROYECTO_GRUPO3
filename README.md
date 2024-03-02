@@ -54,6 +54,13 @@ A continuación se muestra el diagrama de componentes
 
 ![componentes](documentation/imagenes/Diagrama%20de%20Componentes.jpg)
 
+<a name="arqui"></a>
+### Diagrama de diseño arquitectónico
+
+A continuación se muestra el diagrama inicial del diseño arquitectónico
+
+![arquitectonico](documentation/imagenes/disenio_arquitectonico.png)
+
 ---
 <a name="ceremonias"></a>
 ## Ceremonias Scrum
