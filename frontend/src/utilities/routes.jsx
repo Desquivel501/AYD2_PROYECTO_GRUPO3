@@ -16,7 +16,11 @@ import EnableDisabled_User from '../pages/Enabled-disabled-user-seller/enable_di
 import EnableDisabled_Seller from '../pages/Enabled-disabled-user-seller/enable_disable_seller';
 import ErrorView from '../views/404View/404View';
 import CustomProfile from '../pages/Profiles/Profile';
+// import RecuperarPass from '../components/FogetPasswordForm/RecuperarPass';
 
+import RecuperarPass from '../components/FogetPasswordForm/RecuperarPass';
+import VerificarCodigo from '../components/FogetPasswordForm/VerificarCodigo';
+import ChangePass from '../components/FogetPasswordForm/ChangePass';
 
 export const rutas = [
     {
@@ -38,7 +42,7 @@ export const rutas = [
     //Usuario
     {
         path: "/forget-password",
-        element: <ForgetView />
+        element: <RecuperarPass />
     },
     {
 
@@ -118,6 +122,19 @@ export const rutas = [
     {
         path:"/profile",
         element:<CustomProfile/>
-    }
+    },
+
+    {
+        path:"/recuperar-contrasena",
+        element:<RecuperarPass/>
+    },
+    {
+        path:"/verificar-codigo",
+        element:<VerificarCodigo/>
+    },
+    {
+        path:"/cambiar-contrasena",
+        element:<ChangePass/>
+    },
 
 ]
