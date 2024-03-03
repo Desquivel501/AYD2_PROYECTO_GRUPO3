@@ -1,0 +1,41 @@
+//Get variables from variables.scss
+@import '../../styles/variables.scss';
+
+.landing-main {
+  height: calc(100vh) !important;
+  background-position: left;
+  /* Center the image */
+  background-repeat: no-repeat;
+  /* Do not repeat the image */
+  background-size: cover;
+  
+
+  .landing-container {
+    height: 100%;
+    .landing-logo{
+      text-align: center;
+      img{
+        width: 560px;
+      }
+    }
+    .landing-row {
+      height: 100%;
+    }
+
+    .landing-col {
+      margin: auto;
+
+      .landing-title {
+        font-size: 4rem;
+        font-weight: bold;
+        color: $white-color;
+        text-align: center;
+        @media  screen and (max-width: 992px) {
+          display: none;
+        
+          
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+.his-body{
+    margin-top: 50px;
+    margin-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

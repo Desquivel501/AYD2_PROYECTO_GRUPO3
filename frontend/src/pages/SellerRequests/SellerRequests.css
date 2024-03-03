@@ -1,0 +1,40 @@
+.tittle-history{
+    
+    width: 60%;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    margin: 5% auto;
+    
+    
+
+}
+.box-table{
+    margin: 0 auto;
+    width: 50%;
+    box-shadow: 10px 10px 5px -3px rgba(115,115,115,1);
+    
+    
+}
+
+.buttonDelete{
+    background-color: transparent;
+    margin-right: 5px;
+}
+.buttonDelete:hover {
+    background-color: #FF0000;
+    color: #FFFFFF;
+    border: 1px solid transparent;
+    border-radius: 100%;
+    transition: 0.3s;
+}
+
+.buttonAccept{
+    background-color: transparent;
+}
+.buttonAccept:hover {
+    background-color: #00FF00;
+    color: #FFFFFF;
+    border: 1px solid #00FF00;
+    transition: 0.3s;
+}

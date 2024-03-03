@@ -1,0 +1,75 @@
+/* import { useState } from 'react'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+
+import CustomNavbar from './components/navbar/navbar';
+import { Producto } from './pages/Producto/Producto';
+import Catalogo from './pages/Catalogo/Catalogo';
+import { CrearProducto } from './pages/CrearProducto/CrearProducto';
+// import CrearProducto from './pages/CrearProducto/CrearProducto';
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+
+    <BrowserRouter>
+      <CustomNavbar />  
+      <Routes>
+        <Route path="/" element={<Producto />} />
+        <Route path="/producto/:id" element={<Producto />} />
+        <Route path="/catalogo" element={<Catalogo />} />
+        <Route path="/crear-producto" element={<CrearProducto />} />
+      </Routes>
+    </BrowserRouter>
+
+    
+      // <div>
+      //   <a href="https://vitejs.dev" target="_blank">
+      //     <img src={viteLogo} className="logo" alt="Vite logo" />
+      //   </a>
+      //   <a href="https://react.dev" target="_blank">
+      //     <img src={reactLogo} className="logo react" alt="React logo" />
+      //   </a>
+      // </div>
+      // <h1>Vite + React</h1>
+      // <div className="card">
+      //   <button onClick={() => setCount((count) => count + 1)}>
+      //     count is {count}
+      //   </button>
+      //   <p>
+      //     Edit <code>src/App.jsx</code> and save to test HMR
+      //   </p>
+      // </div>
+      // <p className="read-the-docs">
+      //   Click on the Vite and React logos to learn more
+      // </p>
+    
+  )
+} */
+
+import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
+import React from 'react';
+import { rutas } from './utilities/routes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+function App() {
+  return (
+    <Router>
+        <Routes>
+          {rutas.map((ruta,index)=>
+            <Route path={ruta.path} element={ruta.element} key={index}/>
+          )}
+        </Routes>
+    </Router>
+  );
+}
+
+export default App

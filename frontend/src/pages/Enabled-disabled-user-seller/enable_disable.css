@@ -1,0 +1,23 @@
+.buttonDisabled{
+    background-color: transparent;
+    margin-right: 5px;
+}
+.buttonDisabled:hover {
+    background-color: #929292;
+    color: #FFFFFF;
+    border: 1px solid transparent;
+    border-radius: 100%;
+    transition: 0.3s;
+}
+
+.buttonEnable{
+    background-color: transparent;
+    margin-right: 5px;
+}
+.buttonEnable:hover {
+    background-color: #F1C40F;
+    color: #FFFFFF;
+    border: 1px solid transparent;
+    border-radius: 20%;
+    transition: 0.3s;
+}
