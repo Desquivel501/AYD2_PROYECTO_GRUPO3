@@ -3,7 +3,40 @@ package users
 import (
 	"fmt"
 	"main/database"
+	"net/smtp"
+	"github.com/joho/godotenv"
+	"os"
+	"log"
 )
+
+func SendEmail(email string, code int64) {
+
+	err := godotenv.Load("secret/db.env")
+	if err != nil {
+		log.Fatalf("Error cargando el archivo .env: %s", err)
+	}
+
+	from :=  os.Getenv("EMAIL")
+	password := os.Getenv("EMAIL_PASSWORD")
+	to := email
+
+	msg := "From: " + from + "\n" +
+		"To: " + to + "\n" +
+		"Subject: Codigo de recuperacion\n\n" +
+		"Su codigo de recuperacion es: " + fmt.Sprintf("%d", code)
+	
+	err = smtp.SendMail("smtp.gmail.com:587",
+		smtp.PlainAuth("", from, password, "smtp.gmail.com"),
+		from, []string{to}, []byte(msg))
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+		return
+	}
+
+	fmt.Println("Email Sent!")
+
+}
 
 func Login(credentials Credentials) (Message, error) {
 	var response Message
@@ -226,5 +259,46 @@ func DeclineSeller(user User) (Message, error) {
 	if err != nil {
 		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado declineSeller(): %s", err.Error())
 	}
+	return response, nil
+}
+
+func GenerateCode(changePassword ChangePassword) (Message2, error) {
+	var response Message2
+	db := database.GetConnection()
+
+	result := db.QueryRow("Call CreateRecoveryCode(?)", changePassword.Email)
+	err := result.Scan(&response.Message, &response.Type, &response.RecoveryCode)
+	if err != nil {
+		return Message2{}, fmt.Errorf("error al ejecutar procedimiento almacenado generateCode(): %s", err.Error())
+	}
+
+	SendEmail(changePassword.Email, response.RecoveryCode)
+
+	return response, nil
+}
+
+func ValidateCode(changePassword ChangePassword) (Message2, error) {
+	var response Message2
+	db := database.GetConnection()
+
+	result := db.QueryRow("Call ValidateCode(?,?)", changePassword.Email, changePassword.Code)
+	err := result.Scan(&response.Message, &response.Type, &response.RecoveryCode)
+	if err != nil {
+		return Message2{}, fmt.Errorf("error al ejecutar procedimiento almacenado validateCode(): %s", err.Error())
+	}
+
+	return response, nil
+}
+
+func ChangePasswordFunc(changePassword ChangePassword) (Message, error) {
+	var response Message
+	db := database.GetConnection()
+
+	result := db.QueryRow("Call ChangePassword(?,?)", changePassword.Email, changePassword.Password)
+	err := result.Scan(&response.Message, &response.Type)
+	if err != nil {
+		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado changePassword(): %s", err.Error())
+	}
+
 	return response, nil
 }

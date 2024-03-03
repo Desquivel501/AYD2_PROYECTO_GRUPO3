@@ -33,4 +33,9 @@ func Routes(mux *http.ServeMux) {
 	//Handler de categorias
 	mux.HandleFunc("/categories", categoryfilter.GetAllCategoriesHandler)
 
+	//Change Password
+	mux.HandleFunc("/user/generate-code", users.GenerateCodeHandler)
+	mux.HandleFunc("/user/validate-code", users.ValidateCodeHandler)
+	mux.HandleFunc("/user/change-password", users.ChangePasswordHandler)
+
 }

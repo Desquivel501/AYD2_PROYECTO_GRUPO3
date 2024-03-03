@@ -85,11 +85,11 @@ export function usePermissionNavigation() {
     useEffect(() => {
         if (dataU) {
             if (dataU.type === 0) {
-                navigate("/profile-admin");
+                navigate("/profile");
             } else if (dataU.type === 1) {
                 navigate("/catalogo");
             }else if (dataU.type === 2) {
-                navigate("/profile-sale-person");
+                navigate("/profile");
             }
         }
     }, [])

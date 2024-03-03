@@ -25,3 +25,15 @@ type Message struct {
 	Type    string `json:"TYPE"`
 	Data 	int64  `json:"DATA"`
 }
+
+type Message2 struct {
+	Message 		string `json:"MESSAGE"`
+	Type    		string `json:"TYPE"`
+	RecoveryCode 	int64  `json:"RECOVERY_CODE"`
+}
+
+type ChangePassword struct {
+	Email       string 	`json:"email"`
+	Code 		int64 	`json:"code"`
+	Password 	string 	`json:"password"`
+}
