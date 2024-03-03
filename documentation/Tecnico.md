@@ -52,5 +52,55 @@ A continuación se describe los endpoints implementados en el backend usando en 
 | |/user/enable-user|POST|{    dpi: int  }|{         type: "SUCCESS" "| "ERROR",         message: "Usuario habilitado con exito" "| "Error: ..." }|Para habilitar un usuario| |José|
 | |/user/disable-user|POST|{    dpi: int  }|{         type: "SUCCESS" "| "ERROR",         message: "Usuario habilitado con exito" "| "Error: ..." }|Para deshabilitar un usuario| |José|
 
+## Frontend
+
+### Tecnologias utilizadas
+
+1. **React.js**: Biblioteca JavaScript para construir interfaces de usuario dinámicas y reactivas. Es especialmente útil para crear aplicaciones web de una sola página (SPA) debido a su enfoque en componentes reutilizables.
+
+2. **Bootstrap**: Framework de front-end que proporciona herramientas y componentes preestilizados para el diseño web responsive. Facilita la creación de interfaces atractivas y adaptables para diferentes dispositivos y tamaños de pantalla.
+
+3. **Sweet Alert**: Biblioteca JavaScript que permite crear alertas personalizadas y atractivas en aplicaciones web. Mejora la experiencia del usuario al presentar mensajes de alerta de manera más visualmente atractiva y amigable.
+
+4. **Amazon S3 (S3)**: Servicio de almacenamiento de objetos en la nube proporcionado por Amazon Web Services (AWS). Se utiliza para almacenar y servir archivos estáticos, como imágenes, videos y otros recursos multimedia, en aplicaciones web. S3 es altamente escalable, duradero y confiable, lo que lo convierte en una opción popular para el almacenamiento de datos estáticos en aplicaciones web.
+
+### Estructura del proyecto en Frontend:
+    frontend/
+      ├── public/
+      │   ├── index.html
+      │   └── ...
+      ├── src/
+      │   ├── api/
+      │   │   └── ...
+      │   ├── assets/
+      │   │   └── ...
+      │   ├── components/
+      │   │   └── ...
+      │   ├── media/
+      │   │   └── ...
+      │   ├── pages/
+      │   │   └── ...
+      │   ├── styles/
+      │   │   └── ...
+      │   ├── utilities/
+      │   │   └── ...
+      │   ├── views/
+      │   │   └── ...
+      │   ├── App.js
+      │   ├── index.js
+      │   └── ...
+      ├── package.json
+      ├── README.md
+      └── ...
+## Integración con S3
+
+La integración con Amazon S3 se ha realizado utilizando la SDK oficial de AWS para JavaScript. A continuación, se describe el flujo de trabajo para la carga de imágenes:
+
+1.  **Selección de Imagen**: El usuario selecciona una imagen desde su dispositivo mediante la interfaz de la aplicación.
+2.  **Adaptación**: El adaptador convierte la imagen al formato esperado por S3, como base64 u otro formato compatible.
+3.  **Carga en S3**: La imagen adaptada se carga en el bucket de S3 correspondiente utilizando las credenciales proporcionadas por AWS.
+4.  **Obtención del URL**: Una vez que la imagen se ha cargado con éxito, el adaptador obtiene el URL público de la imagen en S3.
+5.  **Almacenamiento o Visualización**: El URL de la imagen se utiliza para almacenar la referencia en la base de datos o para mostrar la imagen en la interfaz de usuario de la aplicación.
+
 
 
