@@ -31,6 +31,9 @@ export const EditProduct = (props) => {
     const { id = 0 } = useParams();
     const navigate = useNavigate();
 
+    const user = localStorage.getItem('user');
+    const userJson = JSON.parse(user);
+
     useUserPermission(2);
 
     const [show, setShow] = useState(false);
@@ -147,15 +150,16 @@ export const EditProduct = (props) => {
       const endpoint = `create-product`;
   
       const body = { 
-        product_id: 0,
         nombre: product.nombre,
-        vendedor: "123456",
+        vendedor: String(userJson.id),
         existencia: Number(product.existencia),
         precio: Number(product.precio),
         categoria: "Test",
         descripcion: product.descripcion,
         imagen: url ? url : product.imagen,
       }
+
+      console.log(body);
       
       postData({ endpoint, body }).then((data) => {
         if(data.type === "SUCCESS"){
@@ -165,7 +169,7 @@ export const EditProduct = (props) => {
             confirmButtonText: 'Ok',
           }).then((result) => {
             if (result.isConfirmed) {
-              navigate(-1);
+              navigate(`/vendedor/${userJson.id}/catalogo`);
             }
           })
         } else {

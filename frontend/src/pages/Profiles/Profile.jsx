@@ -58,8 +58,10 @@ export default function CustomProfile() {
             throw new Error("No se encontraron datos en el localStorage");
         }
 
+        console.log(cui, rol);
+
         postData({ endpoint: "user/profile", body: { dpi: cui, role: rol } }).then((data) => {
-            // console.log(data);
+            console.log(data);
             if(!data){
                 Swal.fire({
                     title: 'Error',
