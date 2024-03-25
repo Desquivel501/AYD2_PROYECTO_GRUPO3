@@ -111,13 +111,14 @@ CREATE TABLE IF NOT EXISTS purchases(
 	purchase_id INTEGER AUTO_INCREMENT NOT NULL,
 	description VARCHAR(200),
 	score INTEGER,
-	seller BIGINT,
 	buyer BIGINT,
+	payment_id INTEGER,
+	purchase_date DATETIME,
 	total DECIMAL,
 	
 	PRIMARY KEY(purchase_id),
 	FOREIGN KEY(buyer) REFERENCES users(dpi) ON DELETE SET NULL,
-	FOREIGN KEY(seller) REFERENCES sellers(dpi) ON DELETE SET NULL
+	FOREIGN KEY(payment_id) REFERENCES payment_methods(payment_id) ON DELETE SET NULL
 ) $$
 
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR DETALLES DE COMPRAS ###########################
@@ -125,6 +126,7 @@ CREATE TABLE IF NOT EXISTS purchase_details(
 	purchase_id INTEGER,
 	prod_id INTEGER,
 	amount INTEGER NOT NULL,
+	score INTEGER DEFAULT 0,
 	total_price DECIMAL NOT NULL,
 	
 	FOREIGN KEY(purchase_id) REFERENCES purchases(purchase_id) ON DELETE SET NULL,
