@@ -419,6 +419,7 @@ END $$
 
 -- ########################################## PROCEDIMIENTO PARA AGREGAR UNA NUEVA FORMA DE PAGO ####################################################
 CREATE PROCEDURE IF NOT EXISTS addPaymentMethod(
+	alias_in VARCHAR(200),
 	cardholder_in VARCHAR(200),
 	number_in BIGINT,
 	exp_in VARCHAR(10),
@@ -438,8 +439,8 @@ add_payment_method:BEGIN
 		LEAVE add_payment_method;
 	END IF;
 
-	INSERT INTO payment_methods(cardholder_name, number, exp, cvv, dpi)
-	VALUES (cardholder_in, number_in, exp_in, cvv_in, dpi_in);
+	INSERT INTO payment_methods(alias, cardholder_name, number, exp, cvv, dpi)
+	VALUES (alias_in, cardholder_in, number_in, exp_in, cvv_in, dpi_in);
 
 	SELECT 'El método de pago ha sido agregado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
@@ -725,12 +726,35 @@ create_purchase:BEGIN
 		LEAVE create_purchase;
 	END IF;
 
-	INSERT INTO purchases(description, score, buyer, payment_id, purchase_date, total)
-	VALUES(description_in, 0, buyer_in, payment_id_in, NOW(), total_in);
+	INSERT INTO purchases(description, buyer, payment_id, purchase_date, total)
+	VALUES(description_in, buyer_in, payment_id_in, NOW(), total_in);
 
 	SELECT 'Compra agregada de forma exitosa a la base de datos' AS 'MESSAGE',
-	LAST_INSERT_ID() AS 'DATA', 
-	'SUCCESS' AS 'TYPE';
+	'SUCCESS' AS 'TYPE',
+	LAST_INSERT_ID() AS 'DATA';
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA SABER SI EXISTE DISPONIBILIDAD DE UN PRODUCTO ####################################################
+CREATE PROCEDURE IF NOT EXISTS EnoughExistences(
+	prod_id_in INTEGER,
+	amount_in INTEGER
+)
+enough_existences:BEGIN
+	DECLARE existences_left INTEGER;
+	DECLARE product_name VARCHAR(100);
+
+	SELECT p.existence - amount_in, p.name  INTO existences_left, product_name
+	FROM products p 
+	WHERE p.prod_id = prod_id_in;
+
+	IF existences_left < 0 THEN
+		SELECT CONCAT('El producto ', product_name, ' no tiene existencias suficientes') AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+	ELSE
+		SELECT 'Existencias suficientes' AS 'MESSAGE',
+		'SUCCESS' AS 'TYPE';
+	END IF;
 END $$
 
 
@@ -744,19 +768,13 @@ add_product_to_purchase:BEGIN
 	DECLARE prod_price DECIMAL;
 
 	IF NOT ProducIdExists(prod_id_in) THEN
-		SELECT 'El producto que desea agregar no existe',
+		SELECT 'El producto que desea agregar no existe' AS 'MESSAGE',
 		'ERROR' AS 'TYPE';
 		LEAVE add_product_to_purchase;
 	END IF;
 
 	IF amount_in <= 0 THEN 
-		SELECT 'La cantidad a comprar de un producto debe ser mayor a cero',
-		'ERROR' AS 'TYPE';
-		LEAVE add_product_to_purchase; 
-	END IF;
-
-	IF NOT EnoughExistences(prod_id_in, amount_in) THEN
-		SELECT 'El producto se encuentra agotado o no se tienen las existencias suficientes para el pedido',
+		SELECT 'La cantidad a comprar de un producto debe ser mayor a cero' AS 'MESSAGE',
 		'ERROR' AS 'TYPE';
 		LEAVE add_product_to_purchase; 
 	END IF;
@@ -772,7 +790,7 @@ add_product_to_purchase:BEGIN
 	SET p.existence = p.existence  - amount_in
 	WHERE prod_id = prod_id_in;
 
-	SELECT 'Producto agregado exitosamente a orden',
+	SELECT 'Producto agregado exitosamente a orden' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
 END $$
 
@@ -782,12 +800,12 @@ CREATE PROCEDURE IF NOT EXISTS getClientPurchases(
 	IN dpi_in BIGINT
 )
 get_client_purchases:BEGIN
-	SELECT p.purchase_id AS id_purchase,
+	SELECT p.purchase_id AS purchase_id,
 	u.name AS name,
 	u.dpi AS dpi,
 	JSON_ARRAYAGG(
 		JSON_OBJECT('name', p2.name, 'image', p2.photo, 'price', p2.price, 'amount', pd.amount)
-	)
+	) AS products
 	FROM purchases p
 	JOIN purchase_details pd 
 	ON pd.purchase_id = p.purchase_id 
@@ -796,7 +814,7 @@ get_client_purchases:BEGIN
 	JOIN users u 
 	ON u.dpi = p2.dpi 
 	AND p.buyer = 53681241
-	GROUP BY p.purchase_id, u.dpi 
+	GROUP BY p.purchase_id, u.dpi;
 END $$
 
 

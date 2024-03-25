@@ -37,3 +37,12 @@ type ChangePassword struct {
 	Code 		int64 	`json:"code"`
 	Password 	string 	`json:"password"`
 }
+
+type PaymentMethod struct {
+	Alias      string  `json:"alias"`
+	Cardholder string  `json:"cardholder"`
+	Number	   int64   `json:"number"`
+	Exp		   string  `json:"exp"`
+	Cvv		   int64   `json:"cvv"`
+	Dpi		   int64   `json:"dpi"`
+}
