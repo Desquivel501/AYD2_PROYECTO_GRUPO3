@@ -127,3 +127,43 @@ BEGIN
 
 	RETURN(prod_exists);
 END $$
+
+-- ########################################## FUNCIÓN PARA SABER SI UN USUARIO CUENTA CON UNA FORMA DE PAGO CONCRETA ####################################################
+CREATE FUNCTION IF NOT EXISTS PaymentMethodExists(
+	dpi_in BIGINT,
+	payment_id_in INTEGER
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE payment_exists BOOLEAN;
+	SELECT EXISTS(
+		SELECT 1
+		FROM payment_methods pm 
+		WHERE pm.payment_id = payment_id_in
+		AND pm.dpi = dpi_in
+	) INTO payment_exists;
+
+	RETURN(payment_exists);
+END $$
+
+
+-- ########################################## FUNCIÓN PARA SABER SI UN PRODUCTO TIENE SUFICIENTES EXISTENCIAS PARA UNA COMPRA ####################################################
+CREATE FUNCTION IF NOT EXISTS EnoughExistences(
+	prod_id_in INTEGER,
+	amount_in INTEGER
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE existences_left INTEGER;
+	SELECT p.existence - amount_in INTO existences_left
+	FROM products p 
+	WHERE p.prod_id = prod_id_in;
+
+	IF existences_left >= 0 THEN
+		RETURN(TRUE);
+	ELSE
+		RETURN(FALSE);
+	END IF;
+END $$
