@@ -146,24 +146,3 @@ BEGIN
 
 	RETURN(payment_exists);
 END $$
-
-
--- ########################################## FUNCIÓN PARA SABER SI UN PRODUCTO TIENE SUFICIENTES EXISTENCIAS PARA UNA COMPRA ####################################################
-CREATE FUNCTION IF NOT EXISTS EnoughExistences(
-	prod_id_in INTEGER,
-	amount_in INTEGER
-)
-RETURNS BOOLEAN
-DETERMINISTIC
-BEGIN
-	DECLARE existences_left INTEGER;
-	SELECT p.existence - amount_in INTO existences_left
-	FROM products p 
-	WHERE p.prod_id = prod_id_in;
-
-	IF existences_left >= 0 THEN
-		RETURN(TRUE);
-	ELSE
-		RETURN(FALSE);
-	END IF;
-END $$
