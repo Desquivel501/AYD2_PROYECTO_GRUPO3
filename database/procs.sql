@@ -419,6 +419,7 @@ END $$
 
 -- ########################################## PROCEDIMIENTO PARA AGREGAR UNA NUEVA FORMA DE PAGO ####################################################
 CREATE PROCEDURE IF NOT EXISTS addPaymentMethod(
+	alias_in VARCHAR(200),
 	cardholder_in VARCHAR(200),
 	number_in BIGINT,
 	exp_in VARCHAR(10),
@@ -438,8 +439,8 @@ add_payment_method:BEGIN
 		LEAVE add_payment_method;
 	END IF;
 
-	INSERT INTO payment_methods(cardholder_name, number, exp, cvv, dpi)
-	VALUES (cardholder_in, number_in, exp_in, cvv_in, dpi_in);
+	INSERT INTO payment_methods(alias, cardholder_name, number, exp, cvv, dpi)
+	VALUES (alias_in, cardholder_in, number_in, exp_in, cvv_in, dpi_in);
 
 	SELECT 'El método de pago ha sido agregado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';

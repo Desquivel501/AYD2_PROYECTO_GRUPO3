@@ -3,6 +3,7 @@ package users
 import (
 	// "encoding/json"
 	"fmt"
+	"strconv"
 	// "io/ioutil"
 	"encoding/json"
 	"net/http"
@@ -271,4 +272,45 @@ func ChangePasswordHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(result)
+}
+
+func CreatePaymentMethodHandler(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	var payment PaymentMethod
+	err := decoder.Decode(&payment)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	
+	result, err := CreatePaymentMethod(payment)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)	
+}
+
+func GetPaymentMethodsHandler(w http.ResponseWriter, r *http.Request){
+	dpi_str := r.URL.Query().Get("dpi")
+	if dpi_str == "" {
+		http.Error(w, "Parámetro 'dpi' no encontrado en la URL /product", http.StatusBadRequest)
+		return
+	}
+
+	dpi, err := strconv.ParseInt(dpi_str, 10, 64)
+	if err != nil {
+		http.Error(w, "Parámetro 'id' no es un valor válido en de un vendedor", http.StatusBadRequest)
+		return
+	}
+	
+	result, err := GetPaymentMethods(dpi)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)	
 }

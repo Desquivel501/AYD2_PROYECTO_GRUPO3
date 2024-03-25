@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS coupons(
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR FORMAS DE PAGO ###########################
 CREATE TABLE IF NOT EXISTS payment_methods(
 	payment_id INTEGER AUTO_INCREMENT NOT NULL,
+	alias VARCHAR(200),
 	cardholder_name VARCHAR(200),
 	number BIGINT,
 	exp VARCHAR(10),
