@@ -187,7 +187,7 @@ export default function SigninRepartidor(props) {
 
   return (
     <div className="Signin" style={{ backgroundColor: (stylee ? ('white') : ''), color: (stylee ? ('black') : 'white'), }}>
-      <h3 style={{textAlign:"center"}}>¡Unete como repartidor!</h3>
+      <h3 style={{textAlign:"center"}}>¡Unete como vendedor!</h3>
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="name" >
           <Form.Label>Nombre completo</Form.Label>

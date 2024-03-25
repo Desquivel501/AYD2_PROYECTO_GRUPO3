@@ -13,6 +13,7 @@ import HistoryBuys from "../pages/History-buys-sales/History-buys";
 import HistorySales from "../pages/History-buys-sales/History_sales";
 import { EditProduct } from '../pages/CrearProducto/EditProduct';
 import ErrorView from '../views/404View/404View';
+import AdminReportsView from '../views/AdminReportsView/AdminReportsView';
 
 
 
@@ -30,7 +31,7 @@ export const rutas = [
         element: <LandingView />
     },
     {
-        path: "/register/repartidor",
+        path: "/register/vendedor",
         element: <RegisterRepartidorView />
     },
     //Usuario
@@ -86,6 +87,10 @@ export const rutas = [
         path:"/profile-admin",
         element:<ProfileAdmin/>
 
+    },
+    {
+        path: "/admin/reportes",
+        element: <AdminReportsView />
     },
     //usuario (ya)
     {
