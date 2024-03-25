@@ -433,6 +433,12 @@ add_payment_method:BEGIN
 		LEAVE add_payment_method;
 	END IF;
 
+	IF PaymentAliasExists(dpi_in, alias_in) THEN
+		SELECT 'Ya posee una forma de pago con este nombre' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE add_payment_method;
+	END IF;
+
 	IF number_in < 0 OR cvv_in < 0 THEN
 		SELECT 'Los datos de la tarjeta no son válidos' AS 'MESSAGE',
 		'ERROR' AS 'TYPE';
@@ -444,6 +450,23 @@ add_payment_method:BEGIN
 
 	SELECT 'El método de pago ha sido agregado exitósamente' AS 'MESSAGE',
 	'SUCCESS' AS 'TYPE';
+END $$
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER FORMAS DE PAGO DE UN CLIENTE ####################################################
+CREATE PROCEDURE IF NOT EXISTS getPaymentMethods(
+	IN dpi_in BIGINT
+)
+get_payment_methods:BEGIN
+	IF NOT UserExists(dpi_in) THEN
+		SELECT 'El usuario no existe en la base de datos' AS 'MESSAGE',
+		'ERROR' AS 'TYPE';
+		LEAVE get_payment_methods;
+	END IF;	
+
+	SELECT pm.alias,
+	pm.`number` 
+	FROM payment_methods pm 
+	WHERE pm.dpi = dpi_in;
 END $$
 
 -- ########################################## PROCEDIMIENTO PARA AGREGAR UNA CATEGORÍA DE PRODUCTO ####################################################

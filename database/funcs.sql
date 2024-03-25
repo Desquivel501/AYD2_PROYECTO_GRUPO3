@@ -146,3 +146,22 @@ BEGIN
 
 	RETURN(payment_exists);
 END $$
+
+-- ########################################## FUNCIÓN PARA SABER SI UN CLIENTE YA POSEE UNA FORMA DE PAGO ####################################################
+CREATE FUNCTION IF NOT EXISTS PaymentAliasExists(
+	dpi_in BIGINT,
+	alias_in VARCHAR(200)
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE payment_exists BOOLEAN;
+	SELECT EXISTS(
+		SELECT 1
+		FROM payment_methods pm 
+		WHERE pm.alias = alias_in
+		AND pm.dpi = dpi_in
+	) INTO payment_exists;
+
+	RETURN(payment_exists);
+END $$
