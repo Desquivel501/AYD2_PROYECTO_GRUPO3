@@ -127,3 +127,41 @@ BEGIN
 
 	RETURN(prod_exists);
 END $$
+
+-- ########################################## FUNCIÓN PARA SABER SI UN USUARIO CUENTA CON UNA FORMA DE PAGO CONCRETA ####################################################
+CREATE FUNCTION IF NOT EXISTS PaymentMethodExists(
+	dpi_in BIGINT,
+	payment_id_in INTEGER
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE payment_exists BOOLEAN;
+	SELECT EXISTS(
+		SELECT 1
+		FROM payment_methods pm 
+		WHERE pm.payment_id = payment_id_in
+		AND pm.dpi = dpi_in
+	) INTO payment_exists;
+
+	RETURN(payment_exists);
+END $$
+
+-- ########################################## FUNCIÓN PARA SABER SI UN CLIENTE YA POSEE UNA FORMA DE PAGO ####################################################
+CREATE FUNCTION IF NOT EXISTS PaymentAliasExists(
+	dpi_in BIGINT,
+	alias_in VARCHAR(200)
+)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE payment_exists BOOLEAN;
+	SELECT EXISTS(
+		SELECT 1
+		FROM payment_methods pm 
+		WHERE pm.alias = alias_in
+		AND pm.dpi = dpi_in
+	) INTO payment_exists;
+
+	RETURN(payment_exists);
+END $$

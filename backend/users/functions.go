@@ -302,3 +302,44 @@ func ChangePasswordFunc(changePassword ChangePassword) (Message, error) {
 
 	return response, nil
 }
+
+
+func CreatePaymentMethod(payment PaymentMethod) (Message, error){
+	var response Message
+	db := database.GetConnection()
+
+	result := db.QueryRow("Call addPaymentMethod(?,?,?,?,?,?)", payment.Alias, payment.Cardholder, payment.Number, payment.Exp, payment.Cvv, payment.Dpi)
+	err := result.Scan(&response.Message, &response.Type)
+	if err != nil {
+		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado changePassword(): %s", err.Error())
+	}
+
+	return response, nil
+}
+
+func GetPaymentMethods(dpi int64) ([]PaymentMethod, error){
+	var payments []PaymentMethod
+	db := database.GetConnection()
+
+	rows, err := db.Query("CALL getPaymentMethods(?)", dpi)
+	if err != nil {
+		return []PaymentMethod{}, fmt.Errorf("error al ejecutar procedimiento almacenado getAllProducts(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		var payment PaymentMethod
+		err := rows.Scan(&payment.Alias, &payment.Number)
+		if err != nil {
+			return []PaymentMethod{}, fmt.Errorf("error al convertir ventas: %s", err)
+		}
+
+		payments = append(payments, payment)
+	}
+
+	if err := rows.Err(); err != nil {
+		return []PaymentMethod{}, fmt.Errorf("error al iterar productos: %s", err)
+	}
+
+	return payments, nil
+}
