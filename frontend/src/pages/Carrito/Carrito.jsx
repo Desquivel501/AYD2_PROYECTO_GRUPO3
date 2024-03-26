@@ -34,6 +34,16 @@ export const Carrito = () => {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(0);
     const [allowBuy , setAllowBuy] = useState(false);
 
+    const [newPaymentMethod, setNewPaymentMethod] = useState({
+        alias: "",
+        cardholder: "",
+        number: "",
+        exp: "",
+        cvv: "",
+        dpi: ""
+    });
+        
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -51,7 +61,6 @@ export const Carrito = () => {
 
             let endpoint = `user/get-payment-methods?dpi=${JSON.parse(carrito).usuario}`
             getData({endpoint}).then(data => {
-                console.log(data);
                 setPaymentMethods(data);
                 setSelectedPaymentMethod(data[0].id);
             });
@@ -122,6 +131,48 @@ export const Carrito = () => {
                 });
             }
         });
+    }
+
+    const addPaymentMethod = () => {
+        // console.log("Agregando metodo de pago");
+        // console.log(newPaymentMethod);
+
+        let endpoint = `user/add-payment-method`
+        let body = {
+            ...newPaymentMethod,
+            dpi: Number(usuario)
+        }
+
+        console.log(body);
+
+        postData({endpoint, body}).then(data => {
+            console.log(data);
+            if (data.TYPE === "SUCCESS") {
+                Swal.fire({
+                    title: 'Metodo de pago agregado',
+                    text: 'Tu metodo de pago ha sido agregado exitosamente',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
+
+                let endpoint = `user/get-payment-methods?dpi=${usuario}`
+                getData({endpoint}).then(data => {
+                    console.log(data);
+                    setPaymentMethods(data);
+                    setSelectedPaymentMethod(data[0].id);
+                });
+
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Ha ocurrido un error al agregar tu metodo de pago',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            }
+        });
+
+        handleClose();
     }
 
     return (
@@ -207,7 +258,7 @@ export const Carrito = () => {
                             </Col>
                             <Col xl={3}>
 
-                                <Button block
+                                <Button
                                     style={{height: '40px'}}
                                     onClick={handleShow}
                                 >
@@ -238,30 +289,45 @@ export const Carrito = () => {
                 
                 <Form>
                     
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Group className="mb-3" controlId="formBasicEmail"
+                        value={newPaymentMethod.alias}
+                        onChange={(e) => setNewPaymentMethod({...newPaymentMethod, alias: e.target.value})}
+                    >
                         <Form.Label>Alias</Form.Label>
                         <Form.Control type="text" placeholder="" />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Group className="mb-3" controlId="formBasicEmail"
+                        value={newPaymentMethod.cardholder}
+                        onChange={(e) => setNewPaymentMethod({...newPaymentMethod, cardholder: e.target.value})}
+                    >
                         <Form.Label>Nombre Titular</Form.Label>
                         <Form.Control type="text" placeholder="" />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Group className="mb-3" controlId="formBasicEmail"
+                        value={newPaymentMethod.number}
+                        onChange={(e) => setNewPaymentMethod({...newPaymentMethod, number: Number(e.target.value)})}
+                    >
                         <Form.Label>Numero de tarjeta</Form.Label>
                         <Form.Control type="text" placeholder="1234 5678 9012 3456" />
                     </Form.Group>
 
                     <Row>
                         <Col xl={6}>
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Group className="mb-3" controlId="formBasicPassword"
+                                value={newPaymentMethod.exp}
+                                onChange={(e) => setNewPaymentMethod({...newPaymentMethod, exp: e.target.value})}
+                            >
                                 <Form.Label>Fecha de expiracion</Form.Label>
                                 <Form.Control type="text" placeholder="MM/AA" />
                             </Form.Group>
                         </Col>
                         <Col xl={6}>
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Group className="mb-3" controlId="formBasicPassword"
+                                value={newPaymentMethod.cvv}
+                                onChange={(e) => setNewPaymentMethod({...newPaymentMethod, cvv: Number(e.target.value)})}
+                            >
                                 <Form.Label>CVV</Form.Label>
                                 <Form.Control type="number" placeholder="000" />
                             </Form.Group>
@@ -275,7 +341,7 @@ export const Carrito = () => {
                 <Button variant="secondary" onClick={handleClose}>
                     Cancelar
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="primary" onClick={addPaymentMethod}>
                     Agregar
                 </Button>
             </Modal.Footer>
