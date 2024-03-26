@@ -323,13 +323,13 @@ func GetPaymentMethods(dpi int64) ([]PaymentMethod, error){
 
 	rows, err := db.Query("CALL getPaymentMethods(?)", dpi)
 	if err != nil {
-		return []PaymentMethod{}, fmt.Errorf("error al ejecutar procedimiento almacenado getAllProducts(): %s", err.Error())
+		return []PaymentMethod{}, fmt.Errorf("error al ejecutar procedimiento almacenado getPaymentMethods(): %s", err.Error())
 	}
 	defer rows.Close()
 
 	for rows.Next(){
 		var payment PaymentMethod
-		err := rows.Scan(&payment.Alias, &payment.Number)
+		err := rows.Scan(&payment.Alias, &payment.Number, &payment.Id)
 		if err != nil {
 			return []PaymentMethod{}, fmt.Errorf("error al convertir ventas: %s", err)
 		}

@@ -11,6 +11,8 @@ func CreatePurchase(purchase purchase) (Message, error) {
 	var purchase_id int64
 	db := database.GetConnection()
 
+	fmt.Println(purchase)
+
 	// Comprobando si existen existencias suficientes para continuar con la orden
 	for _, product := range purchase.Products {
 		result := db.QueryRow("CALL EnoughExistences(?,?)", product.Id, product.Amount)

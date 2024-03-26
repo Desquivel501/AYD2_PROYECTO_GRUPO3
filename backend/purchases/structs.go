@@ -5,17 +5,17 @@ type product struct {
 	Name   		string `json:"name"`
 	Image  		string `json:"image"`
 	Price  		int64  `json:"price"`
-	Amount 		int64  `json:"amount"`
+	Amount 		int64  `json:"cantidad"`
 	Description string `json:"description"`
 	Total 		int64  `json:"total"`
 	Date		string `json:"date"`
 }
 
 type purchase struct {
-	Client_id  int64              `json:"client_id"`
-	Products   []product `json:"productos"`
-	Total      int64              `json:"total"`
-	Payment_id int64              `json:"payment_id"`
+	Client_id  int64		`json:"client_id"`
+	Products   []product 	`json:"productos"`
+	Total      int64		`json:"total"`
+	Payment_id int64		`json:"payment_id"`
 }
 
 type Message struct {

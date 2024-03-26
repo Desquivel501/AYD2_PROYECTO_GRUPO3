@@ -13,7 +13,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Button, Modal } from 'react-bootstrap';
 
 import './Carrito.css';
-import { getData } from '../../api/api';
+import { getData, postData } from '../../api/api';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import CustomNavbar from '../../components/navbar/navbar';
 import { CarritoRow } from './CarritoRow';
@@ -24,13 +24,22 @@ import Swal from 'sweetalert2';
 
 export const Carrito = () => {
 
+    const navigate = useNavigate();
+
     const [productos, setProductos] = useState([]);
     const [usuario, setUsuario] = useState(0);
     const [total, setTotal] = useState(0);
     const [show, setShow] = useState(false);
+    const [paymentMethods, setPaymentMethods] = useState([]);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(0);
+    const [allowBuy , setAllowBuy] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleSelectPaymentMethod = (e) => {
+        setSelectedPaymentMethod(Number(e.target.value));
+    }
 
     useEffect(() => {
 
@@ -39,7 +48,22 @@ export const Carrito = () => {
             setProductos(JSON.parse(carrito).productos);
             setUsuario(JSON.parse(carrito).usuario);
             setTotal(getTotal(JSON.parse(carrito).productos));
+
+            let endpoint = `user/get-payment-methods?dpi=${JSON.parse(carrito).usuario}`
+            getData({endpoint}).then(data => {
+                console.log(data);
+                setPaymentMethods(data);
+                setSelectedPaymentMethod(data[0].id);
+            });
+
+            setAllowBuy(true);
+
+        } else {
+            setProductos([]);
+            setUsuario(0);
+            setTotal(0);
         }
+
     }, []);
 
     const handleCantidad = (id, cantidad) => {
@@ -60,8 +84,44 @@ export const Carrito = () => {
         myProductos.map(producto => {
             total += producto.costo * producto.cantidad;
         });
-        console.log(total);
         return total;
+    }
+
+    function handleBuy() {
+
+        if(!allowBuy){
+            return;
+        }
+
+        let endpoint = `user/purchase`
+        let body = {
+            client_id: usuario,
+            products: productos,
+            payment_id: selectedPaymentMethod,
+            total: total + 20
+        }
+
+        postData({endpoint, body}).then(data => {
+            console.log(data);
+            if (data.TYPE === "SUCCESS") {
+                Swal.fire({
+                    title: 'Compra exitosa',
+                    text: 'Tu compra ha sido procesada exitosamente',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                }).then(() => {
+                    window.sessionStorage.removeItem("carrito");
+                    navigate("/catalogo");
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Ha ocurrido un error al procesar tu compra',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            }
+        });
     }
 
     return (
@@ -82,17 +142,20 @@ export const Carrito = () => {
 
                     <CarritoRow id={2}/> */}
                     {
+                        allowBuy ?
                         productos.map((producto, index) => (
                             <CarritoRow
                                 key={index}
                                 id={producto.product_id}
-                                imagen={producto.image}
                                 nombre={producto.nombre}
                                 precio={producto.costo}
                                 cantidad={producto.cantidad}
                                 onChange={handleCantidad}
+                                imagen={producto.image}
                             />
                         ))
+                        :
+                        <h3 style={{color:"black", fontWeight:'bold'}}>No hay productos en el carrito</h3>
                     }
 
                 </Col>
@@ -130,10 +193,16 @@ export const Carrito = () => {
 
                                 <select className='form-select mb-2' aria-label="Default select example"
                                     style={{width: '100%', height: '40px'}}
+                                    value={selectedPaymentMethod}
+                                    onChange={handleSelectPaymentMethod}
                                 >
-                                    <option value="1">Tarjeta terminada en **12</option>
-                                    <option value="2">Tarjeta terminada en **56</option>
-                                    <option value="3">Tarjeta terminada en **89</option>
+
+                                    {
+                                        paymentMethods.map((method, index) => (
+                                            <option key={index} value={method.id}>{method.alias}</option>
+                                        ))
+                                    }
+
                                 </select>
                             </Col>
                             <Col xl={3}>
@@ -149,7 +218,7 @@ export const Carrito = () => {
 
                         <hr class="mt-2"/>
 
-                        <Button className='btn-buy' block>Comprar</Button>
+                        <Button className='btn-buy' onClick={handleBuy}>Comprar</Button>
 
                     </div>
                 

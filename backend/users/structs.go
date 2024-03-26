@@ -45,4 +45,5 @@ type PaymentMethod struct {
 	Exp		   string  `json:"exp"`
 	Cvv		   int64   `json:"cvv"`
 	Dpi		   int64   `json:"dpi"`
+	Id		   int64   `json:"id"`
 }
