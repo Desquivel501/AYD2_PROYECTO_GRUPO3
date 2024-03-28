@@ -6,7 +6,7 @@ import (
 	"main/database"
 )
 
-func CreatePurchase(purchase purchase) (Message, error) {
+func CreatePurchase(purchase Purchase) (Message, error) {
 	var response Message
 	var purchase_id int64
 	db := database.GetConnection()
@@ -89,28 +89,28 @@ func GetClientPurchases(dpi int64) ([]Client_purchase, error) {
 	return client_purchases, nil
 }
 
-func GetSellerSales(dpi int64) ([]product, error) {
-	var products []product
+func GetSellerSales(dpi int64) ([]Product, error) {
+	var products []Product
 
 	db := database.GetConnection()
 	rows, err := db.Query("CALL getSellerSales(?)", dpi)
 	if err != nil {
-		return []product{}, fmt.Errorf("error al ejecutar procedimiento almacenado getSellerSales(): %s", err.Error())
+		return []Product{}, fmt.Errorf("error al ejecutar procedimiento almacenado getSellerSales(): %s", err.Error())
 	}
 	defer rows.Close()	
 
 	for rows.Next() {
-		var prod product
+		var prod Product
 		err := rows.Scan(&prod.Id, &prod.Image, &prod.Name, &prod.Description, &prod.Amount, &prod.Total, &prod.Date)
 		if err != nil {
-			return []product{}, fmt.Errorf("error al convertir productos: %s", err)
+			return []Product{}, fmt.Errorf("error al convertir productos: %s", err)
 		}
 
 		products = append(products, prod)
 	}
 
 	if err := rows.Err(); err != nil {
-		return []product{}, fmt.Errorf("error al iterar productos: %s", err)
+		return []Product{}, fmt.Errorf("error al iterar productos: %s", err)
 	}
 
 	return products, nil

@@ -9,7 +9,7 @@ import (
 )
 
 func PurchaseHandler(w http.ResponseWriter, r *http.Request){
-	var purchase purchase
+	var purchase Purchase
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&purchase)
 
