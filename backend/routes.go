@@ -2,6 +2,7 @@ package main
 
 import (
 	categoryfilter "main/CateroryFilter"
+	logs "main/logs"
 	productos "main/products"
 	"main/root"
 	users "main/users"
@@ -38,4 +39,6 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/user/validate-code", users.ValidateCodeHandler)
 	mux.HandleFunc("/user/change-password", users.ChangePasswordHandler)
 
+	//Handler de logs
+	mux.HandleFunc("/logs/download", logs.DownloadLogFileHandler)
 }
