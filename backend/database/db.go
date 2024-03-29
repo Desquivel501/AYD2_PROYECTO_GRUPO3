@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-
+	"path/filepath"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
@@ -23,7 +23,9 @@ func GetConnection() *sql.DB {
 	if Connection == nil {
 		if len(dbHost) == 0 {
 			// Carga las variables de entorno desde el archivo db.env
-			err = godotenv.Load("secret/db.env")
+			// err = godotenv.Load("secret/db.env")
+			mydir, _ := os.Getwd() 
+			err = godotenv.Load(filepath.Join(mydir, ".env"))
 			if err != nil {
 				log.Fatalf("Error cargando el archivo .env: %s", err)
 			}
@@ -40,13 +42,11 @@ func GetConnection() *sql.DB {
 		Connection, err = sql.Open("mysql", dbURI)
 		if err != nil {
 			log.Fatal(err)
-		} else {
-			fmt.Println("Conexión establecida con la base de datos")
 		}
 
 		return Connection
 	} else {
-		fmt.Println("Retornando conexión existente")
+		// fmt.Println("Retornando conexión existente")
 		return Connection
 	}
 }
