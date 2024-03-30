@@ -1,4 +1,4 @@
-package unitTests
+package integrationTests
 
 import (
 	"testing"
@@ -226,6 +226,8 @@ func TestGetProfile(t *testing.T) {
 
 func TestCreatePaymentMethod(t *testing.T) {
 
+	alias := "alias" + strconv.FormatInt(time.Now().Unix(), 10)
+
 	var tests = []struct {
 		name string
 		payment users.PaymentMethod
@@ -234,7 +236,7 @@ func TestCreatePaymentMethod(t *testing.T) {
 		{
 			name: "Metodo de Pago Correcto",
 			payment: users.PaymentMethod{
-				Alias: "alias",
+				Alias: alias,
 				Cardholder: "cardholder",
 				Number: 123456789,
 				Exp: "exp",
