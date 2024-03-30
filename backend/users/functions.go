@@ -45,7 +45,7 @@ func Login(credentials Credentials) (Message, error) {
 	result := db.QueryRow("CALL login(?,?)", credentials.Email, credentials.Password)
 	err := result.Scan(&response.Message, &response.Type, &response.Data)
 	if err != nil {
-		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado login(): %s", err.Error())
+		return Message{"ERROR", "ERROR", 0}, fmt.Errorf("error al ejecutar procedimiento almacenado login(): %s", err.Error())
 	}
 
 	return response, nil
@@ -70,13 +70,13 @@ func Register(new_user User) (Message, error) {
 
 	err := result.Scan(&response.Message, &response.Type)
 	if err != nil {
-		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado register(): %s", err.Error())
+		return Message{"ERROR", "ERROR", 0}, fmt.Errorf("error al ejecutar procedimiento almacenado register(): %s", err.Error())
 	}
 
 	return response, nil
 }
 
-func getProfile(user User) (User, error) {
+func GetProfile(user User) (User, error) {
 	var response User
 	db := database.GetConnection()
 

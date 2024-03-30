@@ -1,6 +1,6 @@
 package purchases
 
-type product struct {
+type Product struct {
 	Id     		int64  `json:"product_id"`
 	Name   		string `json:"name"`
 	Image  		string `json:"image"`
@@ -11,9 +11,9 @@ type product struct {
 	Date		string `json:"date"`
 }
 
-type purchase struct {
+type Purchase struct {
 	Client_id  int64		`json:"client_id"`
-	Products   []product 	`json:"productos"`
+	Products   []Product 	`json:"productos"`
 	Total      int64		`json:"total"`
 	Payment_id int64		`json:"payment_id"`
 }
@@ -28,5 +28,5 @@ type Client_purchase struct {
 	Purchase_id int64     `json:"purchase_id"`
 	Name        string    `json:"name"`
 	Dpi         int64     `json:"dpi"`
-	Products    []product `json:"products"`
+	Products    []Product `json:"products"`
 }
