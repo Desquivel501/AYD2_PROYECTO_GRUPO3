@@ -1,6 +1,7 @@
 package logs
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -33,4 +34,21 @@ func DownloadLogFileHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error al enviar el archivo", http.StatusInternalServerError)
 		return
 	}
+}
+
+func GetBitacoraHandler(w http.ResponseWriter, r *http.Request) {
+	result, err := GetBitacora()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		AddLogEvent(err.Error())
+		return
+	}
+
+	if len(result) == 0 {
+		result = make([]BitacoraEntry, 0)
+	}
+
+	AddLogEvent("Se obtiene a todos los elementos de la bitácora")
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
 }

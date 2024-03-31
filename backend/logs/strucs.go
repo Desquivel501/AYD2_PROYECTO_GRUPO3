@@ -6,3 +6,12 @@ type LogStruct struct {
 	Hour  string
 	Event string
 }
+
+// Estructura para representar un elemento de la bitacora
+type BitacoraEntry struct {
+	ID      int    `json:"id"`
+	Date    string `json:"date"`
+	User    string `json:"user"`
+	Action  string `json:"action"`
+	Details string `json:"details"`
+}
