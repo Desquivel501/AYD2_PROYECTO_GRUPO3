@@ -2,6 +2,7 @@ package logs
 
 import (
 	"fmt"
+	"main/database"
 	"os"
 	"path/filepath"
 	"time"
@@ -70,4 +71,34 @@ func CreateLogFile() (string, error) {
 	}
 
 	return fullFilename, nil
+}
+
+// Permite obtener todos los elementos de la bitácora
+func GetBitacora() ([]BitacoraEntry, error) {
+	// Crea un slice de BitacoraEntry para almacenar los elementos de la bitácora
+	var entries []BitacoraEntry
+
+	db := database.GetConnection()
+
+	rows, err := db.Query("CALL getBitacora()")
+	if err != nil {
+		return []BitacoraEntry{}, fmt.Errorf("error al ejecutar procedimiento almacenado getBitacora(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	// Itera sobre los resultados de la consulta y crea objetos BitacoraEntry
+	for rows.Next() {
+		var entry BitacoraEntry
+		err := rows.Scan(&entry.ID, &entry.Date, &entry.User, &entry.Action, &entry.Details)
+		if err != nil {
+			return []BitacoraEntry{}, fmt.Errorf("error al convertir una entrada de la bitácora: %s", err)
+		}
+		entries = append(entries, entry)
+	}
+
+	// Maneja cualquier error durante el escaneo de filas
+	if err := rows.Err(); err != nil {
+		return []BitacoraEntry{}, fmt.Errorf("error al iterar bitácora: %s", err)
+	}
+	return entries, nil
 }

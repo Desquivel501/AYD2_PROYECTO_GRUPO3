@@ -48,4 +48,7 @@ func Routes(mux *http.ServeMux) {
 
 	//Handler de logs
 	mux.HandleFunc("/logs/download", logs.DownloadLogFileHandler)
+
+	//Handler de bitácora
+	mux.HandleFunc("/bitacora", logs.GetBitacoraHandler)
 }
