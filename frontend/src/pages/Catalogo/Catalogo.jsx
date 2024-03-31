@@ -135,7 +135,7 @@ export const Catalogo = () => {
 
                             </Col>
                         </Row>
-                        <Row>
+                        {/* <Row>
                             <Col xl={12} className='pb-3' >
                                 <h5 style={{color:"black", fontWeight:'bold'}}>Categoria</h5>
                                 <Form aria-label="Categorias" className='categoria-form' style={{maxHeight: "40vh", overflow: "auto"}}>
@@ -146,7 +146,7 @@ export const Catalogo = () => {
                                     })}
                                 </Form>
                             </Col>
-                        </Row>
+                        </Row> */}
                     </Container>
                 </Col>
 
