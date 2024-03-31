@@ -25,8 +25,9 @@ type Message struct {
 }
 
 type Client_purchase struct {
-	Purchase_id int64     `json:"purchase_id"`
-	Name        string    `json:"name"`
-	Dpi         int64     `json:"dpi"`
-	Products    []Product `json:"products"`
+	Purchase_id 	int64     `json:"purchase_id"`
+	Name        	string    `json:"name"`
+	Dpi         	int64     `json:"dpi"`
+	Calificacion 	int64     `json:"score"`
+	Products    	[]Product `json:"products"`
 }
