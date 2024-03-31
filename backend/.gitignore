@@ -1,1 +1,26 @@
-secret
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Output files
+*.out
+*.test
+
+# Go specific
+/bin/
+/pkg/
+/vendor/
+go.work
+
+# IDE files
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+#env
+**/*.env

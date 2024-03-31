@@ -44,7 +44,10 @@ export async function postData({ endpoint, body }) {
     },
     body: JSON.stringify(body),
   })
-    .then((res) => res.json())
+    .then((res) => {
+      console.log(res);
+      return res.json();
+    })
     .catch((er) => console.log(er));
 }
 

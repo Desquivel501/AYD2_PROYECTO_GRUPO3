@@ -45,7 +45,7 @@ func Login(credentials Credentials) (Message, error) {
 	result := db.QueryRow("CALL login(?,?)", credentials.Email, credentials.Password)
 	err := result.Scan(&response.Message, &response.Type, &response.Data)
 	if err != nil {
-		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado login(): %s", err.Error())
+		return Message{"ERROR", "ERROR", 0}, fmt.Errorf("error al ejecutar procedimiento almacenado login(): %s", err.Error())
 	}
 
 	return response, nil
@@ -70,13 +70,13 @@ func Register(new_user User) (Message, error) {
 
 	err := result.Scan(&response.Message, &response.Type)
 	if err != nil {
-		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado register(): %s", err.Error())
+		return Message{"ERROR", "ERROR", 0}, fmt.Errorf("error al ejecutar procedimiento almacenado register(): %s", err.Error())
 	}
 
 	return response, nil
 }
 
-func getProfile(user User) (User, error) {
+func GetProfile(user User) (User, error) {
 	var response User
 	db := database.GetConnection()
 
@@ -301,4 +301,45 @@ func ChangePasswordFunc(changePassword ChangePassword) (Message, error) {
 	}
 
 	return response, nil
+}
+
+
+func CreatePaymentMethod(payment PaymentMethod) (Message, error){
+	var response Message
+	db := database.GetConnection()
+
+	result := db.QueryRow("Call addPaymentMethod(?,?,?,?,?,?)", payment.Alias, payment.Cardholder, payment.Number, payment.Exp, payment.Cvv, payment.Dpi)
+	err := result.Scan(&response.Message, &response.Type)
+	if err != nil {
+		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado changePassword(): %s", err.Error())
+	}
+
+	return response, nil
+}
+
+func GetPaymentMethods(dpi int64) ([]PaymentMethod, error){
+	var payments []PaymentMethod
+	db := database.GetConnection()
+
+	rows, err := db.Query("CALL getPaymentMethods(?)", dpi)
+	if err != nil {
+		return []PaymentMethod{}, fmt.Errorf("error al ejecutar procedimiento almacenado getPaymentMethods(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next(){
+		var payment PaymentMethod
+		err := rows.Scan(&payment.Alias, &payment.Number, &payment.Id)
+		if err != nil {
+			return []PaymentMethod{}, fmt.Errorf("error al convertir ventas: %s", err)
+		}
+
+		payments = append(payments, payment)
+	}
+
+	if err := rows.Err(); err != nil {
+		return []PaymentMethod{}, fmt.Errorf("error al iterar productos: %s", err)
+	}
+
+	return payments, nil
 }

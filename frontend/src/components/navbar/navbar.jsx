@@ -57,7 +57,7 @@ function CustomNavbar() {
                     
                     {
                         user && JSON.parse(user).type === 1 ?
-                            <Nav.Link href="/cart">
+                            <Nav.Link href="/carrito">
                                 <Cart size={24} />
                             </Nav.Link>
                             : null

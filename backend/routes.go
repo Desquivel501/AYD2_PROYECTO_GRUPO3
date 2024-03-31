@@ -4,6 +4,7 @@ import (
 	categoryfilter "main/CateroryFilter"
 	logs "main/logs"
 	productos "main/products"
+	"main/purchases"
 	"main/root"
 	users "main/users"
 	"net/http"
@@ -24,6 +25,12 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/all-users", users.AllUsersHandler)
 	mux.HandleFunc("/disabled-users", users.DisabledUsersHandler)
 	mux.HandleFunc("/enabled-users", users.EnabledUsersHandler)
+	mux.HandleFunc("/user/add-payment-method", users.CreatePaymentMethodHandler)
+	mux.HandleFunc("/user/get-payment-methods", users.GetPaymentMethodsHandler)
+	//Handlers de compras
+	mux.HandleFunc("/user/purchase", purchases.PurchaseHandler)
+	mux.HandleFunc("/user/purchases", purchases.UserPurchasesHandler)
+	mux.HandleFunc("/user/sales", purchases.SellerSalesHandler)
 	//Handlers de productos
 	mux.HandleFunc("/all-products", productos.GetAllProductsHandler)
 	mux.HandleFunc("/product", productos.GetProductHandler)

@@ -11,6 +11,7 @@
 - [Manual técnico](documentation/Tecnico.md)
 - [Manual del usuario](documentation/Usuario.md)
 - [Ceremonias Scrum](#ceremonias)
+- [Pruebas Funcionales](test/test.md)
 
 ---
 
