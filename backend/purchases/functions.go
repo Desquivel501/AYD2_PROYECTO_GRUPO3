@@ -69,7 +69,7 @@ func GetClientPurchases(dpi int64) ([]Client_purchase, error) {
 
 	for rows.Next() {
 		var client_purchase Client_purchase
-		err := rows.Scan(&client_purchase.Purchase_id, &client_purchase.Name, &client_purchase.Dpi, &products_str)
+		err := rows.Scan(&client_purchase.Purchase_id, &client_purchase.Name, &client_purchase.Dpi, &client_purchase.Calificacion, &products_str)
 		if err != nil {
 			return []Client_purchase{}, fmt.Errorf("error al convertir ventas: %s", err)
 		}
@@ -101,7 +101,7 @@ func GetSellerSales(dpi int64) ([]Product, error) {
 
 	for rows.Next() {
 		var prod Product
-		err := rows.Scan(&prod.Id, &prod.Image, &prod.Name, &prod.Description, &prod.Amount, &prod.Total, &prod.Date)
+		err := rows.Scan(&prod.Id, &prod.Image, &prod.Name, &prod.Description, &prod.Amount, &prod.Total, &prod.Date, &prod.Price)
 		if err != nil {
 			return []Product{}, fmt.Errorf("error al convertir productos: %s", err)
 		}

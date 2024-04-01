@@ -133,3 +133,14 @@ CREATE TABLE IF NOT EXISTS purchase_details(
 	FOREIGN KEY(purchase_id) REFERENCES purchases(purchase_id) ON DELETE SET NULL,
 	FOREIGN KEY(prod_id) REFERENCES products(prod_id) ON DELETE SET NULL
 ) $$
+
+-- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR DETALLES DE COMPRAS ###########################
+CREATE TABLE IF NOT EXISTS history(
+	hist_id INTEGER AUTO_INCREMENT NOT NULL,
+	date DATETIME DEFAULT NOW(),
+	user VARCHAR(50),
+	action VARCHAR(100),
+	details VARCHAR(255),
+	
+	PRIMARY KEY(hist_id)
+) $$

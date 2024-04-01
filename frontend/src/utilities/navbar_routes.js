@@ -16,8 +16,8 @@ export const navbar_routes = {
         //     name: "Crear Producto"
         // },
         {
-            path: "",
-            name: "Mis Pedidos"
+            path: "/mis-ventas",
+            name: "Mis Ventas"
         }
     ],
 
@@ -31,7 +31,7 @@ export const navbar_routes = {
             name: "Catalogo"
         },
         {
-            path: "",
+            path: "/mis-pedidos",
             name: "Mis Pedidos"
         }
     ],
