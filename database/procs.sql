@@ -988,3 +988,30 @@ BEGIN
 	GROUP BY p.prod_id 
 	ORDER BY selled_amount DESC;
 END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA AGREGAR UNA NUEVA ENTRADA A LA BITÁCORA #################################################### 
+CREATE PROCEDURE IF NOT EXISTS AddToHistory(
+	IN user_in VARCHAR(50),
+	IN action_in VARCHAR(100),
+	IN details_in VARCHAR(255)
+)
+BEGIN
+	INSERT INTO history(user, action, details)
+	VALUES (user_in, action_in, details_in);
+
+	SELECT 'Nueva entrada agregada exitósamente a la bitácora' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER EL CONTENIDO DE LA BITÁCORA #################################################### 
+CREATE PROCEDURE IF NOT EXISTS getHistory()
+BEGIN
+	SELECT h.hist_id AS ID,
+	h.`date` AS Date,
+	h.`user` AS User,
+	h.`action` AS Action,
+	h.details AS Details
+	FROM history h;
+END $$
