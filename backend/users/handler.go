@@ -361,3 +361,26 @@ func GetPaymentMethodsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(result)
 }
+
+
+func RatePurchaseHandler(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+	var rate purchase_rating
+	err := decoder.Decode(&rate)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
+		return
+	}
+
+	result, err := RatePurchase(rate)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
+		return
+	}
+	logs.AddLogEvent("Se calificó una compra")
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
+}

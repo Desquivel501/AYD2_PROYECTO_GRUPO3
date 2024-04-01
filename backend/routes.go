@@ -28,6 +28,7 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/enabled-users", users.EnabledUsersHandler)
 	mux.HandleFunc("/user/add-payment-method", users.CreatePaymentMethodHandler)
 	mux.HandleFunc("/user/get-payment-methods", users.GetPaymentMethodsHandler)
+	mux.HandleFunc("/user/rate-purchase", users.RatePurchaseHandler)
 	//Handlers de compras
 	mux.HandleFunc("/user/purchase", purchases.PurchaseHandler)
 	mux.HandleFunc("/user/purchases", purchases.UserPurchasesHandler)
