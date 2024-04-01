@@ -733,19 +733,22 @@ CREATE PROCEDURE IF NOT EXISTS createPurchase(
 create_purchase:BEGIN
 	IF total_in < 0 THEN
 		SELECT 'El total de un pedido debe ser positivo' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 AS 'DATA';
 		LEAVE create_purchase;
 	END IF;
 
 	IF NOT UserExists(buyer_in) THEN
 		SELECT 'El usuario indicado no existe' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 AS 'DATA';
 		LEAVE create_purchase;
 	END IF;
 
 	IF NOT PaymentMethodExists(buyer_in, payment_id_in) THEN
 		SELECT 'El cliente no cuenta con la forma de pago indicada' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 AS 'DATA';
 		LEAVE create_purchase;
 	END IF;
 
