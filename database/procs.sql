@@ -733,19 +733,22 @@ CREATE PROCEDURE IF NOT EXISTS createPurchase(
 create_purchase:BEGIN
 	IF total_in < 0 THEN
 		SELECT 'El total de un pedido debe ser positivo' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 AS 'DATA';
 		LEAVE create_purchase;
 	END IF;
 
 	IF NOT UserExists(buyer_in) THEN
 		SELECT 'El usuario indicado no existe' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 AS 'DATA';
 		LEAVE create_purchase;
 	END IF;
 
 	IF NOT PaymentMethodExists(buyer_in, payment_id_in) THEN
 		SELECT 'El cliente no cuenta con la forma de pago indicada' AS 'MESSAGE',
-		'ERROR' AS 'TYPE';
+		'ERROR' AS 'TYPE',
+		-999 AS 'DATA';
 		LEAVE create_purchase;
 	END IF;
 
@@ -901,54 +904,64 @@ rate_purchase:BEGIN
 	UPDATE sellers s
 	SET s.score = avg_score
 	WHERE s.dpi = seller_in;
+
+	SELECT 'Se ha calificado la compra exitósamente' AS 'MESSAGE',
+	'SUCCESS' AS 'TYPE';
 END $$
 
 
 -- ########################################## PROCEDIMIENTO PARA OBTENER LOS PRODUCTOS MÁS VENDIDOS #################################################### 
 CREATE PROCEDURE IF NOT EXISTS MostSelledProducts()
 BEGIN
-	SELECT p.name AS name,
+	SELECT p.prod_id AS product_id,
+	p.name AS nombre,
+	p.price AS precio,
+	p.description AS descripcion,
+	p.photo AS imagen,
 	u.email AS email,
 	u.name AS name,
-	COUNT(*) AS selled_amount
+	COUNT(*) AS "cantidad-vendidos"
 	FROM purchase_details pd
 	JOIN products p
 	ON p.prod_id = pd.prod_id 
 	JOIN users u 
 	ON p.dpi = u.dpi 
 	GROUP BY p.prod_id 
-	ORDER BY selled_amount DESC;
+	ORDER BY "cantidad-vendidos" DESC;
 END $$
 
-
+CALL MostSelledProducts()
 -- ########################################## PROCEDIMIENTO PARA OBTENER LOS PRODUCTOS MÁS VENDIDOS #################################################### 
 CREATE PROCEDURE IF NOT EXISTS BestSellers()
 BEGIN
-	SELECT u.name,
-	u.email,
-	COUNT(*) AS selled_amount
+	SELECT u.name AS name,
+	u.email AS email,
+	u.dpi  AS dpi,
+	u.image AS image,
+	u.state AS state,
+	COUNT(*) AS "cantidad-ventas"
 	FROM purchase_details pd
 	JOIN products p
 	ON p.prod_id = pd.prod_id 
 	JOIN users u
 	ON u.dpi = p.dpi 
 	GROUP BY u.dpi
-	ORDER BY selled_amount DESC;
+	ORDER BY "cantidad-ventas" DESC;
 END $$
 
 
 -- ########################################## PROCEDIMIENTO PARA OBTENER LAS CATEGORÍAS MÁS VENDIDAS #################################################### 
 CREATE PROCEDURE IF NOT EXISTS MostSelledCategories()
 BEGIN
-	SELECT pc.prod_cat AS category,
-	COUNT(*) AS selled_amount
+	SELECT pc.prod_cat AS "nombre-categoria",
+	COUNT(*) AS "cantidad-ventas"
 	FROM purchase_details pd
 	JOIN products p
 	ON pd.prod_id = p.prod_id 
 	JOIN prod_categories pc
 	ON p.cat_id = pc.cat_id 
 	GROUP BY pc.cat_id
-	ORDER BY selled_amount DESC;
+	ORDER BY "cantidad-ventas" DESC;
 END $$
 
 
@@ -957,8 +970,8 @@ CREATE PROCEDURE IF NOT EXISTS MostSelledSCategories(
 	IN dpi_in BIGINT
 )
 BEGIN
-	SELECT pc.prod_cat AS category,
-	COUNT(*) AS selled_amount
+	SELECT pc.prod_cat AS "nombre-categoria",
+	COUNT(*) AS "cantidad-ventas"
 	FROM purchase_details pd
 	JOIN products p
 	ON pd.prod_id = p.prod_id 
@@ -966,19 +979,22 @@ BEGIN
 	ON p.cat_id = pc.cat_id 
 	AND p.dpi = dpi_in
 	GROUP BY pc.cat_id
-	ORDER BY selled_amount DESC;
+	ORDER BY "cantidad-ventas" DESC;
 END $$
-
-
+SELECT * FROM prod_categories pc 
 -- ########################################## PROCEDIMIENTO PARA OBTENER LOS PRODUCTOS MÁS VENDIDOS DE UN VENDEDOR EN CONCRETO #################################################### 
 CREATE PROCEDURE IF NOT EXISTS MostSelledSProducts(
 	IN dpi_in BIGINT
 )
 BEGIN
-	SELECT p.name AS name,
+	SELECT p.prod_id AS product_id,
+	p.name AS nombre,
+	p.price AS precio,
+	p.description AS descripcion,
+	p.photo AS imagen,
 	u.email AS email,
 	u.name AS name,
-	COUNT(*) AS selled_amount
+	COUNT(*) AS "cantidad-vendidos"
 	FROM purchase_details pd
 	JOIN products p
 	ON p.prod_id = pd.prod_id 
@@ -986,7 +1002,7 @@ BEGIN
 	ON p.dpi = u.dpi 
 	AND p.dpi = dpi_in
 	GROUP BY p.prod_id 
-	ORDER BY selled_amount DESC;
+	ORDER BY "cantidad-vendidos" DESC;
 END $$
 
 

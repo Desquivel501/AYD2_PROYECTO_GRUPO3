@@ -128,6 +128,7 @@ CREATE TABLE IF NOT EXISTS purchase_details(
 	prod_id INTEGER,
 	amount INTEGER NOT NULL,
 	score INTEGER DEFAULT 0,
+	rated BOOLEAN DEFAULT FALSE,
 	total_price DECIMAL NOT NULL,
 	
 	FOREIGN KEY(purchase_id) REFERENCES purchases(purchase_id) ON DELETE SET NULL,
