@@ -5,6 +5,7 @@ import (
 	logs "main/logs"
 	productos "main/products"
 	"main/purchases"
+	"main/reports"
 	"main/root"
 	users "main/users"
 	"net/http"
@@ -52,4 +53,13 @@ func Routes(mux *http.ServeMux) {
 
 	//Handler de bitácora
 	mux.HandleFunc("/bitacora", logs.GetBitacoraHandler)
+
+	//Handler de reportes de administrador
+	mux.HandleFunc("/admin/reporte/productos", reports.GetMostSelledProductsHandler)
+	mux.HandleFunc("/admin/reporte/vendedores", reports.GetBestSellerHandler)
+	mux.HandleFunc("/admin/reporte/categoria", reports.GetMostSelledCategoryHandler)
+
+	//Handler de reportes de vendedor
+	mux.HandleFunc("/vendedor/reporte/productos", reports.GetMostSelledSProductsHandler)
+	mux.HandleFunc("/vendedor/reporte/categoria", reports.GetMostSelledSCategoryHandler)
 }
