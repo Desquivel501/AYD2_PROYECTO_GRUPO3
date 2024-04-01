@@ -17,7 +17,9 @@ func GetAllProductsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logs.AddLogEvent("Se obtinene una lista lista de productos")
+	logs.AddLogEvent("Se obtiene una lista lista de productos")
+	logs.AddToHistory(0, "Obtener productos", "Se obtiene todos los productos")
+
 	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
@@ -49,6 +51,7 @@ func GetProductHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent(fmt.Sprintf("Se obtiene producto con ID=%s", id_str))
+	logs.AddToHistory(0, "Obtener producto", fmt.Sprintf("Se obtiene producto %s", product.Nombre))
 	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(product)
@@ -80,6 +83,7 @@ func GetSellerProductsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent(fmt.Sprintf("Se obtiene lista de producto del vendedor con ID=%s", id_str))
+	logs.AddToHistory(id, "Obtener productos", "Se obtiene todos los productos")
 	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
@@ -105,6 +109,7 @@ func UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	logs.AddLogEvent(fmt.Sprintf("Se actualiza producto con ID=%d", product.ProductID))
+	logs.AddToHistory(int(product.SellerDPI), "Actualización de producto", fmt.Sprintf("Se actualiza el producto con ID %d", product.ProductID))
 	// Convierte el statusResponse a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(status)
@@ -137,6 +142,7 @@ func DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent(fmt.Sprintf("Se elimina producto con ID=%s", id_str))
+	logs.AddToHistory(0, "Eliminar producto", fmt.Sprintf("Se elimina el producto con ID %s", id_str))
 	// Convierte el resultado a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(status)
@@ -162,6 +168,7 @@ func CreateProductHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent(fmt.Sprintf("Se agrega producto con ID=%d", producto.ProductID))
+	logs.AddToHistory(producto.Vendedor, "Crear producto", fmt.Sprintf("Se crea el producto con ID %d", producto.ProductID))
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(status)
 }

@@ -74,31 +74,80 @@ func CreateLogFile() (string, error) {
 }
 
 // Permite obtener todos los elementos de la bitácora
-func GetBitacora() ([]BitacoraEntry, error) {
-	// Crea un slice de BitacoraEntry para almacenar los elementos de la bitácora
-	var entries []BitacoraEntry
+func GetHistory() ([]HistoryEntry, error) {
+	// Crea un slice de HistoryEntry para almacenar los elementos de la bitácora
+	var entries []HistoryEntry
 
 	db := database.GetConnection()
 
-	rows, err := db.Query("CALL getBitacora()")
+	rows, err := db.Query("CALL getHistory()")
 	if err != nil {
-		return []BitacoraEntry{}, fmt.Errorf("error al ejecutar procedimiento almacenado getBitacora(): %s", err.Error())
+		return []HistoryEntry{}, fmt.Errorf("error al ejecutar procedimiento almacenado getBitacora(): %s", err.Error())
 	}
 	defer rows.Close()
 
-	// Itera sobre los resultados de la consulta y crea objetos BitacoraEntry
+	// Itera sobre los resultados de la consulta y crea objetos HistoryEntry
 	for rows.Next() {
-		var entry BitacoraEntry
+		var entry HistoryEntry
 		err := rows.Scan(&entry.ID, &entry.Date, &entry.User, &entry.Action, &entry.Details)
 		if err != nil {
-			return []BitacoraEntry{}, fmt.Errorf("error al convertir una entrada de la bitácora: %s", err)
+			return []HistoryEntry{}, fmt.Errorf("error al convertir una entrada de la bitácora: %s", err)
 		}
 		entries = append(entries, entry)
 	}
 
 	// Maneja cualquier error durante el escaneo de filas
 	if err := rows.Err(); err != nil {
-		return []BitacoraEntry{}, fmt.Errorf("error al iterar bitácora: %s", err)
+		return []HistoryEntry{}, fmt.Errorf("error al iterar bitácora: %s", err)
 	}
 	return entries, nil
+}
+
+// Método que agrega una registro a a bitacora
+func AddToHistory(user interface{}, action string, details string) error {
+	db := database.GetConnection()
+	var data1 string
+	var data2 string = "admin"
+	var dpi int
+
+	// Verificamos el tipo de la variable user
+	if val, ok := user.(int); ok {
+		dpi = val
+	} else if val, ok := user.(string); ok {
+		data2 = val
+	} else {
+		return fmt.Errorf("error al insertar en bitácora: no se puede convertir el parametro de usuario: %v", user)
+	}
+
+	if dpi != 0 {
+		err := db.QueryRow("CALL getProfile(?)", dpi).Scan(&data1, &data2)
+		if err != nil {
+			AddLogEvent("error al ejecutar procedimiento almacenado getProfile")
+		}
+
+		if data2 == "ERROR" {
+			err = db.QueryRow("CALL getSellerProfile(?)", dpi).Scan(&data1, &data2)
+			if err != nil {
+				AddLogEvent("error al ejecutar procedimiento almacenado getSellerProfile")
+			}
+			if data2 == "ERROR" {
+				AddLogEvent("error al agregar registro en bitácora: El usuario no existe")
+				data2 = ""
+			}
+		}
+	}
+
+	err := db.QueryRow("CALL AddToHistory(?,?,?)",
+		data2,
+		action,
+		details,
+	).Scan(&data1, &data2)
+
+	if err != nil {
+		AddLogEvent("error al ejecutar procedimiento almacenado AddToHistory")
+		return fmt.Errorf("error al ejecutar procedimiento almacenado AddToHistory: %s", err.Error())
+	}
+
+	AddLogEvent("Se agrega registro a la tabla history en la base de datos")
+	return nil
 }

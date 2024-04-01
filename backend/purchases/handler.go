@@ -4,6 +4,7 @@ import (
 	// "encoding/json"
 	// "io/ioutil"
 	"encoding/json"
+	"fmt"
 	"main/logs"
 	"net/http"
 	"strconv"
@@ -27,6 +28,7 @@ func PurchaseHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	logs.AddLogEvent("Se crea compra de producto")
+	logs.AddToHistory(purchase.Client_id, "Realizar compra", fmt.Sprintf("El usuario %d realiza compra", purchase.Client_id))
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(result)
 }
@@ -53,6 +55,7 @@ func UserPurchasesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	logs.AddLogEvent("Se realiza compra de producto")
+	logs.AddToHistory(dpi, "Compras realizadas", fmt.Sprintf("Se obtiene todas las comprsa realiadas por el usuario %s", dpi_str))
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(result)
 }
@@ -79,6 +82,7 @@ func SellerSalesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	logs.AddLogEvent("Se obtiene ventas del vendedor")
+	logs.AddToHistory(dpi, "Obtener ventas", fmt.Sprintf("Se obtiene ventas del vendedor %s", dpi_str))
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(result)
 }
