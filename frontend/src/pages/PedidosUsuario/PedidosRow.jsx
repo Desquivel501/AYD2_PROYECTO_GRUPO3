@@ -18,6 +18,8 @@ import { StarFill } from 'react-bootstrap-icons';
 
 import { postData } from '../../api/api';
 
+import Swal from 'sweetalert2';
+
 export const PedidosRow = (props) => {
 
     const {
