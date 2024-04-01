@@ -17,6 +17,8 @@ import {
 } from 'react-router-dom';
 import { useUserPermission } from '../../utilities/Security/Permission';
 
+import Swal from 'sweetalert2';
+
 
 export const CatalogoVendedor = () => {
 
@@ -40,7 +42,14 @@ export const CatalogoVendedor = () => {
         const endpoint = `my-products?id=${id}`
         getData({ endpoint }).then((data) => {
 
-           if(data === undefined) return console.log("Error al cargar productos");
+           if(data === undefined || data == null){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'No se encontraron productos',
+                })
+                return;
+           };
 
             setProducts(data);
 
@@ -145,7 +154,7 @@ export const CatalogoVendedor = () => {
 
                             </Col>
                         </Row>
-                        <Row>
+                        {/* <Row>
                             <Col xl={12} className='pb-3' >
                                 <h5 style={{color:"black", fontWeight:'bold'}}>Categoria</h5>
                                 <Form aria-label="Categorias" className='categoria-form' style={{maxHeight: "40vh", overflow: "auto"}}>
@@ -156,7 +165,7 @@ export const CatalogoVendedor = () => {
                                     })}
                                 </Form>
                             </Col>
-                        </Row>
+                        </Row> */}
                     </Container>
                 </Col>
 

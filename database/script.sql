@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS coupons(
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR FORMAS DE PAGO ###########################
 CREATE TABLE IF NOT EXISTS payment_methods(
 	payment_id INTEGER AUTO_INCREMENT NOT NULL,
+	alias VARCHAR(200),
 	cardholder_name VARCHAR(200),
 	number BIGINT,
 	exp VARCHAR(10),
@@ -111,13 +112,14 @@ CREATE TABLE IF NOT EXISTS purchases(
 	purchase_id INTEGER AUTO_INCREMENT NOT NULL,
 	description VARCHAR(200),
 	score INTEGER,
-	seller BIGINT,
 	buyer BIGINT,
+	payment_id INTEGER,
+	purchase_date DATETIME,
 	total DECIMAL,
 	
 	PRIMARY KEY(purchase_id),
 	FOREIGN KEY(buyer) REFERENCES users(dpi) ON DELETE SET NULL,
-	FOREIGN KEY(seller) REFERENCES sellers(dpi) ON DELETE SET NULL
+	FOREIGN KEY(payment_id) REFERENCES payment_methods(payment_id) ON DELETE SET NULL
 ) $$
 
 -- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR DETALLES DE COMPRAS ###########################
@@ -125,8 +127,20 @@ CREATE TABLE IF NOT EXISTS purchase_details(
 	purchase_id INTEGER,
 	prod_id INTEGER,
 	amount INTEGER NOT NULL,
+	score INTEGER DEFAULT 0,
 	total_price DECIMAL NOT NULL,
 	
 	FOREIGN KEY(purchase_id) REFERENCES purchases(purchase_id) ON DELETE SET NULL,
 	FOREIGN KEY(prod_id) REFERENCES products(prod_id) ON DELETE SET NULL
+) $$
+
+-- ########################### CREACIÓN DE LA TABLA PARA ALMACENAR DETALLES DE COMPRAS ###########################
+CREATE TABLE IF NOT EXISTS history(
+	hist_id INTEGER AUTO_INCREMENT NOT NULL,
+	date DATETIME DEFAULT NOW(),
+	user VARCHAR(50),
+	action VARCHAR(100),
+	details VARCHAR(255),
+	
+	PRIMARY KEY(hist_id)
 ) $$

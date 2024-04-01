@@ -24,17 +24,15 @@ import { useUserPermission } from '../../utilities/Security/Permission';
 
 export const EditProduct = (props) => {
 
-    const { id } = useParams();
+  const {
+      crear = false
+  } = props;
+
+    const { id = 0 } = useParams();
     const navigate = useNavigate();
 
-    const {
-        logo,
-        price,
-        name
-    } = props;
-
-    const [preview, setPreview] = useState("https://i5.walmartimages.com/seo/NBD-Digital-Camera-4K-48MP-Compact-Camera-3-0-Inch-Ultra-Clear-Screen-YouTube-Vlogging-Camera-16x-Digital-Zoom-Video-Camera-Cameras-for-Photography_6ac10792-1adc-4637-9c53-e7890dea9fca.452220c9a4e75ac44f7bf578e6e517fe.jpeg");
-    const [image, setImage] = useState("https://i5.walmartimages.com/seo/NBD-Digital-Camera-4K-48MP-Compact-Camera-3-0-Inch-Ultra-Clear-Screen-YouTube-Vlogging-Camera-16x-Digital-Zoom-Video-Camera-Cameras-for-Photography_6ac10792-1adc-4637-9c53-e7890dea9fca.452220c9a4e75ac44f7bf578e6e517fe.jpeg");
+    const user = localStorage.getItem('user');
+    const userJson = JSON.parse(user);
 
     useUserPermission(2);
 
@@ -46,7 +44,7 @@ export const EditProduct = (props) => {
         descripcion: "",
         precio: 0,
         existencia: 0,
-        categoria: "",
+        categoria: "Papas",
         vendedor: "",
         imagen: "https://placehold.co/800",
         preview: "https://placehold.co/800",
@@ -57,15 +55,17 @@ export const EditProduct = (props) => {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        let endpoint = `product?id=${id}`
-        getData({ endpoint }).then((data) => {
-            console.log(data);
-            setProduct({
-                ...data,
-                preview: data.imagen
-            })
+        if(!crear){
+          let endpoint = `product?id=${id}`
+          getData({ endpoint }).then((data) => {
+              // console.log(data);
+              setProduct({
+                  ...data,
+                  preview: data.imagen
+              })
 
-        });
+          });
+        }
     }, []);
 
     const updateProduct = async () => {
@@ -88,7 +88,8 @@ export const EditProduct = (props) => {
 
       postData({ endpoint, body }).then((data) => {
           // console.log(data);
-          if(data.Type === "SUCCESS"){
+
+          if(data.type == "SUCCESS"){
             // alert("Producto actualizado correctamente");
             Swal.fire({
               title: 'Producto actualizado',
@@ -115,8 +116,8 @@ export const EditProduct = (props) => {
       const endpoint = `/delete-product?id=${id}`;
 
       getData({ endpoint }).then((data) => {
-        console.log(data);
-        if(data.Type === "SUCCESS"){
+        // console.log(data);
+        if(data.type === "SUCCESS"){
           // alert("Producto eliminado correctamente");
           Swal.fire({
             title: 'Producto eliminado',
@@ -138,6 +139,50 @@ export const EditProduct = (props) => {
         }
       });
     }
+
+    const createProduct = async () => {
+
+      let url = null;
+      if(product.file){
+        url = await SubirImagen(product.file);
+      }
+  
+      const endpoint = `create-product`;
+  
+      const body = { 
+        nombre: product.nombre,
+        vendedor: String(userJson.id),
+        existencia: Number(product.existencia),
+        precio: Number(product.precio),
+        categoria: "Test",
+        descripcion: product.descripcion,
+        imagen: url ? url : product.imagen,
+      }
+
+      console.log(body);
+      
+      postData({ endpoint, body }).then((data) => {
+        if(data.type === "SUCCESS"){
+          Swal.fire({
+            title: 'Producto creado!',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate(`/vendedor/${userJson.id}/catalogo`);
+            }
+          })
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: data.Error,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
+        }
+      });
+    }
+
 
   return (
     <div className="product-root">
@@ -213,22 +258,39 @@ export const EditProduct = (props) => {
 
               <hr class="mt-3 mb-1"/>
 
-              <div className='mt-4'>
-                <button type="button" class="btn-create"
-                  onClick={updateProduct}
-                >
-                  Guardar Cambios
-                </button>
-              </div>
+              {
+                !crear ? <>
+                
+                  <div className='mt-4'>
+                    <button type="button" class="btn-create"
+                      onClick={updateProduct}
+                    >
+                      Guardar Cambios
+                    </button>
+                  </div>
 
-              <div className='mt-4'>
-                <button type="button" class="btn-create"
-                  onClick={deleteProduct}
-                  style={{background:"#9d0000", color: '#fff', "&:hover": {background: '#b03232'}}}
-                >
-                  Eliminar Producto
-                </button>
-              </div>
+                  <div className='mt-4'>
+                    <button type="button" class="btn-create"
+                      onClick={deleteProduct}
+                      style={{background:"#9d0000", color: '#fff', "&:hover": {background: '#b03232'}}}
+                    >
+                      Eliminar Producto
+                    </button>
+                  </div>
+                </> 
+                :
+                <>
+                  <div className='mt-4'>
+                    <button type="button" class="btn-create"
+                      onClick={createProduct}
+                    >
+                      Guardar Cambios
+                    </button>
+                  </div>
+                </>
+              }
+
+              
 
 
           </Col>

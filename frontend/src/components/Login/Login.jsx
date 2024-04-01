@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-/* import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container'; */
 import "../../styles/views/Login.scss";
 import { Link, useNavigate } from "react-router-dom";
-//import GeneralLayout from "../../layouts/GeneralLayout/GeneralLayout";
 import { useUserLogin } from "../../api/usersApi";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import Error from "../../components/Error";
-//import food1 from "../../media/images/food1.jpg";
-import { usePermissionNavigation } from "../../utilities/Security/Permission";
-//import logo from "../../media/images/logo.png";
-//import FullLogo from "../../media/images/full-logo.png";
-//import { BsPersonBoundingBox } from "react-icons/bs";
 const queryClient = new QueryClient();
 
 export default function Login() {
@@ -48,12 +40,12 @@ export default function Login() {
 
 
          if (data.data.MESSAGE === '2') {
-          navigate("/profile-sale-person");
+          navigate("/profile");
         } else if (data.data.MESSAGE === "1") {
           navigate("/catalogo");
         }
         else if (data.data.MESSAGE === '0') {
-          navigate("/profile-admin");
+          navigate("/profile");
         }
         /* navigate("/home")
         else if (data.data.usuario.role === "turist") {

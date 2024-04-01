@@ -1,7 +1,9 @@
-package product
+package products
 
 import (
 	"encoding/json"
+	"fmt"
+	"main/logs"
 	"net/http"
 	"strconv"
 )
@@ -11,9 +13,11 @@ func GetAllProductsHandler(w http.ResponseWriter, r *http.Request) {
 	//Si encuentra un error
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
 		return
 	}
 
+	logs.AddLogEvent("Se obtinene una lista lista de productos")
 	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
@@ -25,12 +29,14 @@ func GetProductHandler(w http.ResponseWriter, r *http.Request) {
 	// Verifica si el parámetro "id" está presente en la URL
 	if id_str == "" {
 		http.Error(w, "Parámetro 'id' no encontrado en la URL /product", http.StatusBadRequest)
+		logs.AddLogEvent("Error al obtener producto: Parámetro 'id' no encontrado en la URL /product")
 		return
 	}
 	//Convierte el id del producto en un valor entero
 	id, err := strconv.Atoi(id_str)
 	if err != nil {
 		http.Error(w, "Parámetro 'id' no es un valor válido en /product", http.StatusBadRequest)
+		logs.AddLogEvent("Error al obtener producto: Parámetro 'id' no es un valor válido en /product")
 		return
 	}
 
@@ -38,9 +44,11 @@ func GetProductHandler(w http.ResponseWriter, r *http.Request) {
 	//Si encuentra un error
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
 		return
 	}
 
+	logs.AddLogEvent(fmt.Sprintf("Se obtiene producto con ID=%s", id_str))
 	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(product)
@@ -51,13 +59,15 @@ func GetSellerProductsHandler(w http.ResponseWriter, r *http.Request) {
 	id_str := r.URL.Query().Get("id")
 	// Verifica si el parámetro "id" está presente en la URL
 	if id_str == "" {
-		http.Error(w, "Parámetro 'id' no encontrado en la URL /product", http.StatusBadRequest)
+		http.Error(w, "Parámetro 'id' no encontrado en la URL /my-products", http.StatusBadRequest)
+		logs.AddLogEvent("Error al obtener producto: Parámetro 'id' no encontrado en la URL /my-products")
 		return
 	}
 	//Convierte el id del vendedor en un valor entero
 	id, err := strconv.Atoi(id_str)
 	if err != nil {
-		http.Error(w, "Parámetro 'id' no es un valor válido en de un vendedor", http.StatusBadRequest)
+		http.Error(w, "Parámetro 'id' no es un valor válido de un vendedor", http.StatusBadRequest)
+		logs.AddLogEvent("Error al obtener producto: Parámetro 'id' no es un valor válido de un vendedor")
 		return
 	}
 
@@ -65,9 +75,11 @@ func GetSellerProductsHandler(w http.ResponseWriter, r *http.Request) {
 	//Si encuentra un error
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
 		return
 	}
 
+	logs.AddLogEvent(fmt.Sprintf("Se obtiene lista de producto del vendedor con ID=%s", id_str))
 	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
@@ -81,6 +93,7 @@ func UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&product)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		logs.AddLogEvent(err.Error())
 		return
 	}
 
@@ -88,8 +101,10 @@ func UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
 	//Si encuentra un error
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
 		return
 	}
+	logs.AddLogEvent(fmt.Sprintf("Se actualiza producto con ID=%d", product.ProductID))
 	// Convierte el statusResponse a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(status)
@@ -101,13 +116,15 @@ func DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 	id_str := r.URL.Query().Get("id")
 	// Verifica si el parámetro "id" está presente en la URL
 	if id_str == "" {
-		http.Error(w, "Parámetro 'id' no encontrado en la URL /product", http.StatusBadRequest)
+		http.Error(w, "Parámetro 'id' no encontrado en la URL /delete-product", http.StatusBadRequest)
+		logs.AddLogEvent("Parámetro 'id' no encontrado en la URL /delete-product")
 		return
 	}
 	//Convierte el id del producto en un valor entero
 	id, err := strconv.Atoi(id_str)
 	if err != nil {
 		http.Error(w, "Parámetro 'id' no es un valor válido en /delete-product", http.StatusBadRequest)
+		logs.AddLogEvent("Parámetro 'id' no es un valor válido en /delete-product")
 		return
 	}
 
@@ -115,9 +132,11 @@ func DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 	//Si encuentra un error
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
 		return
 	}
 
+	logs.AddLogEvent(fmt.Sprintf("Se elimina producto con ID=%s", id_str))
 	// Convierte el resultado a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(status)
@@ -130,6 +149,7 @@ func CreateProductHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&producto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		logs.AddLogEvent(err.Error())
 		return
 	}
 
@@ -137,9 +157,11 @@ func CreateProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
 		return
 	}
 
+	logs.AddLogEvent(fmt.Sprintf("Se agrega producto con ID=%d", producto.ProductID))
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(status)
 }
