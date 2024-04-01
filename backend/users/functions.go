@@ -2,11 +2,11 @@ package users
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
+	"log"
 	"main/database"
 	"net/smtp"
-	"github.com/joho/godotenv"
 	"os"
-	"log"
 )
 
 func SendEmail(email string, code int64) {
@@ -16,7 +16,7 @@ func SendEmail(email string, code int64) {
 		log.Fatalf("Error cargando el archivo .env: %s", err)
 	}
 
-	from :=  os.Getenv("EMAIL")
+	from := os.Getenv("EMAIL")
 	password := os.Getenv("EMAIL_PASSWORD")
 	to := email
 
@@ -24,7 +24,7 @@ func SendEmail(email string, code int64) {
 		"To: " + to + "\n" +
 		"Subject: Codigo de recuperacion\n\n" +
 		"Su codigo de recuperacion es: " + fmt.Sprintf("%d", code)
-	
+
 	err = smtp.SendMail("smtp.gmail.com:587",
 		smtp.PlainAuth("", from, password, "smtp.gmail.com"),
 		from, []string{to}, []byte(msg))
@@ -303,8 +303,7 @@ func ChangePasswordFunc(changePassword ChangePassword) (Message, error) {
 	return response, nil
 }
 
-
-func CreatePaymentMethod(payment PaymentMethod) (Message, error){
+func CreatePaymentMethod(payment PaymentMethod) (Message, error) {
 	var response Message
 	db := database.GetConnection()
 
@@ -317,7 +316,7 @@ func CreatePaymentMethod(payment PaymentMethod) (Message, error){
 	return response, nil
 }
 
-func GetPaymentMethods(dpi int64) ([]PaymentMethod, error){
+func GetPaymentMethods(dpi int64) ([]PaymentMethod, error) {
 	var payments []PaymentMethod
 	db := database.GetConnection()
 
@@ -327,7 +326,7 @@ func GetPaymentMethods(dpi int64) ([]PaymentMethod, error){
 	}
 	defer rows.Close()
 
-	for rows.Next(){
+	for rows.Next() {
 		var payment PaymentMethod
 		err := rows.Scan(&payment.Alias, &payment.Number, &payment.Id)
 		if err != nil {
@@ -342,4 +341,17 @@ func GetPaymentMethods(dpi int64) ([]PaymentMethod, error){
 	}
 
 	return payments, nil
+}
+
+func RatePurchase(rate purchase_rating) (Message, error) {
+	var response Message
+	db := database.GetConnection()
+
+	result := db.QueryRow("Call ratePurchase(?,?,?)", rate.Id, rate.Seller, rate.Score)
+	err := result.Scan(&response.Message, &response.Type)
+	if err != nil {
+		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado changePassword(): %s", err.Error())
+	}
+
+	return response, nil
 }
