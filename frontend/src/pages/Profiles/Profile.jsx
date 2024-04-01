@@ -37,12 +37,14 @@ export default function CustomProfile() {
         preview: 'https://ih0.redbubble.net/image.1046392278.3346/raf,360x360,075,t,fafafa:ca443f4786.jpg',
         color: '#212529',
         file: null,
+        score: 0
     })
     const [count, setCount] = useState(0);
 
     const user = localStorage.getItem("user");
     const cui = JSON.parse(user).id;
     const rol = JSON.parse(user).type;
+    
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -51,6 +53,8 @@ export default function CustomProfile() {
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
+
+    
 
     useEffect(() => {
 
@@ -85,12 +89,14 @@ export default function CustomProfile() {
                 correotemp: data.email,
                 imagen: data.image,
                 contrasena: data.password,
+                score: data.score
             })
 
         });
     }, []);
 
-
+    
+    
     const handleUpdate = async () => {
 
         if (state.verificar_contrasena !== state.contrasena) {
@@ -202,14 +208,65 @@ export default function CustomProfile() {
 
                                     {
                                         rol === 2 ?
-                                        <div className='my-2'>
-                                            <span class="fa fa-star px-1 checked"></span>
-                                            <span class="fa fa-star px-1 checked"></span>
-                                            <span class="fa fa-star px-1 checked"></span>
-                                            <span class="fa fa-star px-1 checked"></span>
-                                            <span class="fa fa-star px-1 checked"></span>
+                                        (
+                                            <div className='my-2'>
+                                                <a style={{color:"#FFD902"}}><strong>Score :</strong> {state.score}<br/></a>
+                                                {Math.round(state.score) == 5 && (
+                                                    <>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                    </>
+                                                )}
+                                                {Math.round(state.score) === 4 && (
+                                                    <>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                    </>
+                                                )}
+                                                {Math.round(state.score) === 3 && (
+                                                    <>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                    </>
+                                                )}
+                                                {Math.round(state.score) === 2 && (
+                                                    <>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                    </>
+                                                )}
+                                                {Math.round(state.score) === 1 && (
+                                                    <>
+                                                        <span className="fa fa-star px-1 checked"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                    </>
+                                                )}
+                                                {Math.round(state.score) === 0 && (
+                                                    <>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                        <span className="fa fa-star px-1"></span>
+                                                    </>
+                                                )}
                                             </div>
-                                        : null
+                                        ) : null
                                     }
 
                                 </div>
