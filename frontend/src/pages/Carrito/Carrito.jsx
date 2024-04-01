@@ -105,10 +105,10 @@ export const Carrito = () => {
         let endpoint = `user/purchase`
         let body = {
             client_id: usuario,
-            products: productos,
+            productos: productos,
             payment_id: selectedPaymentMethod,
             total: total + 20
-        }
+        };
 
         postData({endpoint, body}).then(data => {
             console.log(data);

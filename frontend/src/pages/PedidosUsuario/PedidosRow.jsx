@@ -16,10 +16,13 @@ import './MisPedidos.css';
 
 import { StarFill } from 'react-bootstrap-icons';
 
+import { postData } from '../../api/api';
+
 export const PedidosRow = (props) => {
 
     const {
         id,
+        id_vendedor,
         vendedor,
         productos = [],
         calificacion,
@@ -45,7 +48,34 @@ export const PedidosRow = (props) => {
     }, []);
 
     const handleCalificar = () => {
+        
+        let endpoint = `user/rate-purchase`;
+        let body = {
+            purchase_id: id,
+            dpi: id_vendedor,
+            score: calificacionPreview
+        };
+
+        postData({endpoint, body}).then(data => {
+            // console.log(data);
+            if(data.TYPE == "SUCCESS"){
+                Swal.fire({
+                    title: 'Calificación exitosa',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Ocurrió un error al calificar al vendedor',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            }
+        });
+
         setCalificacionVendedor(calificacionPreview);
+
         handleClose();
     }
 

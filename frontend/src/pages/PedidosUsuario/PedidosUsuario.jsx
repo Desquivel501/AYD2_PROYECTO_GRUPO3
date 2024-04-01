@@ -74,6 +74,7 @@ export const PedidosUsuario = () => {
                                 productos={pedido.products}
                                 total={0}
                                 calificacion={pedido.score}
+                                id_vendedor={pedido.dpi}
                             />
                         ))
                         
