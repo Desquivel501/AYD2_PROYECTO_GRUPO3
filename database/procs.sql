@@ -902,3 +902,89 @@ rate_purchase:BEGIN
 	SET s.score = avg_score
 	WHERE s.dpi = seller_in;
 END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER LOS PRODUCTOS MÁS VENDIDOS #################################################### 
+CREATE PROCEDURE IF NOT EXISTS MostSelledProducts()
+BEGIN
+	SELECT p.name AS name,
+	u.email AS email,
+	u.name AS name,
+	COUNT(*) AS selled_amount
+	FROM purchase_details pd
+	JOIN products p
+	ON p.prod_id = pd.prod_id 
+	JOIN users u 
+	ON p.dpi = u.dpi 
+	GROUP BY p.prod_id 
+	ORDER BY selled_amount DESC;
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER LOS PRODUCTOS MÁS VENDIDOS #################################################### 
+CREATE PROCEDURE IF NOT EXISTS BestSellers()
+BEGIN
+	SELECT u.name,
+	u.email,
+	COUNT(*) AS selled_amount
+	FROM purchase_details pd
+	JOIN products p
+	ON p.prod_id = pd.prod_id 
+	JOIN users u
+	ON u.dpi = p.dpi 
+	GROUP BY u.dpi
+	ORDER BY selled_amount DESC;
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER LAS CATEGORÍAS MÁS VENDIDAS #################################################### 
+CREATE PROCEDURE IF NOT EXISTS MostSelledCategories()
+BEGIN
+	SELECT pc.prod_cat AS category,
+	COUNT(*) AS selled_amount
+	FROM purchase_details pd
+	JOIN products p
+	ON pd.prod_id = p.prod_id 
+	JOIN prod_categories pc
+	ON p.cat_id = pc.cat_id 
+	GROUP BY pc.cat_id
+	ORDER BY selled_amount DESC;
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER LAS CATEGORÍAS MÁS VENDIDAS DE UN VENDEDOR EN CONCRETO #################################################### 
+CREATE PROCEDURE IF NOT EXISTS MostSelledSCategories(
+	IN dpi_in BIGINT
+)
+BEGIN
+	SELECT pc.prod_cat AS category,
+	COUNT(*) AS selled_amount
+	FROM purchase_details pd
+	JOIN products p
+	ON pd.prod_id = p.prod_id 
+	JOIN prod_categories pc
+	ON p.cat_id = pc.cat_id 
+	AND p.dpi = dpi_in
+	GROUP BY pc.cat_id
+	ORDER BY selled_amount DESC;
+END $$
+
+
+-- ########################################## PROCEDIMIENTO PARA OBTENER LOS PRODUCTOS MÁS VENDIDOS DE UN VENDEDOR EN CONCRETO #################################################### 
+CREATE PROCEDURE IF NOT EXISTS MostSelledSProducts(
+	IN dpi_in BIGINT
+)
+BEGIN
+	SELECT p.name AS name,
+	u.email AS email,
+	u.name AS name,
+	COUNT(*) AS selled_amount
+	FROM purchase_details pd
+	JOIN products p
+	ON p.prod_id = pd.prod_id 
+	JOIN users u 
+	ON p.dpi = u.dpi 
+	AND p.dpi = dpi_in
+	GROUP BY p.prod_id 
+	ORDER BY selled_amount DESC;
+END $$
