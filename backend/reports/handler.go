@@ -19,6 +19,7 @@ func GetMostSelledProductsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent("Se obtiene reporte de los productos más vendidos")
+	logs.AddToHistory(0, "Generar reporte", "Se genera reporte de mejor producto")
 	// Convierte el slice de MostSelledProductEntry a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(entries)
@@ -35,6 +36,7 @@ func GetBestSellerHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent("Se obtiene reporte de mejores vendedores")
+	logs.AddToHistory(0, "Generar reporte", "Se genera reporte mejores vendedores")
 	// Convierte el slice de BestSellerEntry a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(entries)
@@ -51,6 +53,7 @@ func GetMostSelledCategoryHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent("Se obtiene reporte de categoria más vendida")
+	logs.AddToHistory(0, "Generar reporte", "Se genera reporte de categoria más vendida")
 	// Convierte el slice de MostSelledCategoryEntry a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(entries)
@@ -83,6 +86,7 @@ func GetMostSelledSProductsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent(fmt.Sprintf("Se obtiene lista de producto del vendedor con ID=%s", dpi_str))
+	logs.AddToHistory(0, "Generar reporte", "Se genera reporte de productos más vendidos por vendedor")
 	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(entries)
@@ -115,6 +119,7 @@ func GetMostSelledSCategoryHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.AddLogEvent(fmt.Sprintf("Se obtiene lista de producto del vendedor con ID=%s", dpi_str))
+	logs.AddToHistory(0, "Generar reporte", "Se genera reporte de listar categorías más vendida por vendedor")
 	// Convierte el slice de Product a JSON y escribe la respuesta HTTP
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(entries)

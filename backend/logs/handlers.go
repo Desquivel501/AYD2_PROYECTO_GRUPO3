@@ -36,8 +36,8 @@ func DownloadLogFileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func GetBitacoraHandler(w http.ResponseWriter, r *http.Request) {
-	result, err := GetBitacora()
+func GetHistoryHandler(w http.ResponseWriter, r *http.Request) {
+	result, err := GetHistory()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		AddLogEvent(err.Error())
@@ -45,7 +45,7 @@ func GetBitacoraHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(result) == 0 {
-		result = make([]BitacoraEntry, 0)
+		result = make([]HistoryEntry, 0)
 	}
 
 	AddLogEvent("Se obtiene a todos los elementos de la bitácora")
