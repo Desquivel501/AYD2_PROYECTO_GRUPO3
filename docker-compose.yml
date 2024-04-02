@@ -4,7 +4,7 @@ services:
   backend:
     container_name: backend
     restart: always
-    image: jams2808/ayd2_api_go:latest
+    image: jams2808/ayd2_backend:latest
     ports:
       - "8080:8080"
     expose:
