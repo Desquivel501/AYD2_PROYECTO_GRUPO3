@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  backend:
+    container_name: backend
+    restart: always
+    image: jams2808/ayd2_api_go:latest
+    ports:
+      - "8080:8080"
+    expose:
+      - "8000"
+
+  frontend:
+    container_name: frontend
+    restart: always
+    image: jams2808/ayd2_frontend:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    links:
+      - backend
