@@ -5,7 +5,16 @@ import { useUserPermission } from "../../utilities/Security/Permission";
 //import button_edit from "../assets/ButtonEdit/boton-editar.png";
 import { postData } from "../../api/api";
 
+import {
+  useParams,
+  useNavigate,
+} from 'react-router-dom';
+
+
 const ProfileSalesPerson = () => {
+
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState(null);
   const user = localStorage.getItem("user");
 
@@ -20,8 +29,9 @@ const ProfileSalesPerson = () => {
         // Obtener los datos del localStorage
 
         if (rol !== 2) {
-          window.location.href = "http://localhost:3000";
-          return;
+          // window.location.href = "http://localhost:3000";
+          // return;
+          navigate("/");
         }
 
         // Verificar que cui y role no sean null
@@ -40,29 +50,6 @@ const ProfileSalesPerson = () => {
             setUserData({name:"Usuario deshabilitado"})
           }
         });
-
-
-        // Realizar la solicitud POST
-        // const response = await fetch("http://localhost:8080/user/profile", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json"
-        //   },
-        //   body: JSON.stringify({ dpi: cui, role: rol })
-        // });
-
-        // console.log(response)
-
-        // console.log(data)
-        // if(data.role ==2){
-        //   data.role = "Vendedor";
-        // }
-        // if(data.state==1){
-        //   setUserData(data); // Actualizar el estado con los datos obtenidos
-        // }else{
-        //   setUserData({name:"Usuario deshabilitado"})
-        // }
-
       } catch (error) {
         console.error("Error:", error);
       }
