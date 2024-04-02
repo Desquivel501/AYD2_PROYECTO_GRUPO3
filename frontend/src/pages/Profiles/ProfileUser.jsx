@@ -3,7 +3,12 @@ import "./ProfileUser.css";
 import CustomNavbar from "../../components/navbar/navbar";
 import { useUserPermission } from "../../utilities/Security/Permission";
 
+import { useNavigate } from 'react-router-dom';
+
 const ProfileUser = () => {
+
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [editedUserData, setEditedUserData] = useState({
@@ -22,35 +27,25 @@ const ProfileUser = () => {
     const rol = JSON.parse(user).type;
     
     if (rol !== 1) {
-      console.log(rol);
-      window.location.href = "http://localhost:3000/"; 
-      return; 
+      // console.log(rol);
+      // window.location.href = "http://localhost:3000/"; 
+      // return; 
+      navigate("/");
     }
-    
-    try {
-      const response = await fetch("http://localhost:8080/user/profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ dpi: cui, role: rol }),
-      });
+    let endpoint = `user/profile`;
+    let body = { dpi: cui, role: rol };
 
-      if (!response.ok) {
-        throw new Error("Error al obtener los datos del usuario");
-      }
-      const data = await response.json();
+    postData({ endpoint, body }).then((data) => {
       if (data.role === 1) {
         data.role = "Usuario";
       }
       if (data.state === 1) {
         setUserData(data);
-      }else{
-        setUserData({name:"Usuario deshabilitado"})
+      } else {
+        setUserData({ name: "Usuario deshabilitado" });
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    });
+
   };
 
   useUserPermission(1)

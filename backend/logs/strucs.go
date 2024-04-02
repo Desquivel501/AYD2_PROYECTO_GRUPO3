@@ -8,7 +8,7 @@ type LogStruct struct {
 }
 
 // Estructura para representar un elemento de la bitacora
-type BitacoraEntry struct {
+type HistoryEntry struct {
 	ID      int    `json:"id"`
 	Date    string `json:"date"`
 	User    string `json:"user"`
