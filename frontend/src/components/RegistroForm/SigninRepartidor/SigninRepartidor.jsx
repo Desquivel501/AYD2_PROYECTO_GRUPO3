@@ -10,6 +10,8 @@ import Correct from "../../../components/Correct";
 import { useAddRepartidor, useAddUser, useVerifyCode } from "../../../api/usersApi";
 import { DepartamentosyMunicipios } from "../../../utilities/options";
 
+import { SubirImagen } from "../../../api/api";
+
 export default function SigninRepartidor(props) {
   const { stylee } = props;
   const [showError, setShowError] = useState(false);
@@ -187,7 +189,7 @@ export default function SigninRepartidor(props) {
 
   return (
     <div className="Signin" style={{ backgroundColor: (stylee ? ('white') : ''), color: (stylee ? ('black') : 'white'), }}>
-      <h3 style={{textAlign:"center"}}>¡Unete como repartidor!</h3>
+      <h3 style={{textAlign:"center"}}>¡Unete como vendedor!</h3>
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="name" >
           <Form.Label>Nombre completo</Form.Label>
@@ -332,7 +334,7 @@ export default function SigninRepartidor(props) {
       {/* <Button className="SubmitBtn" block="true" size="lg" onClick={() => { navigate('/register/repartidor') }}>
         Repartidor
       </Button> */}
-      <Link to="/register/repartidor" className="link-to-inicio-sesion">Registrarse como repartidor</Link>
+      <Link to="/register/repartidor" className="link-to-inicio-sesion">Registrarse como vendedor</Link>
       {showverification && (
         <Form onSubmit={handleVerification}>
           <Form.Group size="lg" controlId="verification-code" >
