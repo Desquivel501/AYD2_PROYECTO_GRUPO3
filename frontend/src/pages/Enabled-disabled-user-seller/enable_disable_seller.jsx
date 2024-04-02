@@ -6,104 +6,114 @@ import image_habilitar from "./destello.png";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
+import { postData } from "../../api/api.js";
+
+import {
+  useNavigate,
+} from 'react-router-dom';
+import { getData } from "../../api/api.js";
+
 const MySwal = withReactContent(Swal);
 const EnableDisabledSeller = () => {
+
+  const navigate = useNavigate();
+
   const [data_en, setData_en] = useState([]);
 
   const [data_dis, setData_dis] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/enabled-users");
-        const jsonData = await response.json();
-        setData_en(jsonData);
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      }
-    };
+  const user = localStorage.getItem("user");
 
-    fetchData();
+  // const cui = localStorage.getItem("id_user");
+  // const rol = localStorage.getItem("type");
+  const cui = JSON.parse(user).id;
+  const rol = JSON.parse(user).type;
+
+  if (rol !== 0) {
+    navigate("/");
+  }
+
+  const fetchDataEnable = async () => {
+
+    let endpoint = `enabled-users`;
+    getData({ endpoint }).then((data) => {
+      setData_en(data);
+    });
+
+  };
+  
+  useEffect(() => {
+    fetchDataEnable();
   }, []);
 
+  const fetchDataDisable = async () => {
+    let endpoint = `disabled-users`;
+    getData({ endpoint }).then((data) => {
+      setData_dis(data);
+    });
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/disabled-users");
-        const jsonData = await response.json();
-        setData_dis(jsonData);
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      }
-    };
-
-    fetchData();
+    fetchDataDisable();
   }, []);
+  
 
-  const handleDisableClick = (dpi) => {
+  const handleDisableClick = async (dpi) => {
     Swal.fire({
-      title: "Estas seguro de deshabilitar este vendedor " + dpi + " ?",
+      title: "Estas seguro de deshabilitar este usuario " + dpi + " ?",
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Don't save`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        try {
-          const response = fetch("http://localhost:8080/user/disable-user", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ dpi: parseInt(dpi) }),
-          });
-          const ok = response.json();
+    }).then(async (result) => { // Utilizamos async aquí también
 
-          if (ok.type === "SUCCESS") {
-            Swal.fire("Se deshabilitó al vendedor!", "", "success");
-            setData((prevData) => {
+      if (result.isConfirmed) {
+
+        let endpoint = `user/disable-user`;
+
+        let body = { dpi: parseInt(dpi) };
+
+        postData({ endpoint, body }).then((data) => {
+          if (data.TYPE === "SUCCESS") {
+            Swal.fire("Se deshabilitó al usuario!", "", "success");
+            setData_en((prevData) => {
               return prevData.filter((item) => item.dpi !== dpi);
             });
+            fetchDataEnable();
+            fetchDataDisable();
           } else {
-            Swal.fire("No se pudo deshabilitar al vendedor!", "", "error");
+            Swal.fire("No se pudo deshabilitar al usuario!", "", "error");
           }
-        } catch (error) {
-          console.log("Error", error);
-          Swal.fire("Ocurrio un error!", "", "error");
-        }
+        });
       }
     });
   };
 
-  const handleEnableClick = (dpi) => {
+  const handleEnableClick = async (dpi) => {
     Swal.fire({
-      title: "Estas seguro de habilitar este vendedor " + dpi + " ?",
+      title: "Estas seguro de habilitar este usuario " + dpi + " ?",
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Don't save`,
-    }).then((result) => {
+    }).then(async (result) => { // Utilizamos async aquí también
       if (result.isConfirmed) {
-        try {
-          const response = fetch("http://localhost:8080/user/enable-user", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ dpi: parseInt(dpi) }),
-          });
-          const ok = response.json();
 
-          if (ok.type === "SUCCESS") {
-            Swal.fire("Se habilitó el vendedor!", "", "success");
-            setData((prevData) => {
+        let endpoint = `user/enable-user`;
+        let body = { dpi: parseInt(dpi) };
+
+        postData({ endpoint, body }).then((data) => {
+          if (data.TYPE === "SUCCESS") {
+            Swal.fire("Se habilitó el usuario!", "", "success");
+            setData_dis((prevData) => {
               return prevData.filter((item) => item.dpi !== dpi);
             });
+            fetchDataEnable();
+            fetchDataDisable();
           } else {
-            Swal.fire("No se pudo habilitar al vendedor!", "", "error");
+            Swal.fire("No se pudo habilitar al usuario!", "", "error");
           }
-        } catch (error) {
-          console.log("Error", error);
-          Swal.fire("Ocurrio un error!", "", "error");
-        }
+        });
+
+
       }
     });
   };

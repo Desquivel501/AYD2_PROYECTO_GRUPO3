@@ -13,6 +13,13 @@ type User struct {
 	Type     string `json:"type"`
 }
 
+//Estructura para el rating de una compra
+type purchase_rating struct {
+	Id     int64 `json:"purchase_id"`
+	Seller int64 `json:"dpi"`
+	Score  int64 `json:"score"`
+}
+
 //Estructura para credenciales
 type Credentials struct {
 	Email    string `json:"email"`
@@ -23,5 +30,27 @@ type Credentials struct {
 type Message struct {
 	Message string `json:"MESSAGE"`
 	Type    string `json:"TYPE"`
-	Data 	int64  `json:"DATA"`
+	Data    int64  `json:"DATA"`
+}
+
+type Message2 struct {
+	Message      string `json:"MESSAGE"`
+	Type         string `json:"TYPE"`
+	RecoveryCode int64  `json:"RECOVERY_CODE"`
+}
+
+type ChangePassword struct {
+	Email    string `json:"email"`
+	Code     int64  `json:"code"`
+	Password string `json:"password"`
+}
+
+type PaymentMethod struct {
+	Alias      string `json:"alias"`
+	Cardholder string `json:"cardholder"`
+	Number     int64  `json:"number"`
+	Exp        string `json:"exp"`
+	Cvv        int64  `json:"cvv"`
+	Dpi        int64  `json:"dpi"`
+	Id         int64  `json:"id"`
 }

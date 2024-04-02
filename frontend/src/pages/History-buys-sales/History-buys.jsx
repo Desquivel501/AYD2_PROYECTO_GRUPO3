@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import CustomNavbar from "../../components/navbar/navbar.jsx";
 import "./History_buys.css";
+import { useUserPermission } from '../../utilities/Security/Permission.js';
+import { getData } from '../../api/api.js';
 
 const HistoryBuys = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/history-buys'); 
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-      }
+      let endpoint = `history-buys`;
+      getData({ endpoint }).then((data) => {
+        setData(data);
+      });
     };
 
     fetchData();
   }, []); 
+
+  useUserPermission(1);
 
   return (
     <div>

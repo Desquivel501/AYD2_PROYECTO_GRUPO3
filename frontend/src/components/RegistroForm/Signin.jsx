@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Error from "../../components/Error";
 import Correct from "../../components/Correct";
 import { useAddUser, useVerifyCode } from "../../api/usersApi";
+import { SubirImagen } from "../../api/api";
 //import Webcam from "react-webcam";
 //import htmlToImage from 'html-to-image';
 //import { toPng } from 'html-to-image';
@@ -16,6 +17,7 @@ import { useAddUser, useVerifyCode } from "../../api/usersApi";
 export default function Signin(props) {
   const { stylee } = props;
   const [showError, setShowError] = useState(false);
+  const [message, setMessage] = useState("");
   const [showCorrect, setShowCorrect] = useState(false);
   const [showErrorV, setShowErrorV] = useState(false);
   const [showCorrectV, setShowCorrectV] = useState(false);
@@ -41,17 +43,25 @@ export default function Signin(props) {
 
   useEffect(() => {
     if (data) {
-      console.log(data?.data);
-      if (data.data.status === 1) {
+      console.log(data);
+      if (data.data.TYPE === "SUCCESS") {
         setShowError(false);
         setShowCorrect(true);
-        setShowVerification(true);
+        setMessage(data.data.MESSAGE);
+        //setShowVerification(true);
         //navigate("/")
       } else {
         setShowError(true);
       }
     }
   }, [data])
+
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+      setMessage(error.message);
+    }
+  }, [isError])
 
   // Convertir archivo pdf a base64
   const convertToBase64 = (file) => {
@@ -67,8 +77,8 @@ export default function Signin(props) {
     const file = event.target.files[0];
     console.log(file.type);
     // Verificar si el archivo es un PDF
-    if (file.type === 'image/jpeg') {
-      convertToBase64(file)
+    if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg') {
+      /* convertToBase64(file)
         .then((base64) => {
           // Aquí tienes el archivo PDF convertido a base64
           setFile({
@@ -79,7 +89,9 @@ export default function Signin(props) {
         })
         .catch((error) => {
           console.error('Error al convertir el archivo a base64:', error);
-        });
+        }); */
+      setFile(file);
+      
     } else {
       console.error('Por favor, selecciona un archivo de tipo imagen.');
     }
@@ -106,24 +118,46 @@ export default function Signin(props) {
   }, [capturedImage]) */
 
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    setShowCorrect(false);
-    setShowError(false);
+  async function handleSubmit(event) {
+  event.preventDefault();
+  setShowCorrect(false);
+  setShowError(false);
+
+  const uploadImage = async () => {
+    let url = "";
+    if (file) {
+      url = await SubirImagen(file);
+    }
+    return url;
+  };
+
+  try {
+    const imageUrl = await uploadImage();
+    console.log(imageUrl);
+
     if (password !== Cpassword) {
       setShowError(true);
+      setMessage("Las contraseñas no coinciden");
     } else {
-      //Aqui se hara la petición al backend
+      // Aquí se hará la petición al backend
       const info = {
-        "name": name,
-        "email": email,
-        'dpi': dpi,
-        "password": password,
-        "image": file,
-      }
+        name: name,
+        email: email,
+        dpi: parseInt(dpi),
+        password: password,
+        image: imageUrl,
+        type: "usuario",
+      };
+      //console.log(info);
       mutAddUser(info)
     }
+  } catch (error) {
+    console.error("Error al subir la imagen:", error);
+    setShowError(true);
+    setMessage("Error al subir la imagen");
+    // Manejar el error según sea necesario
   }
+}
 
   function handleVerification(event) {
     event.preventDefault();
@@ -297,13 +331,14 @@ export default function Signin(props) {
           <div className="signin">
             ¿Ya tienes cuenta? <Link to="/log-in" className="link-to-inicio-sesion">Inicia Sesion</Link>
           </div>
-          <Error msg={data?.data?.message} showw={showError} />
-          <Correct msg={data?.data?.message} showw={showCorrect} />
+          <Error msg={message} showw={showError} />
+          <Correct msg={message} showw={showCorrect} />
         </div>
       </Form>
-      <Button className="SubmitBtn" block="true" size="lg" onClick={()=>{navigate('/register/repartidor')}}>
+      {/* <Button className="SubmitBtn" block="true" size="lg" onClick={() => { navigate('/register/repartidor') }}>
         Repartidor
-      </Button>
+      </Button> */}
+      <Link to="/register/repartidor" className="link-to-inicio-sesion">Registrarse como vendedor</Link>
       {showverification && (
         <Form onSubmit={handleVerification}>
           <Form.Group size="lg" controlId="verification-code" >

@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-/* import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container'; */
 import "../../styles/views/Login.scss";
 import { Link, useNavigate } from "react-router-dom";
-//import GeneralLayout from "../../layouts/GeneralLayout/GeneralLayout";
 import { useUserLogin } from "../../api/usersApi";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import Error from "../../components/Error";
-//import food1 from "../../media/images/food1.jpg";
-import { usePermissionNavigation } from "../../utilities/Security/Permission";
-//import logo from "../../media/images/logo.png";
-//import FullLogo from "../../media/images/full-logo.png";
-//import { BsPersonBoundingBox } from "react-icons/bs";
 const queryClient = new QueryClient();
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   function validateForm() {
@@ -35,35 +28,41 @@ export default function Login() {
 
   //usePermissionNavigation()
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (data) {
       console.log(data)
-      if (data.data.user.status === 1) {
+      if (data.data.TYPE === "ERROR") {
+        setShowError(true);
+        setMessage(data.data.MESSAGE);
+      } else {
         //TODO: segun el numero de rol, redirigir a una pagina u otra
         setShowError(false);
 
 
-        if (data.data.rol === 4) {
-          navigate("/user");
-        } else if (data.data.rol === 2) {
-          navigate("/empresa");
-        } else if (data.data.rol === 3) {
-          navigate("/repartidor");
+         if (data.data.MESSAGE === '2') {
+          navigate("/profile");
+        } else if (data.data.MESSAGE === "1") {
+          navigate("/catalogo");
         }
-        else if (data.data.rol === 1) {
-          navigate("/admin");
+        else if (data.data.MESSAGE === '0') {
+          navigate("/profile");
         }
-        navigate("/home")
+        /* navigate("/home")
         else if (data.data.usuario.role === "turist") {
           navigate("/user");
         } else if (data.data.usuario.role === "recepcionist") {
           navigate("/recepcionist");
-        }
-      } else {
-        setShowError(true);
+        } */
       }
     }
-  }, [data]) */
+  }, [data])
+
+  useEffect(() => {
+    if (isError) {
+      setShowError(true);
+      setMessage(error.message);
+    }
+  }, [isError])
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -111,12 +110,7 @@ export default function Login() {
           <div className="signin">
             <Link to="/forget-password" className="link-to-registro">Olvide mi contraseña</Link>
           </div>
-          {
-            isError && (
-              <Error msg={error} showw={isError} />
-            )
-          }
-          <Error msg={data?.data?.user?.message} showw={showError} />
+          <Error msg={message} showw={showError} />
         </div>
       </Form>
     </div>

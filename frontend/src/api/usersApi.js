@@ -9,7 +9,7 @@ const api = axios.create({
     baseURL: baseUrl,
 });
 
-export const getUsers = () => api.get('/getUsers').then(res=>res.data);
+export const getUsers = () => api.get('/getUsers').then(res => res.data);
 
 // Login user
 
@@ -21,18 +21,26 @@ export const logIn = (user) => {
 };
 
 
-export const useUserLogin = () =>{
+export const useUserLogin = () => {
     //console.log(useMutation(logIn))
     const queryClient = useQueryClient();
     return useMutation(logIn, {
         onSuccess: (data) => {
+            console.log(data)
             /* queryClient.setQueryData('user', () => {
                 return {
                     data: d,
                 }
             }); */
-            queryClient.setQueryData('user', data, { keepPreviousData: true });
-            localStorage.setItem('user', JSON.stringify(data));
+            if (data.data.TYPE === "ERROR") {
+                console.log("Error")
+            } else {
+                queryClient.setQueryData('user', data, { keepPreviousData: true });
+                localStorage.setItem('user', JSON.stringify({
+                    "type": parseInt(data.data.MESSAGE),
+                    "id":  parseInt(data.data.DATA),
+                }));
+            }
         }
     });
 }
@@ -46,9 +54,9 @@ export const addUser = (user) => {
     return api.post('/user/register', user)
 };
 
-export const useAddUser = () =>{
+export const useAddUser = () => {
     //console.log(useMutation(logIn))
-    return useMutation(addUser,{
+    return useMutation(addUser, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -64,9 +72,9 @@ export const updateUser = (user) => {
     return api.post('/user/update', user)
 };
 
-export const useUpdateUser = () =>{
+export const useUpdateUser = () => {
     //console.log(useMutation(logIn))
-    return useMutation(updateUser,{
+    return useMutation(updateUser, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -82,9 +90,9 @@ export const verifyCode = (user) => {
     return api.post('/user/verify', user)
 };
 
-export const useVerifyCode = () =>{
+export const useVerifyCode = () => {
     //console.log(useMutation(logIn))
-    return useMutation(verifyCode,{
+    return useMutation(verifyCode, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -101,9 +109,9 @@ export const addRepartidor = (user) => {
     return api.post('/registroRepartidor', user)
 };
 
-export const useAddRepartidor = () =>{
+export const useAddRepartidor = () => {
     //console.log(useMutation(logIn))
-    return useMutation(addRepartidor,{
+    return useMutation(addRepartidor, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -119,9 +127,9 @@ export const addEmpresa = (user) => {
     return api.post('/registroEmpresa', user)
 };
 
-export const useAddEmpresa = () =>{
+export const useAddEmpresa = () => {
     //console.log(useMutation(logIn))
-    return useMutation(addEmpresa,{
+    return useMutation(addEmpresa, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -135,9 +143,9 @@ export const deleteUser = (user) => {
     return api.post('/usuarios/deleteUser', user)
 };
 
-export const useDeleteUser = () =>{
+export const useDeleteUser = () => {
     //console.log(useMutation(logIn))
-    return useMutation(deleteUser,{
+    return useMutation(deleteUser, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -149,9 +157,9 @@ export const realizarPedido = (pedido) => {
     return api.post('/realizarPedido', pedido)
 };
 
-export const useRealizarPedido = () =>{
+export const useRealizarPedido = () => {
     //console.log(useMutation(logIn))
-    return useMutation(realizarPedido,{
+    return useMutation(realizarPedido, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -163,8 +171,8 @@ export const getEmpresasList = (categoria) => {
     return api.post('/empresasCategoria', categoria)
 };
 
-export const useEmpresasList = () =>{
-    return useMutation(getEmpresasList,{
+export const useEmpresasList = () => {
+    return useMutation(getEmpresasList, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -176,8 +184,8 @@ export const getPedidosUsuario = (usuario) => {
     return api.post('/historialPedidosU', usuario)
 };
 
-export const usePedidosUsuario = () =>{
-    return useMutation(getPedidosUsuario,{
+export const usePedidosUsuario = () => {
+    return useMutation(getPedidosUsuario, {
         onSuccess: (data) => {
             console.log(data)
         }
@@ -189,8 +197,8 @@ export const calificarPedido = (pedido) => {
     return api.post('/calificar', pedido)
 };
 
-export const useCalificarPedido = () =>{
-    return useMutation(calificarPedido,{
+export const useCalificarPedido = () => {
+    return useMutation(calificarPedido, {
         onSuccess: (data) => {
             console.log(data)
         }

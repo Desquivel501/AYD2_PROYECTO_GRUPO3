@@ -12,6 +12,7 @@ import { Cart, Search } from 'react-bootstrap-icons';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { getData } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
+import { useUserPermission } from '../../utilities/Security/Permission';
 
 
 export const Catalogo = () => {
@@ -21,6 +22,8 @@ export const Catalogo = () => {
     const [categories, setCategories] = useState([]);
     const [categories2, setCategories2] = useState([]);
 
+
+    useUserPermission(1);
 
     const [search, setSearch] = useState('');
     const [minPrice, setMinPrice] = useState(0);
@@ -68,11 +71,11 @@ export const Catalogo = () => {
         setCategories(categories)
     }
 
-    const handleClick = (e) => {
-        console.log(e);
-        const route = `/producto/${e}`;
-        navigate(route);
-    }
+    // const handleClick = (e) => {
+    //     console.log(e);
+    //     const route = `/producto/${e}`;
+    //     navigate(route);
+    // }
 
 
     function filter(item) {
@@ -132,7 +135,7 @@ export const Catalogo = () => {
 
                             </Col>
                         </Row>
-                        <Row>
+                        {/* <Row>
                             <Col xl={12} className='pb-3' >
                                 <h5 style={{color:"black", fontWeight:'bold'}}>Categoria</h5>
                                 <Form aria-label="Categorias" className='categoria-form' style={{maxHeight: "40vh", overflow: "auto"}}>
@@ -143,7 +146,7 @@ export const Catalogo = () => {
                                     })}
                                 </Form>
                             </Col>
-                        </Row>
+                        </Row> */}
                     </Container>
                 </Col>
 
@@ -153,7 +156,7 @@ export const Catalogo = () => {
                     <Row>
                         {products.map((product, i) => (
                             filter(product) &&
-                            <Col xl={3} className='px-1 mb-2' key={i} onClick={() => handleClick(product.product_id)}>
+                            <Col xl={3} className='px-1 mb-2' key={i}>
                                 <ProductCard
                                     id={product.product_id}
                                     logo={product.imagen}

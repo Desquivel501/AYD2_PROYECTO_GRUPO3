@@ -6,100 +6,93 @@ import image_aceptar from "./aceptar.png";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
+import {
+  useNavigate,
+} from 'react-router-dom';
+import { getData, postData } from '../../api/api.js';
+
 const MySwal = withReactContent(Swal)
+
 const SellerRequests = () => {
+
+  const navigate = useNavigate();
+
   const [data, setData] = useState([]);
+
+  const user = localStorage.getItem("user");
+
+  const cui = JSON.parse(user).id;
+  const rol = JSON.parse(user).type;
+
+  if (rol !== 0) {
+    navigate("/");
+  }
 
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/pending-sellers');
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-      }
+      let endpoint = `pending-sellers`;
+      getData({ endpoint }).then((data) => {
+        setData(data);
+      });
     };
 
     fetchData();
   }, []); 
 
-  const handleDeleteClick = (dpi) => {
+  const handleDeleteClick = async (dpi) => {
     
     Swal.fire({
-      title: "Estas seguro de denegar la solicitud a este vendedor "+dpi+" ?",
+      title: "Estás seguro de denegar la solicitud a este vendedor "+dpi+" ?",
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Don't save`
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        
+        let endpoint = `user/decline-seller`;
+        let body = { dpi: parseInt(dpi) };
 
-        try {
-          const response =  fetch('http://localhost:8080/user/decline-seller', {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json'
-            },
-            body:JSON.stringify({dpi: parseInt(dpi)})
-          });  
-          const ok = response.json();
-
-          if(ok.type === 'SUCCESS'){
+        postData({ endpoint, body }).then((data) => {
+          if (data.TYPE === "SUCCESS") {
             Swal.fire("Se denegó la solicitud!", "", "success");
-            setData(prevData => {
-              return prevData.filter(item => item.dpi !== dpi);
+            setData((prevData) => {
+              return prevData.filter((item) => item.dpi !== dpi);
             });
-          }else{
+          } else {
             Swal.fire("No se denegó la solicitud!", "", "error");
           }
-        } catch (error) {
-          console.log('Error', error);
-          Swal.fire("Ocurrio un error!", "", "error");
-        }
+        });
         
       }
     });
   };
 
-  const handleAcceptClick = (dpi) => {
+const handleAcceptClick = async (dpi) => {
     
     Swal.fire({
-      title: "Estas seguro de aceptar la solicitud a este vendedor "+dpi+" ?",
+      title: "Estás seguro de aceptar la solicitud a este vendedor "+dpi+" ?",
       showCancelButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Don't save`
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        
+        let endpoint = `user/accept-seller`;
+        let body = { dpi: parseInt(dpi) };
 
-        try {
-          const response =  fetch('http://localhost:8080/user/accept-seller', {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json'
-            },
-            body:JSON.stringify({dpi: parseInt(dpi)})
-          });  
-          const ok = response.json();
-
-          if(ok.type === 'SUCCESS'){
+        postData({ endpoint, body }).then((data) => {
+          if (data.TYPE === "SUCCESS") {
             Swal.fire("Se aceptó la solicitud!", "", "success");
-            setData(prevData => {
-              return prevData.filter(item => item.dpi !== dpi);
+            setData((prevData) => {
+              return prevData.filter((item) => item.dpi !== dpi);
             });
-          }else{
+          } else {
             Swal.fire("No se aceptó la solicitud!", "", "error");
           }
-        } catch (error) {
-          console.log('Error', error);
-          Swal.fire("Ocurrio un error!", "", "error");
-        }
-        
+        });
       }
     });
   };
+
 
   return (
     <div>

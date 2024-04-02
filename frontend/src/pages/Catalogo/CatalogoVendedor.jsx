@@ -15,6 +15,7 @@ import {
     useParams,
     useNavigate,
 } from 'react-router-dom';
+import { useUserPermission } from '../../utilities/Security/Permission';
 
 import Swal from 'sweetalert2';
 
@@ -34,6 +35,8 @@ export const CatalogoVendedor = () => {
     const [maxPrice, setMaxPrice] = useState(10000);
 
     const navigate = useNavigate();
+
+    useUserPermission(2);
 
     useEffect(() => {
         const endpoint = `my-products?id=${id}`
@@ -151,7 +154,7 @@ export const CatalogoVendedor = () => {
 
                             </Col>
                         </Row>
-                        <Row>
+                        {/* <Row>
                             <Col xl={12} className='pb-3' >
                                 <h5 style={{color:"black", fontWeight:'bold'}}>Categoria</h5>
                                 <Form aria-label="Categorias" className='categoria-form' style={{maxHeight: "40vh", overflow: "auto"}}>
@@ -162,7 +165,7 @@ export const CatalogoVendedor = () => {
                                     })}
                                 </Form>
                             </Col>
-                        </Row>
+                        </Row> */}
                     </Container>
                 </Col>
 
