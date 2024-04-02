@@ -1,4 +1,4 @@
-package product
+package products
 
 // Estructura para representar un producto
 type Product struct {

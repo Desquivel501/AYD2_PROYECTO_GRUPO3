@@ -4,10 +4,18 @@ import CustomNavbar from "../../components/navbar/navbar";
 import { useUserPermission } from "../../utilities/Security/Permission";
 import { postData } from "../../api/api";
 
+import {
+  useParams,
+  useNavigate,
+} from 'react-router-dom';
+
 
 //import button_edit from "../assets/ButtonEdit/boton-editar.png";
 
 const ProfileAdmin = () => {
+
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState(null);
 
   const user = localStorage.getItem("user");
@@ -20,8 +28,9 @@ const ProfileAdmin = () => {
       console.log(cui, rol);
       // Obtener los datos del localStorage
       if (rol !== 0) {
-        window.location.href = "http://localhost:3000";
-        return;
+        // window.location.href = "http://localhost:3000";
+        // return;
+        navigate("/");
       }
 
       // Verificar que cui y role no sean null

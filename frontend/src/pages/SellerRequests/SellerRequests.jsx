@@ -6,9 +6,17 @@ import image_aceptar from "./aceptar.png";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
+import {
+  useNavigate,
+} from 'react-router-dom';
+import { getData, postData } from '../../api/api.js';
+
 const MySwal = withReactContent(Swal)
 
 const SellerRequests = () => {
+
+  const navigate = useNavigate();
+
   const [data, setData] = useState([]);
 
   const user = localStorage.getItem("user");
@@ -17,20 +25,16 @@ const SellerRequests = () => {
   const rol = JSON.parse(user).type;
 
   if (rol !== 0) {
-  window.location.href = "http://localhost:3000"; 
-  return; 
+    navigate("/");
   }
 
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/pending-sellers');
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-      }
+      let endpoint = `pending-sellers`;
+      getData({ endpoint }).then((data) => {
+        setData(data);
+      });
     };
 
     fetchData();
@@ -45,29 +49,19 @@ const SellerRequests = () => {
       denyButtonText: `Don't save`
     }).then(async (result) => {
       if (result.isConfirmed) {
-        
-        try {
-          const response = await fetch('http://localhost:8080/user/decline-seller', {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json'
-            },
-            body:JSON.stringify({dpi: parseInt(dpi)})
-          });  
-          const ok = await response.json();
-          console.log(ok)
-          if(ok.TYPE === 'SUCCESS'){
+        let endpoint = `user/decline-seller`;
+        let body = { dpi: parseInt(dpi) };
+
+        postData({ endpoint, body }).then((data) => {
+          if (data.TYPE === "SUCCESS") {
             Swal.fire("Se denegó la solicitud!", "", "success");
-            setData(prevData => {
-              return prevData.filter(item => item.dpi !== dpi);
+            setData((prevData) => {
+              return prevData.filter((item) => item.dpi !== dpi);
             });
-          }else{
+          } else {
             Swal.fire("No se denegó la solicitud!", "", "error");
           }
-        } catch (error) {
-          console.log('Error', error);
-          Swal.fire("Ocurrió un error!", "", "error");
-        }
+        });
         
       }
     });
@@ -82,31 +76,19 @@ const handleAcceptClick = async (dpi) => {
       denyButtonText: `Don't save`
     }).then(async (result) => {
       if (result.isConfirmed) {
-        
-        try {
-          const response = await fetch('http://localhost:8080/user/accept-seller', {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json'
-            },
-            body:JSON.stringify({dpi: parseInt(dpi)})
-          });  
-          const ok = await response.json();
-          console.log(ok)
+        let endpoint = `user/accept-seller`;
+        let body = { dpi: parseInt(dpi) };
 
-          if(ok.TYPE === 'SUCCESS'){
+        postData({ endpoint, body }).then((data) => {
+          if (data.TYPE === "SUCCESS") {
             Swal.fire("Se aceptó la solicitud!", "", "success");
-            setData(prevData => {
-              return prevData.filter(item => item.dpi !== dpi);
+            setData((prevData) => {
+              return prevData.filter((item) => item.dpi !== dpi);
             });
-          }else{
+          } else {
             Swal.fire("No se aceptó la solicitud!", "", "error");
           }
-        } catch (error) {
-          console.log('Error', error);
-          Swal.fire("Ocurrió un error!", "", "error");
-        }
-        
+        });
       }
     });
   };

@@ -2,11 +2,11 @@ package users
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
+	"log"
 	"main/database"
 	"net/smtp"
-	"github.com/joho/godotenv"
 	"os"
-	"log"
 )
 
 func SendEmail(email string, code int64) {
@@ -16,7 +16,7 @@ func SendEmail(email string, code int64) {
 		log.Fatalf("Error cargando el archivo .env: %s", err)
 	}
 
-	from :=  os.Getenv("EMAIL")
+	from := os.Getenv("EMAIL")
 	password := os.Getenv("EMAIL_PASSWORD")
 	to := email
 
@@ -24,7 +24,7 @@ func SendEmail(email string, code int64) {
 		"To: " + to + "\n" +
 		"Subject: Codigo de recuperacion\n\n" +
 		"Su codigo de recuperacion es: " + fmt.Sprintf("%d", code)
-	
+
 	err = smtp.SendMail("smtp.gmail.com:587",
 		smtp.PlainAuth("", from, password, "smtp.gmail.com"),
 		from, []string{to}, []byte(msg))
@@ -45,7 +45,7 @@ func Login(credentials Credentials) (Message, error) {
 	result := db.QueryRow("CALL login(?,?)", credentials.Email, credentials.Password)
 	err := result.Scan(&response.Message, &response.Type, &response.Data)
 	if err != nil {
-		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado login(): %s", err.Error())
+		return Message{"ERROR", "ERROR", 0}, fmt.Errorf("error al ejecutar procedimiento almacenado login(): %s", err.Error())
 	}
 
 	return response, nil
@@ -70,13 +70,13 @@ func Register(new_user User) (Message, error) {
 
 	err := result.Scan(&response.Message, &response.Type)
 	if err != nil {
-		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado register(): %s", err.Error())
+		return Message{"ERROR", "ERROR", 0}, fmt.Errorf("error al ejecutar procedimiento almacenado register(): %s", err.Error())
 	}
 
 	return response, nil
 }
 
-func getProfile(user User) (User, error) {
+func GetProfile(user User) (User, error) {
 	var response User
 	db := database.GetConnection()
 
@@ -295,6 +295,59 @@ func ChangePasswordFunc(changePassword ChangePassword) (Message, error) {
 	db := database.GetConnection()
 
 	result := db.QueryRow("Call ChangePassword(?,?)", changePassword.Email, changePassword.Password)
+	err := result.Scan(&response.Message, &response.Type)
+	if err != nil {
+		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado changePassword(): %s", err.Error())
+	}
+
+	return response, nil
+}
+
+func CreatePaymentMethod(payment PaymentMethod) (Message, error) {
+	var response Message
+	db := database.GetConnection()
+
+	result := db.QueryRow("Call addPaymentMethod(?,?,?,?,?,?)", payment.Alias, payment.Cardholder, payment.Number, payment.Exp, payment.Cvv, payment.Dpi)
+	err := result.Scan(&response.Message, &response.Type)
+	if err != nil {
+		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado changePassword(): %s", err.Error())
+	}
+
+	return response, nil
+}
+
+func GetPaymentMethods(dpi int64) ([]PaymentMethod, error) {
+	var payments []PaymentMethod
+	db := database.GetConnection()
+
+	rows, err := db.Query("CALL getPaymentMethods(?)", dpi)
+	if err != nil {
+		return []PaymentMethod{}, fmt.Errorf("error al ejecutar procedimiento almacenado getPaymentMethods(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var payment PaymentMethod
+		err := rows.Scan(&payment.Alias, &payment.Number, &payment.Id)
+		if err != nil {
+			return []PaymentMethod{}, fmt.Errorf("error al convertir ventas: %s", err)
+		}
+
+		payments = append(payments, payment)
+	}
+
+	if err := rows.Err(); err != nil {
+		return []PaymentMethod{}, fmt.Errorf("error al iterar productos: %s", err)
+	}
+
+	return payments, nil
+}
+
+func RatePurchase(rate purchase_rating) (Message, error) {
+	var response Message
+	db := database.GetConnection()
+
+	result := db.QueryRow("Call ratePurchase(?,?,?)", rate.Id, rate.Seller, rate.Score)
 	err := result.Scan(&response.Message, &response.Type)
 	if err != nil {
 		return Message{}, fmt.Errorf("error al ejecutar procedimiento almacenado changePassword(): %s", err.Error())

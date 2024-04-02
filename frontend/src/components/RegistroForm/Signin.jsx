@@ -338,7 +338,7 @@ export default function Signin(props) {
       {/* <Button className="SubmitBtn" block="true" size="lg" onClick={() => { navigate('/register/repartidor') }}>
         Repartidor
       </Button> */}
-      <Link to="/register/repartidor" className="link-to-inicio-sesion">Registrarse como repartidor</Link>
+      <Link to="/register/repartidor" className="link-to-inicio-sesion">Registrarse como vendedor</Link>
       {showverification && (
         <Form onSubmit={handleVerification}>
           <Form.Group size="lg" controlId="verification-code" >

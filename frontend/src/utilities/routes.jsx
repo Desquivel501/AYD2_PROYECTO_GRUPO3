@@ -21,6 +21,9 @@ import CustomProfile from '../pages/Profiles/Profile';
 import RecuperarPass from '../components/FogetPasswordForm/RecuperarPass';
 import VerificarCodigo from '../components/FogetPasswordForm/VerificarCodigo';
 import ChangePass from '../components/FogetPasswordForm/ChangePass';
+import { Carrito } from '../pages/Carrito/Carrito';
+import { PedidosUsuario } from '../pages/PedidosUsuario/PedidosUsuario';
+import { MisVentas } from '../pages/MisVentas/MisVentas';
 
 export const rutas = [
     {
@@ -136,5 +139,17 @@ export const rutas = [
         path:"/cambiar-contrasena",
         element:<ChangePass/>
     },
+    {
+        path:"/carrito",
+        element:<Carrito/>
+    },
+    {
+        path:"/mis-pedidos",
+        element:<PedidosUsuario/>
+    },
+    {
+        path:"/mis-ventas",
+        element:<MisVentas/>
+    }
 
 ]
