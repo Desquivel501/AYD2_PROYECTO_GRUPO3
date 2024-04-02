@@ -1,0 +1,374 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "AYD2_ENDPOINTS",
+    "dateExported": "2024-04-02T03:17:10.843Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "36d8bbac-6ecc-430c-a5ef-567e1e1fc523",
+            "name": "Usuarios",
+            "containerId": "",
+            "created": "2024-04-02T02:41:56.740Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "ee5b4856-4f8a-4802-9751-660ec278eb2b",
+            "name": "Bitácora",
+            "containerId": "",
+            "created": "2024-04-02T02:42:24.791Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "59ec2531-bf9e-4323-9f33-aa1c9551d71a",
+            "name": "Productos",
+            "containerId": "",
+            "created": "2024-04-02T02:42:45.099Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "38934bab-d409-4e7f-85fe-5264c4c64a43",
+            "name": "Reportes",
+            "containerId": "",
+            "created": "2024-04-02T02:43:38.434Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "47cbe4da-dfe5-4094-b3b1-43afd80802fd",
+            "name": "Categorías",
+            "containerId": "",
+            "created": "2024-04-02T02:44:10.546Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "847e6980-a36d-4e46-a6c7-d6c3355496e1",
+            "name": "Compras/Ventas",
+            "containerId": "",
+            "created": "2024-04-02T02:54:32.458Z",
+            "sortNum": 60000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "8bd0ba8b-8dc1-4d04-adae-e3958ca6aa91",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "36d8bbac-6ecc-430c-a5ef-567e1e1fc523",
+            "name": "Obtener perfil de usuario",
+            "url": "http://localhost:8080/user/profile",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-04-02T01:22:37.747Z",
+            "modified": "2024-04-02T01:22:37.747Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"dpi\": 3284612\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "4f2dfef7-a5ee-4b73-bc55-30249bd9ba1c",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "ee5b4856-4f8a-4802-9751-660ec278eb2b",
+            "name": "Descargar archivo log",
+            "url": "http://localhost:8080/logs/download",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-04-02T01:22:59.061Z",
+            "modified": "2024-04-02T01:22:59.061Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1918b5e8-4be0-412e-9355-a1f4e6eb3e74",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "59ec2531-bf9e-4323-9f33-aa1c9551d71a",
+            "name": "Eliminar producto",
+            "url": "http://localhost:8080/delete-product?id=6",
+            "method": "DELETE",
+            "sortNum": 10000,
+            "created": "2024-04-02T01:23:11.229Z",
+            "modified": "2024-04-02T01:23:11.229Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "6",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "cc6eb5fe-a2a0-4eca-89c9-f37a378f3411",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "47cbe4da-dfe5-4094-b3b1-43afd80802fd",
+            "name": "Obtener categorias",
+            "url": "http://localhost:8080/categories",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-04-02T02:31:16.435Z",
+            "modified": "2024-04-02T02:31:31.527Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1cbec72a-e7f5-41ce-9b2c-ca2668d6c34f",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "36d8bbac-6ecc-430c-a5ef-567e1e1fc523",
+            "name": "Obtener todos los usuarios",
+            "url": "http://localhost:8080/all-users",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-04-02T01:22:48.872Z",
+            "modified": "2024-04-02T01:22:48.872Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "86289140-e14e-47d1-812b-757037433bee",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "59ec2531-bf9e-4323-9f33-aa1c9551d71a",
+            "name": "Editar producto",
+            "url": "http://localhost:8080/edit-product",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-04-02T01:23:22.197Z",
+            "modified": "2024-04-02T01:23:22.197Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{ \n        \"product_id\": 6,\n        \"nombre\": \"Producto de Neto\",\n        \"dpi_vendedor\": 123456,\n\t\"categoria\": \"Dulces\",\n        \"precio\": 0.00,\n        \"descripcion\": \"Productos varios\",\n        \"imagen\": \"https://placehold.co/400\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "889f9f51-073b-438c-9afe-6c9b83507abe",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "59ec2531-bf9e-4323-9f33-aa1c9551d71a",
+            "name": "Obtener un producto particular",
+            "url": "http://localhost:8080/my-products?id=123456",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-04-02T01:23:34.325Z",
+            "modified": "2024-04-02T01:23:34.325Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "123456",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "63c58c6e-b49c-4c4f-b96f-c69ead75943b",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "36d8bbac-6ecc-430c-a5ef-567e1e1fc523",
+            "name": "Inicio de sesión",
+            "url": "http://localhost:8080/user/login",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-04-02T01:50:55.913Z",
+            "modified": "2024-04-02T01:53:56.684Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"vendedor@gmail.com\",\n  \"password\": \"123456\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "d837bfb5-25fb-4bcf-9754-f5719f8f798e",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "59ec2531-bf9e-4323-9f33-aa1c9551d71a",
+            "name": "Crear producto",
+            "url": "http://localhost:8080/create-product",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-04-02T01:23:43.753Z",
+            "modified": "2024-04-02T01:23:43.753Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\t\"nombre\": \"Producto\",\n\t\"vendedor_id\": 25412,\n\t\"precio\": 0.00,\n\t\"descripcion\": \"Lorem ipsum...\",\n\t\"imagen\": \"https://placehold.co/400\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "fae54bca-a065-4cc8-9e71-1b3dc8bfd1be",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "59ec2531-bf9e-4323-9f33-aa1c9551d71a",
+            "name": "Obtener todos los productos",
+            "url": "http://localhost:8080/all-products",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-04-02T02:28:00.376Z",
+            "modified": "2024-04-02T02:28:52.758Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "575bc3b8-aa26-46a6-9524-e41661f18ebe",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "38934bab-d409-4e7f-85fe-5264c4c64a43",
+            "name": "Reporte de categorías por vendedor",
+            "url": "http://localhost:8080/vendedor/reporte/categoria?dpi=3284612",
+            "method": "GET",
+            "sortNum": 150000,
+            "created": "2024-04-02T02:46:02.893Z",
+            "modified": "2024-04-02T02:46:02.893Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "dpi",
+                    "value": "3284612",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "a68e57c5-da85-4133-a37c-d9567e892fca",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "38934bab-d409-4e7f-85fe-5264c4c64a43",
+            "name": "Reporte productos más vendidos por vendedor",
+            "url": "http://localhost:8080/vendedor/reporte/productos?dpi=3284612",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2024-04-02T02:48:39.256Z",
+            "modified": "2024-04-02T02:48:39.256Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "dpi",
+                    "value": "3284612",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "fedba75e-6d0c-4e18-a53d-76c94e4f1428",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "38934bab-d409-4e7f-85fe-5264c4c64a43",
+            "name": "Reporte de categorías más vendidas",
+            "url": "http://localhost:8080/admin/reporte/categoria",
+            "method": "GET",
+            "sortNum": 170000,
+            "created": "2024-04-02T02:49:24.970Z",
+            "modified": "2024-04-02T02:49:24.970Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "5b1379fb-f5f7-4862-8fdd-1270b3ace2ed",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "38934bab-d409-4e7f-85fe-5264c4c64a43",
+            "name": "Reporte de mejor vendedor",
+            "url": "http://localhost:8080/admin/reporte/vendedores",
+            "method": "GET",
+            "sortNum": 180000,
+            "created": "2024-04-02T02:50:19.658Z",
+            "modified": "2024-04-02T02:50:19.658Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8c62702e-2bb0-4dbc-a248-1b9f01fa09a4",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "38934bab-d409-4e7f-85fe-5264c4c64a43",
+            "name": "Reporte de Productos más vendidos",
+            "url": "http://localhost:8080/admin/reporte/productos",
+            "method": "GET",
+            "sortNum": 190000,
+            "created": "2024-04-02T02:50:59.870Z",
+            "modified": "2024-04-02T02:50:59.870Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "cdb4293e-26f4-42c3-ac20-7d1142eaed91",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "847e6980-a36d-4e46-a6c7-d6c3355496e1",
+            "name": "Obtener métodos de pago",
+            "url": "http://localhost:8080/user/get-payment-methods?dpi=3284612",
+            "method": "GET",
+            "sortNum": 200000,
+            "created": "2024-04-02T02:56:04.248Z",
+            "modified": "2024-04-02T02:56:04.248Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "dpi",
+                    "value": "3284612",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "42bd8ad6-91d2-45a6-8104-717576c7698d",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "847e6980-a36d-4e46-a6c7-d6c3355496e1",
+            "name": "Historial de compras de un usuario",
+            "url": "http://localhost:8080/history-buys",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2024-04-02T02:34:24.920Z",
+            "modified": "2024-04-02T02:34:45.850Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "09562b24-286f-423e-869a-42ec6f595b3d",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "ee5b4856-4f8a-4802-9751-660ec278eb2b",
+            "name": "Obtener bitácora",
+            "url": "http://localhost:8080/history",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2024-04-02T02:57:10.390Z",
+            "modified": "2024-04-02T02:57:10.390Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "2d5d36ca-0455-41de-8532-cdb0f30b39d0",
+            "colId": "ad1f716a-76bf-476a-9867-36aae51af702",
+            "containerId": "847e6980-a36d-4e46-a6c7-d6c3355496e1",
+            "name": "Historial de ventas",
+            "url": "http://localhost:8080/history-sales",
+            "method": "GET",
+            "sortNum": 220000,
+            "created": "2024-04-02T02:36:34.453Z",
+            "modified": "2024-04-02T02:36:44.862Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ],
+    "settings": {
+        "docs": "| Nombre                  | Tipo  | Request                                                                                                           | Response                                                                                                       | Notas                                                                                          | Encargado |\n|-------------------------|-------|-------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|-----------|\n| /all-products           | get   |                                                                                                                   | ``` [ { \"product_id\": 999, nombre: \"Producto\", vendedor: \"Juan Perez\", existencia: 0, precio: 0.00, descripcion: \"Lorem ipsum...\", imagen: \"https://placehold.co/400\" }, { ... }, ...]``` | Arreglo de todos los productos en formato JSON                                                  | Ernesto   |\n| /create-product         | post  | ```{ nombre: \"Producto\", vendedor_id: 25412, precio: 0.00, descripcion: \"Lorem ipsum...\", imagen: \"https://placehold.co/400\" }``` | ```{ type: \"SUCCESS\" / \"ERROR\", message: \"Producto creado con exito\" / \"Error: ...\" }```                       | Se crea un producto al sistema enviando sus datos, el response indicara si se pudo crear el producto o si existio un error, si hay un error especificar cual | Jonathan  |\n| /product?id=12345      | get   |                                                                                                                   | ```{ product_id: 999, nombre: \"Producto\", vendedor_id: 25412, disponible: True/False, precio: 0.00, descripcion: \"Lorem ipsum...\", imagen: \"https://placehold.co/400\" }```    | Se obtiene la informacion especifica de un producto, enviando el id del producto como un param | Ernesto   |\n| /my-products?id=1234   | get   |                                                                                                                   | ```[ { \"product_id\": 5, \"nombre\": \"Hershey\", \"existencia\": 0, \"precio\": 8, \"categoria\": \"Dulces\", \"descripcion\": \"Chocolate con Leche\", \"imagen\": \"https://placehold.co/400\" }, { ... }, ...]``` | Arreglo de todos los productos perteniecientes a un vendedor en formato JSON, se envia el id del vendedor como param | Ernesto   |\n| /categories             | get   |                                                                                                                   | ```{ categorias: [\"Dulces\", \"Sodas\", ...] }```                                                                  | Arreglo con todas las categorias disponibles                                                     | Jonathan  |\n| /user/login             | post  | ```{ \"email\": email, \"password\": password, }```                                                                        | ```{ \"id_usuario\": 1, \"type\": tipo_de_usuario, }```                                                             | La respuesta es para almacenarlo en el local storage                                              | José      |\n| /user/register          | post  | ```{ \"name\": name, \"email\": email, 'dpi': dpi, \"password\": password, \"image\": \"https://placehold.co/400\", \"type\": \"usuario\", }```                                                         |                                                                                                              | Cambio de JSON para que lo que se envíe al backend sea link de S3 de la imagen                  | José      |\n| /registroRepartidor     | post  | ```{ \"name\": name, \"email\": email, 'dpi': dpi, \"password\": password, \"image\": \"https://placehold.co/400\", \"type\": \"repartidor\", }```                                                       |                                                                                                              | Cambio de JSON para que lo que se envíe al backend sea link de S3 de la imagen                  | José      |\n| /profiles               | POST  | ```{ cui: int, role: string, }```                                                                                     | ```{ name: string, email: string, cui:int, imagen: string(url). role: string }```                                | es valido para admin-vendedor-cliente                                                            | José      |\n| /edit-product           | post  | ```{ product_id: 999, nombre: \"Producto\", dpi_vendedor: 25412, categoria: \"Dulces\", precio: 0.00, descripcion: \"Lorem ipsum...\", imagen: \"https://placehold.co/400\" }```            | ```{ type: \"SUCCESS\" / \"ERROR\", message: \"Producto edtado con exito\" / \"Error: ...\" }```                         | Se edita un producto sus datos nuevos datos, el response indicara si se pudo editar el producto o si existio un error, si hay un error especificar cual | Ernesto   |\n| /history-buys           | get   |                                                                                                                   | ```[ { id_compra: int, nombre_producto: string, vendedor: string, precio: int, imagen: string(url) }, ...]```   | arreglo de todas las compras de un cliente                                                       | José      |\n| /history-sales          | get   |                                                                                                                   | ```[ { id_venta: int, nombre_producto: string, comprador: string, precio: int, imagen: string(url) }, ...]```   | arreglo de todas las ventas de un vendedor                                                         | José      |\n| /delete-product?id=1234 | delete|                                                                                                                   | ```{ type: \"SUCCESS\" / \"ERROR\", message: \"Producto eliminado con exito\" / \"Error: ...\" }```                      | Elimina un producto, se envia el id del producto como param, el response indicara si se pudo eliminar el producto o si existio un error, si hay un error especificar cual | Ernesto   |\n| /get-soli-seller        | get   |                                                                                                                   | ```[ { imagen: string(url), cui: int, nombre: string }, ...]```                                                  | Obtener lista de solicitudes de vendedores para verlos desde admin                                  | José      |\n| /user/accept-seller     | POST  | ```{ dpi:int }```                                                                                                      | ```{ type: \"SUCCESS\" / \"ERROR\", message: \"Repartidor aceptado\" / \"Error: ...\" }```                                | para aceptar la solicitud de un vendedor desde admin                                              | José      |\n| /user/decline-seller    | POST  | ```{ dpi: int }```                                                                                                     | ```{ type: \"SUCCESS\" / \"ERROR\", message: \"Producto eliminado con exito\" / \"Error: ...\" }```                       | para denegar la solicitud de un vendedor desde admin                                              | José      |\n| /pending-sellers        | GET   |                                                                                                                   | ```[ { \"name\": \"nombre_usuario\", \"email\": \"email@mail.com\", \"dpi\": 123456, \"image\": \"link imagen\", \"role\": 0/1/2, \"state\": 0/1/2 }, ...]```                                   | Para obtener la lista de vendedores pendientes de confirmación                                    | José      |\n| /enabled-users          | GET   |                                                                                                                   | ```[ { \"name\": \"nombre_usuario\", \"email\": \"email@mail.com\", \"dpi\": 123456, \"image\": \"link imagen\", \"role\": 0/1/2, \"state\": 0/1/2 }, ...]```                                   | Lista de usuarios que se encuentren habilitados                                                    | José      |\n| /disabled-users         | GET   |                                                                                                                   | ```[ { \"name\": \"nombre_usuario\", \"email\": \"email@mail.com\", \"dpi\": 123456, \"```\n",
+        "options": {
+            "baseUrl": "http://localhost:8080"
+        }
+    }
+}
