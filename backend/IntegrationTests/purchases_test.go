@@ -1,18 +1,18 @@
-package unitTests
+package integrationTests
 
 import (
-	"testing"
 	"main/purchases"
+	"testing"
 )
 
 func TestPurchase(t *testing.T) {
 
-	var existencia int64 = 5 
+	var existencia int64 = 5
 
 	var tests = []struct {
-		name        string
+		name     string
 		purchase purchases.Purchase
-		want        bool
+		want     bool
 	}{
 		{
 			name: "Compra Correcta",
@@ -20,17 +20,17 @@ func TestPurchase(t *testing.T) {
 				Client_id: 1,
 				Products: []purchases.Product{
 					{
-						Id: 1,
-						Name: "Producto 1",
-						Image: "imagen",
-						Price: 100,
-						Amount: 2,
+						Id:          1,
+						Name:        "Producto 1",
+						Image:       "imagen",
+						Price:       100,
+						Amount:      2,
 						Description: "Descripcion",
-						Total: 200,
-						Date: "2021-06-01",
+						Total:       200,
+						Date:        "2021-06-01",
 					},
 				},
-				Total: 200,
+				Total:      200,
 				Payment_id: 1,
 			},
 			want: true,
@@ -41,17 +41,17 @@ func TestPurchase(t *testing.T) {
 				Client_id: 1,
 				Products: []purchases.Product{
 					{
-						Id: 1,
-						Name: "Producto 1",
-						Image: "imagen",
-						Price: 100,
-						Amount: 2,
+						Id:          1,
+						Name:        "Producto 1",
+						Image:       "imagen",
+						Price:       100,
+						Amount:      2,
 						Description: "Descripcion",
-						Total: 200,
-						Date: "2021-06-01",
+						Total:       200,
+						Date:        "2021-06-01",
 					},
 				},
-				Total: 300,
+				Total:      300,
 				Payment_id: 1,
 			},
 			want: false,
@@ -62,17 +62,17 @@ func TestPurchase(t *testing.T) {
 				Client_id: 1,
 				Products: []purchases.Product{
 					{
-						Id: 1,
-						Name: "Producto 1",
-						Image: "imagen",
-						Price: 100,
-						Amount: 50,
+						Id:          1,
+						Name:        "Producto 1",
+						Image:       "imagen",
+						Price:       100,
+						Amount:      50,
 						Description: "Descripcion",
-						Total: 200,
-						Date: "2021-06-01",
+						Total:       200,
+						Date:        "2021-06-01",
 					},
 				},
-				Total: 200,
+				Total:      200,
 				Payment_id: 1,
 			},
 			want: false,
@@ -81,7 +81,7 @@ func TestPurchase(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			
+
 			ans := test.purchase.Products[0].Amount <= existencia
 			ans = ans && test.purchase.Total == test.purchase.Products[0].Total
 
@@ -91,6 +91,4 @@ func TestPurchase(t *testing.T) {
 		})
 	}
 
-
 }
-
