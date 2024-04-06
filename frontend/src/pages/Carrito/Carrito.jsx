@@ -61,6 +61,12 @@ export const Carrito = () => {
 
             let endpoint = `user/get-payment-methods?dpi=${JSON.parse(carrito).usuario}`
             getData({endpoint}).then(data => {
+                // console.log("here", data);
+                if(data.length === 0 || data === undefined || data === null){
+                    setPaymentMethods([]);
+                    setAllowBuy(false);
+                    return;
+                }
                 setPaymentMethods(data);
                 setSelectedPaymentMethod(data[0].id);
             });
@@ -160,6 +166,7 @@ export const Carrito = () => {
                     console.log(data);
                     setPaymentMethods(data);
                     setSelectedPaymentMethod(data[0].id);
+                    setAllowBuy(true);
                 });
 
             } else {
