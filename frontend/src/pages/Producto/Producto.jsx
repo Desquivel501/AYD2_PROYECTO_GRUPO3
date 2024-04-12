@@ -177,6 +177,13 @@ export const Producto = (props) => {
               <hr class="mt-3 mb-1"/>
 
               <div className='mt-4'>
+                <h4 style={{color:"black", textAlign:"left"}} > Categoria: </h4>
+                <p style={{color:"black", textAlign:"left"}} > {product.categoria} </p>
+              </div>
+
+              <hr class="mt-3 mb-1"/>
+
+              <div className='mt-4'>
                 <h4 style={{color:"black", textAlign:"left"}} > Descripcion: </h4>
                 <p style={{color:"black", textAlign:"left"}} > {product.descripcion} </p>
               </div>

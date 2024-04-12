@@ -98,7 +98,7 @@ export const VentasRow = (props) => {
                         borderRight: header ? '1px solid black' : '' 
                     }}
                 >
-                    <h4 style={{color:"black", fontWeight: 'bold', textAlign: 'center'}} > {"Q" + Math.round((precio/cantidad)*100)/100 } </h4>
+                    <h4 style={{color:"black", fontWeight: 'bold', textAlign: 'center'}} > {"Q" + Math.round((total/cantidad)*100)/100 } </h4>
                 </Col>
             }
 

@@ -15,6 +15,7 @@ import SellerRequests from '../pages/SellerRequests/SellerRequests';
 import EnableDisabled_User from '../pages/Enabled-disabled-user-seller/enable_disable_user';
 import EnableDisabled_Seller from '../pages/Enabled-disabled-user-seller/enable_disable_seller';
 import ErrorView from '../views/404View/404View';
+import AdminReportsView from '../views/AdminReportsView/AdminReportsView';
 import CustomProfile from '../pages/Profiles/Profile';
 // import RecuperarPass from '../components/FogetPasswordForm/RecuperarPass';
 
@@ -39,7 +40,7 @@ export const rutas = [
         element: <LandingView />
     },
     {
-        path: "/register/repartidor",
+        path: "/register/vendedor",
         element: <RegisterRepartidorView />
     },
     //Usuario
@@ -95,6 +96,10 @@ export const rutas = [
         path:"/profile-admin",
         element:<ProfileAdmin/>
 
+    },
+    {
+        path: "/admin/reportes",
+        element: <AdminReportsView />
     },
     //usuario (ya)
     {
