@@ -7,8 +7,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginView from './views/LoginView/LoginView';
 import AppNavigator from './components/AppNavigator/AppNavigator';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-// import AppNavigator from './components/AppNavigator/AppNavigator';
-// import 
+import CatalogoView from './views/CatalogoView/CatalogoView';
+import ProductView from './views/ProductView/ProductView';
 
 function HomeScreen({ navigation }) {
   return (
@@ -36,7 +36,7 @@ function TabMenu() {
         headerShown: false
       }}
     >
-      <Tab.Screen name="Catalogo" component={HomeScreen} 
+      <Tab.Screen name="Catalogo" component={CatalogoView} 
         options={{
           tabBarLabel: 'Catalogo',
           tabBarIcon: ({ color }) => (
@@ -76,6 +76,7 @@ export default function App() {
       >
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="Home" component={TabMenu} />
+          <Stack.Screen name="Product" component={ProductView} />
       </Stack.Navigator>
     </NavigationContainer>
   );

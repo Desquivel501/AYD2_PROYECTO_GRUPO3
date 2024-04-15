@@ -4,34 +4,32 @@ import { View } from "react-native";
 
 const styles = {
     app: {
-      flex: 4, // the number of columns you want to devide the screen into
+      flex: 4,
       marginHorizontal: "auto",
       width: 400,
-      backgroundColor: "red"
     },
     row: {
       flexDirection: "row"
     },
     "1col":  {
-      backgroundColor:  "lightblue",
-      borderColor:  "#fff",
-      borderWidth:  1,
-      flex:  1
+      flex:  1,
+      justifyContent: "center",
+      alignItems: "center"
     },
     "2col":  {
-      backgroundColor:  "green",
-      borderColor:  "#fff",
-      borderWidth:  1,
-      flex:  2
+      flex:  2,
+      justifyContent: "center",
+      alignItems: "center"
     },
     "3col":  {
-      backgroundColor:  "orange",
-      borderColor:  "#fff",
-      borderWidth:  1,
-      flex:  3
+      flex:  3,
+      justifyContent: "center",
+      alignItems: "center"
     },
     "4col":  {
-      flex:  4
+      flex:  4,
+      justifyContent: "center",
+      alignItems: "center"
     }
   };
   
