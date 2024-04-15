@@ -7,53 +7,21 @@ import { Row, Col } from "../../components/MyGrid/MyGrid";
 import { Searchbar } from 'react-native-paper';
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 
-// const image = { uri: "../assets/bk.png"}
+import { storeData, getData } from "../../utils/Storage";
+import { mock_products } from "../../assets/mock_data";
 
 const win = Dimensions.get('window');
 const ratio = win.width/1661;
 
-const products = [
-    {
-        id: 1,
-        name: "Pizza de Pepperoni",
-        price: 100,
-        image: "https://images.hola.com/imagenes/cocina/recetas/20220208204252/pizza-pepperoni-mozzarella/1-48-890/pepperoni-pizza-abob-m.jpg"
-    },
-    {
-        id: 2,
-        name: "Coca-Cola",
-        price: 5,
-        image: "https://d2o812a6k13pkp.cloudfront.net/fit-in/1080x1080/Productos/40380804_0120221003174051.jpg"
-    },
-    {
-        id: 3,
-        name: "Pringles",
-        price: 8,
-        image: "https://californiaranchmarket.com/cdn/shop/products/001080.jpg?v=1623164914"
-    },
-    {
-        id: 4,
-        name: "Lays",
-        price: 5,
-        image: "https://i0.wp.com/dailymarket.com.gt/wp-content/uploads/2022/10/902421-PAPA-LAYS-ORIGINAL.jpg?fit=1040%2C1040&ssl=1"
-    },
-    {
-        id: 5,
-        name: "Cheetos",
-        price: 6,
-        image: "https://m.media-amazon.com/images/I/816ubtKmIHL._AC_UF1000,1000_QL80_.jpg"
-    },
-    {
-        id: 6,
-        name: "Mountain Dew",
-        price: 50,
-        image: "https://chedrauimx.vtexassets.com/arquivos/ids/29049515/1208500_00.jpg?v=638485473030830000"
-    },
-]
-
 export default function CatalogoView({ navigation }) {
 
     const [searchQuery, setSearchQuery] = React.useState('');
+
+    const handleClick = (id) => {
+        // navigation.navigate("ProductView", { id: id });
+        // alert("Producto seleccionado: " + id);
+        navigation.navigate("Product", { id: id });
+    }
 
     return (
         <View style={styles.container}>
@@ -69,7 +37,7 @@ export default function CatalogoView({ navigation }) {
             <View style={styles.container_products}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                 {
-                    products.map((product, index) => {
+                    mock_products.map((product, index) => {
                         return (
                            <ProductCard
                                 key={index}
@@ -77,6 +45,8 @@ export default function CatalogoView({ navigation }) {
                                 name={product.name}
                                 price={product.price}
                                 image={product.image}
+                                description={product.description}
+                                onSelect={handleClick}
                             />
                         )
                     })

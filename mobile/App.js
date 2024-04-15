@@ -8,8 +8,7 @@ import LoginView from './views/LoginView/LoginView';
 import AppNavigator from './components/AppNavigator/AppNavigator';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CatalogoView from './views/CatalogoView/CatalogoView';
-// import AppNavigator from './components/AppNavigator/AppNavigator';
-// import 
+import ProductView from './views/ProductView/ProductView';
 
 function HomeScreen({ navigation }) {
   return (
@@ -77,6 +76,7 @@ export default function App() {
       >
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="Home" component={TabMenu} />
+          <Stack.Screen name="Product" component={ProductView} />
       </Stack.Navigator>
     </NavigationContainer>
   );

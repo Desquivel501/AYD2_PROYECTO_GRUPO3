@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Image, Text, Button } from "react-native";
-
+import { View, Image, Text, Button, TouchableWithoutFeedback } from "react-native";
 
 const styles = {
     app: {
@@ -68,18 +67,6 @@ const styles = {
     }
 
 };
-  
-
-export const Col = ({ numRows, children }) => {
-return  (
-    <View style={styles[`${numRows}col`]}>{children}</View>
-)
-}
-
-export const Row = ({ children }) => (
-    <View style={styles.row}>{children}</View>
-)
-
 
 export const ProductCard = (props) => {
 
@@ -87,20 +74,27 @@ export const ProductCard = (props) => {
         id,
         image,
         price,
-        name
+        name,
+        description,
+        onSelect
     } = props;
 
+    const handleSelect = () => {
+        onSelect(id);
+    };
+
     return (
-        <View style={styles.product_card_view}>
-            
-            <View style={styles.text_col}>
-                <Text style={styles.title_product}>{name}</Text>
-                <Text style={styles.price_product}>Q {price}</Text>
-                <Text style={styles.product_description}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
+        <TouchableWithoutFeedback onPress={handleSelect}>
+            <View style={styles.product_card_view}>
+                <View style={styles.text_col}>
+                    <Text style={styles.title_product}>{name}</Text>
+                    <Text style={styles.price_product}>Q {price}</Text>
+                    <Text style={styles.product_description}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
+                </View>
+                <View style={styles.image_col}>
+                    <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
+                </View>
             </View>
-            <View style={styles.image_col}>
-                <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
-            </View>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
