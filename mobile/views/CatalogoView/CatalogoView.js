@@ -18,10 +18,8 @@ export default function CatalogoView({ navigation }) {
     const [searchQuery, setSearchQuery] = React.useState('');
 
     const handleClick = (id) => {
-        // navigation.navigate("ProductView", { id: id });
-        // alert("Producto seleccionado: " + id);
-        // navigation.navigate("Product", { id: id });
-        navigation.navigate("Edit", { id: id });
+        navigation.navigate("Product", { id: id });
+        // navigation.navigate("Edit", { id: id });
     }
 
     return (

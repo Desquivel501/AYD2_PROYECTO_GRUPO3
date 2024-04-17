@@ -10,6 +10,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CatalogoView from './views/CatalogoView/CatalogoView';
 import ProductView from './views/ProductView/ProductView';
 import EditView from './views/EditView/EditView';
+import CarritoView from './views/CarritoView/CarritoView';
 
 function HomeScreen({ navigation }) {
   return (
@@ -45,7 +46,7 @@ function TabMenu() {
           ),
         }}
       />
-      <Tab.Screen name="Carrito" component={HomeScreen}
+      <Tab.Screen name="Carrito" component={CarritoView}
         options={{
           tabBarLabel: 'Carrito',
           tabBarIcon: ({ color }) => (

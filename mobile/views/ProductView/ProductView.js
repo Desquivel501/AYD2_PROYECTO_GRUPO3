@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, ImageBackground, Image, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, ImageBackground, Image, Dimensions, ScrollView, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -53,6 +53,10 @@ export default function ProductView({ route, navigation }) {
 
         setRecommendedProducts(shuffled)
 
+        getData("cart").then((data) => {
+            console.log(data);
+        });
+
     }, []);
 
     useEffect(() => {
@@ -81,6 +85,49 @@ export default function ProductView({ route, navigation }) {
 
     const handleClick = (new_id) => {
         setCurrentId(new_id);
+    }
+
+    const handleAddToCart = () => {
+        
+       try{
+            getData("cart").then((data) => {
+                if(data == null) {
+                    storeData("cart", [{id: product.id, quantity: quantity}]);
+                } else {
+                    let index = data.findIndex((item) => item.id == product.id);
+                    if(index == -1) {
+                        data.push({id: product.id, quantity: Number(quantity)});
+                    } else {
+                        data[index].quantity += Number(quantity);
+                    }
+                    storeData("cart", data);
+                }
+
+                Alert.alert(
+                    "Se ha agregado el producto al carrito:" ,
+                    product.name + " x" + quantity,
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ]
+                );
+
+            });
+        } catch (error) {
+            // console.log(error);
+            Alert.alert(
+                "Error al agregar al carrito:" ,
+                error,
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ]
+            );
+        }
+
+
+        // if(getData("cart") == null) {
+        //    data = getData("cart");
+        // }
+
     }
 
     return (
@@ -119,7 +166,19 @@ export default function ProductView({ route, navigation }) {
                                 }}
                                 keyboardType="number-pad"
                                 value={quantity.toString()}
-                                onChangeText={(text) => setQuantity(text)}
+                                onChangeText={(text) => {
+                                    if(text == "") {
+                                        setQuantity(1);
+                                    } else {
+                                        if(Number(text) <= 0) {
+                                            setQuantity(1)
+                                        } else if (Number(text) > product.quantity) {
+                                            setQuantity(product.quantity)
+                                        } else {
+                                            setQuantity(Number(text))
+                                        }
+                                    }
+                                }}
                             />
 
                             <Icon
@@ -127,7 +186,7 @@ export default function ProductView({ route, navigation }) {
                                 size={20}
 
                                 color="black"
-                                onPress={() => setQuantity(quantity + 1)}
+                                onPress={() => quantity < product.quantity ? setQuantity(quantity + 1) : null}
                             />
 
                         </View>
@@ -136,7 +195,7 @@ export default function ProductView({ route, navigation }) {
                             <Button 
                                 title="Agregar al carrito" 
                                 color={"#228B22"}
-                                onPress={() => alert("Producto agregado al carrito")} />
+                                onPress={handleAddToCart} />
                         </View>
 
 
