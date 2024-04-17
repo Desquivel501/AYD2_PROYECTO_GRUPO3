@@ -9,6 +9,7 @@ import AppNavigator from './components/AppNavigator/AppNavigator';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CatalogoView from './views/CatalogoView/CatalogoView';
 import ProductView from './views/ProductView/ProductView';
+import EditView from './views/EditView/EditView';
 
 function HomeScreen({ navigation }) {
   return (
@@ -44,9 +45,18 @@ function TabMenu() {
           ),
         }}
       />
+      <Tab.Screen name="Carrito" component={HomeScreen}
+        options={{
+          tabBarLabel: 'Carrito',
+          tabBarIcon: ({ color }) => (
+            // <FontAwesome5 name="" color={color} size={26} />
+            <FontAwesome5 name="shopping-cart" color={color} size={26} />
+          ),
+        }}
+      />
       <Tab.Screen name="Pedidos" component={HomeScreen}
         options={{
-          tabBarLabel: 'Pedidos',
+          tabBarLabel: 'Mis Pedidos',
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="receipt" color={color} size={26} />
           ),
@@ -77,6 +87,7 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="Home" component={TabMenu} />
           <Stack.Screen name="Product" component={ProductView} />
+          <Stack.Screen name="Edit" component={EditView} />
       </Stack.Navigator>
     </NavigationContainer>
   );
