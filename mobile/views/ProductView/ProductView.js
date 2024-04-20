@@ -23,38 +23,46 @@ export default function ProductView({ route, navigation }) {
     const [currentId, setCurrentId] = React.useState(id);
 
     const [product, setProduct] = React.useState({
-        id: 0,
-        name: "",
-        price: 0,
-        quantity: 0,
-        image: "https://placehold.co/400",
-        description: ""
+        product_id: 0,
+        nombre: "",
+        precio: 0,
+        existencia: 0,
+        imagen: "https://placehold.co/400",
+        descripcion: ""
     });
 
     const [quantity, setQuantity] = React.useState(1);
 
     const [recommendedProducts, setRecommendedProducts] = React.useState([
-        {id: 0, name: "", precio: 0, image: "https://placehold.co/800", description: ""},
-        {id: 0, name: "", precio: 0, image: "https://placehold.co/800", description: ""},
-        {id: 0, name: "", precio: 0, image: "https://placehold.co/800", description: ""},
+        {product_id: 0, nombre: "", precio: 0, imagen: "https://placehold.co/800", descripcion: ""},
+        {product_id: 0, nombre: "", precio: 0, imagen: "https://placehold.co/800", descripcion: ""},
+        {product_id: 0, nombre: "", precio: 0, imagen: "https://placehold.co/800", descripcion: ""},
     ]);
 
     useEffect(() => {
-        const product = mock_products.find((product) => product.id == id);
-        setProduct(product);
 
-        let data = [...mock_products];
-        let shuffled = data
-            .map(value => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value)
-            .filter((product) => product.id != id)
-            .slice(0, 3);
+        fetch(`http://34.16.176.103:8080/product?id=${id}`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            if(data != null || data != undefined) {
+                setProduct(data);
+            }
+        });
 
-        setRecommendedProducts(shuffled)
+        fetch(`http://34.16.176.103:8080/all-products`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            if(data != null || data != undefined || data.length > 0) {
+                let listado = [...data];
+                let shuffled = listado
+                    .map(value => ({ value, sort: Math.random() }))
+                    .sort((a, b) => a.sort - b.sort)
+                    .map(({ value }) => value)
+                    .filter((product) => product.product_id != id)
+                    .slice(0, 3);
 
-        getData("cart").then((data) => {
-            console.log(data);
+                setRecommendedProducts(shuffled)
+            }
         });
 
     }, []);
@@ -64,24 +72,36 @@ export default function ProductView({ route, navigation }) {
 
         setQuantity(1);
 
-        const product = mock_products.find((product) => product.id == currentId);
-        setProduct(product);
+        fetch(`http://34.16.176.103:8080/product?id=${currentId}`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            if(data != null || data != undefined) {
+                setProduct(data);
+            }
+        });
 
-        let data = [...mock_products];
-        let shuffled = data
-            .map(value => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value)
-            .filter((product) => product.id != id)
-            .slice(0, 3);
+        fetch(`http://34.16.176.103:8080/all-products`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            if(data != null || data != undefined || data.length > 0) {
+                let listado = [...data];
+                let shuffled = listado
+                    .map(value => ({ value, sort: Math.random() }))
+                    .sort((a, b) => a.sort - b.sort)
+                    .map(({ value }) => value)
+                    .filter((product) => product.product_id != id)
+                    .slice(0, 3);
 
-        setRecommendedProducts(shuffled)
+                setRecommendedProducts(shuffled)
+            }
+        });
 
         scrollRef.current?.scrollTo({
             y: 0,
             animated: true,
         });
     }, [currentId]);
+
 
     const handleClick = (new_id) => {
         setCurrentId(new_id);
@@ -92,11 +112,11 @@ export default function ProductView({ route, navigation }) {
        try{
             getData("cart").then((data) => {
                 if(data == null) {
-                    storeData("cart", [{id: product.id, quantity: quantity}]);
+                    storeData("cart", [{id: product.product_id, quantity: quantity}]);
                 } else {
                     let index = data.findIndex((item) => item.id == product.id);
                     if(index == -1) {
-                        data.push({id: product.id, quantity: Number(quantity)});
+                        data.push({id: product.product_id, quantity: Number(quantity)});
                     } else {
                         data[index].quantity += Number(quantity);
                     }
@@ -105,7 +125,7 @@ export default function ProductView({ route, navigation }) {
 
                 Alert.alert(
                     "Se ha agregado el producto al carrito:" ,
-                    product.name + " x" + quantity,
+                    product.nombre + " x" + quantity,
                     [
                         { text: "OK", onPress: () => console.log("OK Pressed") }
                     ]
@@ -113,7 +133,6 @@ export default function ProductView({ route, navigation }) {
 
             });
         } catch (error) {
-            // console.log(error);
             Alert.alert(
                 "Error al agregar al carrito:" ,
                 error,
@@ -122,29 +141,23 @@ export default function ProductView({ route, navigation }) {
                 ]
             );
         }
-
-
-        // if(getData("cart") == null) {
-        //    data = getData("cart");
-        // }
-
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.product_container_2}>
                 <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef}>
-                    <Image source={{uri: product.image}} style={styles.image_product} />
+                    <Image source={{uri: product.imagen}} style={styles.image_product} />
 
                     <View style={styles.product_data}>
 
-                        <Text style={{fontSize: 28, fontWeight: "bold"}}>{product.name}</Text>
-                        <Text style={{fontSize: 24, fontWeight: "bold", color: "green", paddingBottom: 10}}>GTQ {product.price}</Text>
+                        <Text style={{fontSize: 28, fontWeight: "bold"}}>{product.nombre}</Text>
+                        <Text style={{fontSize: 24, fontWeight: "bold", color: "green", paddingBottom: 10}}>GTQ {product.precio}</Text>
 
-                        <Text style={{fontSize: 16, fontWeight: "bold", paddingBottom: 10 }}>Existencias: {product.quantity}</Text>
+                        <Text style={{fontSize: 16, fontWeight: "bold", paddingBottom: 10 }}>Existencias: {product.existencia}</Text>
 
                         <Text style={{fontSize: 16, fontWeight: "bold"}}>Descripción:</Text>
-                        <Text style={{fontSize: 16, paddingBottom: 10}}>{product.description}</Text>
+                        <Text style={{fontSize: 16, paddingBottom: 10}}>{product.descripcion}</Text>
 
                         <View style={styles.quantity_container} >
 
@@ -172,8 +185,8 @@ export default function ProductView({ route, navigation }) {
                                     } else {
                                         if(Number(text) <= 0) {
                                             setQuantity(1)
-                                        } else if (Number(text) > product.quantity) {
-                                            setQuantity(product.quantity)
+                                        } else if (Number(text) > product.existencia) {
+                                            setQuantity(product.existencia)
                                         } else {
                                             setQuantity(Number(text))
                                         }
@@ -184,9 +197,8 @@ export default function ProductView({ route, navigation }) {
                             <Icon
                                 name="plus"
                                 size={20}
-
                                 color="black"
-                                onPress={() => quantity < product.quantity ? setQuantity(quantity + 1) : null}
+                                onPress={() => quantity < product.existencia ? setQuantity(quantity + 1) : null}
                             />
 
                         </View>
@@ -212,14 +224,14 @@ export default function ProductView({ route, navigation }) {
                                     <>
                                         <ProductCard
                                             key={index}
-                                            id={product.id}
-                                            name={product.name}
-                                            price={product.price}
-                                            image={product.image}
-                                            description={product.description}
+                                            id={product.product_id}
+                                            name={product.nombre}
+                                            price={product.precio}
+                                            image={product.imagen}
+                                            description={product.descripcion}
                                             onSelect={handleClick}
                                         /> 
-                                        <View key={"l" + index} style={styles.line} />
+                                        <View key={index + "-line"} style={styles.line} />
                                     </>
                                     : null
                                 )
@@ -228,15 +240,7 @@ export default function ProductView({ route, navigation }) {
                             })
                        }
                     </View>
-
-
                 </ScrollView>
-{/* 
-                <FAB
-                    icon="arrow-left"
-                    style={styles.fab}
-                    onPress={() => navigation.goBack()}
-                /> */}
 
                 <FAB
                     icon="arrow-left"
@@ -244,10 +248,7 @@ export default function ProductView({ route, navigation }) {
                     onPress={() => navigation.goBack()}
                 /> 
 
-               
-
             </View>
-
         </View>
     );
 }
@@ -292,8 +293,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingHorizontal: 20,
         paddingVertical: 20
-
-        // paddingRight: 20,
     },
 
     button_login: {

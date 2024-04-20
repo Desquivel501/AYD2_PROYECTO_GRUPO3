@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, ImageBackground, Image, Dimensions } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { storeData } from "../../utils/Storage";
 
 // const image = { uri: "../assets/bk.png"}
 
@@ -14,6 +15,16 @@ export default function LoginView({ navigation }) {
     // const [message, setMessage] = React.useState('Useless Text');
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+
+    // useFocusEffect(() => {
+    //     storeData("cart", []);
+    // }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            storeData("cart", []) 
+        }, [])
+    );
 
     return (
         <SafeAreaView style={styles.container}>
@@ -46,7 +57,7 @@ export default function LoginView({ navigation }) {
                 <Button
                     title="Iniciar Sesión"
                     width="80%"
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={() => navigation.navigate('UserMenu')}
                 />
                 </View>
 

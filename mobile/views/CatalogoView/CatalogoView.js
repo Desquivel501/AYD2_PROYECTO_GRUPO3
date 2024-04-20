@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, ImageBackground, Image, Dimensions, ScrollView } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Row, Col } from "../../components/MyGrid/MyGrid";
@@ -16,11 +16,32 @@ const ratio = win.width/1661;
 export default function CatalogoView({ navigation }) {
 
     const [searchQuery, setSearchQuery] = React.useState('');
+    const [productos, setProductos] = React.useState([]);
 
     const handleClick = (id) => {
         navigation.navigate("Product", { id: id });
         // navigation.navigate("Edit", { id: id });
     }
+
+    useFocusEffect(
+        React.useCallback( () => {
+            // getData("cart").then((data) => {
+            //     console.log(data);
+            // });
+
+            const data =  fetch("http://34.16.176.103:8080/all-products").then((response) => {
+                return response.json();
+            }).then((data) => {
+                // console.log(data);
+                if(data != null || data != undefined || data.length > 0) {
+                    setProductos(data);
+                }
+            });
+            // console.log(data);
+
+            // storeData("cart", []) 
+        }, [])
+    );
 
     return (
         <View style={styles.container}>
@@ -36,15 +57,15 @@ export default function CatalogoView({ navigation }) {
             <View style={styles.container_products}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                 {
-                    mock_products.map((product, index) => {
+                    productos.map((product, index) => {
                         return (
                            <ProductCard
                                 key={index}
-                                id={product.id}
-                                name={product.name}
-                                price={product.price}
-                                image={product.image}
-                                description={product.description}
+                                id={product.product_id}
+                                name={product.nombre}
+                                price={product.precio}
+                                image={product.imagen}
+                                description={product.descripcion}
                                 onSelect={handleClick}
                             />
                         )

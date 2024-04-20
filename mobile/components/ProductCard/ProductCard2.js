@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Image, Text, Button, TouchableWithoutFeedback, TextInput } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -66,10 +66,15 @@ export const ProductCard2 = (props) => {
         price,
         name,
         quantity,
+        existingQuantity,
         onChange
     } = props;
 
-    const [newQuantity, setQuantity] = React.useState(Number(quantity));
+    const [newQuantity, setQuantity] = React.useState(1);
+
+    useEffect(() => {
+        setQuantity(Number(quantity));
+    }, [quantity]);
 
     const handleSelect = () => {
         onSelect(id);
@@ -94,10 +99,10 @@ export const ProductCard2 = (props) => {
                 <View style={styles.quantity_container} >
 
                     <Icon
-                        name="minus"
+                        name={newQuantity > 1 ? "minus" : "trash"}
                         size={12}
                         color="black"
-                        onPress={() => newQuantity > 1 ? changeQuantity(newQuantity - 1) : null}
+                        onPress={() => changeQuantity(newQuantity - 1)}
                     />
 
                     <Text style={{fontSize: 20, color: "black", marginHorizontal: 10}}>{newQuantity}</Text>
@@ -107,11 +112,10 @@ export const ProductCard2 = (props) => {
                         size={12}
 
                         color="black"
-                        onPress={() => newQuantity < 10 ? changeQuantity(newQuantity + 1) : null}
+                        onPress={() => newQuantity < existingQuantity ? changeQuantity(newQuantity + 1) : alert("No hay suficiente cantidad en existencia")}
                     />
 
                 </View>
-                
             </View>
         </TouchableWithoutFeedback>
     );
