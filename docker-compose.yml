@@ -14,6 +14,9 @@ services:
     container_name: frontend
     restart: always
     image: jams2808/ayd2_frontend:latest
+    environment:
+      - VITE_API=http://34.16.176.103:8080/
+      - VITE_S3=https://6fcsiupqnc.execute-api.us-east-2.amazonaws.com/default/getPresignedURL
     ports:
       - "3000:3000"
     depends_on:

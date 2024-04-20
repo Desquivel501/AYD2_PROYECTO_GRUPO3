@@ -33,6 +33,7 @@ func Routes(mux *http.ServeMux) {
 	mux.HandleFunc("/user/purchase", purchases.PurchaseHandler)
 	mux.HandleFunc("/user/purchases", purchases.UserPurchasesHandler)
 	mux.HandleFunc("/user/sales", purchases.SellerSalesHandler)
+	mux.HandleFunc("/user/get-all-purchases", purchases.GetAllPurchasesHandler)
 	//Handlers de productos
 	mux.HandleFunc("/all-products", productos.GetAllProductsHandler)
 	mux.HandleFunc("/product", productos.GetProductHandler)

@@ -839,10 +839,32 @@ get_client_purchases:BEGIN
 	ON p2.prod_id = pd.prod_id
 	JOIN users u 
 	ON u.dpi = p2.dpi 
-	AND p.buyer = 53681241
+	AND p.buyer = dpi_in
 	GROUP BY p.purchase_id, u.dpi;
 END $$
 
+CREATE PROCEDURE IF NOT EXISTS getAllPurchases()
+BEGIN
+	
+	SELECT p.purchase_id AS purchase_id,
+	u.name AS name,
+	u.dpi AS dpi,
+	u.image AS image,
+	p.purchase_date AS date,
+	JSON_ARRAYAGG(
+			JSON_OBJECT('name', p2.name, 'image', p2.photo, 'price', p2.price, 'cantidad', pd.amount)
+	) AS products,
+	p.total AS total
+	FROM purchases p
+	JOIN purchase_details pd 
+	on pd.purchase_id = p.purchase_id 
+	JOIN products p2 
+	ON p2.prod_id = pd.prod_id 
+	JOIN users u
+	ON p.buyer = u.dpi
+	GROUP BY p.purchase_id, u.dpi
+	ORDER BY p.total DESC;
+END $$
 
 -- ########################################## PROCEDIMIENTO PARA OBTENER LA LISTA DE VENTAS DE UN VENDEDOR EN ESPECÍFICO #################################################### 
 CREATE PROCEDURE IF NOT EXISTS getSellerSales(
@@ -930,7 +952,8 @@ BEGIN
 	ORDER BY "cantidad-vendidos" DESC;
 END $$
 
-CALL MostSelledProducts()
+
+
 -- ########################################## PROCEDIMIENTO PARA OBTENER LOS PRODUCTOS MÁS VENDIDOS #################################################### 
 CREATE PROCEDURE IF NOT EXISTS BestSellers()
 BEGIN
@@ -965,6 +988,7 @@ BEGIN
 END $$
 
 
+
 -- ########################################## PROCEDIMIENTO PARA OBTENER LAS CATEGORÍAS MÁS VENDIDAS DE UN VENDEDOR EN CONCRETO #################################################### 
 CREATE PROCEDURE IF NOT EXISTS MostSelledSCategories(
 	IN dpi_in BIGINT
@@ -981,7 +1005,7 @@ BEGIN
 	GROUP BY pc.cat_id
 	ORDER BY "cantidad-ventas" DESC;
 END $$
-SELECT * FROM prod_categories pc 
+
 -- ########################################## PROCEDIMIENTO PARA OBTENER LOS PRODUCTOS MÁS VENDIDOS DE UN VENDEDOR EN CONCRETO #################################################### 
 CREATE PROCEDURE IF NOT EXISTS MostSelledSProducts(
 	IN dpi_in BIGINT

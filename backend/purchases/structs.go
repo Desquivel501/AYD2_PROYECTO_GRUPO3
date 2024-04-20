@@ -28,6 +28,9 @@ type Client_purchase struct {
 	Purchase_id 	int64     `json:"purchase_id"`
 	Name        	string    `json:"name"`
 	Dpi         	int64     `json:"dpi"`
+	Image         	string    `json:"image"`
+	Date			string    `json:"date"`
 	Calificacion 	int64     `json:"score"`
+	Total			float64   `json:"total"`
 	Products    	[]Product `json:"products"`
 }

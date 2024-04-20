@@ -89,6 +89,41 @@ func GetClientPurchases(dpi int64) ([]Client_purchase, error) {
 	return client_purchases, nil
 }
 
+
+func GetAllPurchases() ([]Client_purchase, error) {
+	var client_purchases []Client_purchase
+	var products_str string
+
+	db := database.GetConnection()
+
+	rows, err := db.Query("CALL getAllPurchases()")
+	if err != nil {
+		return []Client_purchase{}, fmt.Errorf("error al ejecutar procedimiento almacenado getAllPurchases(): %s", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var client_purchase Client_purchase
+		err := rows.Scan(&client_purchase.Purchase_id, &client_purchase.Name, &client_purchase.Dpi, &client_purchase.Image, &client_purchase.Date, &products_str, &client_purchase.Total)
+		if err != nil {
+			return []Client_purchase{}, fmt.Errorf("error al convertir ventas: %s", err)
+		}
+
+		err = json.Unmarshal([]byte(products_str), &client_purchase.Products)
+		if err != nil {
+			return []Client_purchase{}, fmt.Errorf("error al convertir productos: %s", err)
+		}
+
+		client_purchases = append(client_purchases, client_purchase)
+	}
+
+	if err := rows.Err(); err != nil {
+		return []Client_purchase{}, fmt.Errorf("error al iterar productos: %s", err)
+	}
+
+	return client_purchases, nil
+}
+
 func GetSellerSales(dpi int64) ([]Product, error) {
 	var products []Product
 
