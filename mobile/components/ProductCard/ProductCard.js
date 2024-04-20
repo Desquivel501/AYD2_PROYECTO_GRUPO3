@@ -63,7 +63,8 @@ const styles = {
         marginBottom: 3
     },
     product_description: {
-        fontSize: 15
+        fontSize: 15,
+        paddingRight: 10
     }
 
 };
@@ -89,7 +90,7 @@ export const ProductCard = (props) => {
                 <View style={styles.text_col}>
                     <Text style={styles.title_product}>{name}</Text>
                     <Text style={styles.price_product}>Q {price}</Text>
-                    <Text style={styles.product_description}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
+                    <Text style={styles.product_description}>{description} </Text>
                 </View>
                 <View style={styles.image_col}>
                     <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
