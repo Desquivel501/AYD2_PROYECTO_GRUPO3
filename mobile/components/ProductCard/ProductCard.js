@@ -65,7 +65,20 @@ const styles = {
     product_description: {
         fontSize: 15,
         paddingRight: 10
-    }
+    },
+    title_new_product: {
+        fontSize: 23,
+        fontWeight: "bold",
+        marginBottom: 3,
+        
+    },
+    new_text_col: {
+        flex: 2,
+        justifyContent: "center",
+        alignItems: "left",
+        paddingLeft: 10,
+        paddingTop: 10,
+    },
 
 };
 
@@ -77,7 +90,8 @@ export const ProductCard = (props) => {
         price,
         name,
         description,
-        onSelect
+        onSelect,
+        crear = false
     } = props;
 
     const handleSelect = () => {
@@ -86,16 +100,39 @@ export const ProductCard = (props) => {
 
     return (
         <TouchableWithoutFeedback onPress={handleSelect}>
-            <View style={styles.product_card_view}>
-                <View style={styles.text_col}>
-                    <Text style={styles.title_product}>{name}</Text>
-                    <Text style={styles.price_product}>Q {price}</Text>
-                    <Text style={styles.product_description}>{description} </Text>
+            {
+                crear ? 
+                <View style={styles.product_card_view}>
+                    <View style={styles.new_text_col}>
+                        <Text style={styles.title_new_product}>{name}</Text>
+                    </View>
+                    <View style={styles.image_col}>
+                        <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
+                    </View>
                 </View>
-                <View style={styles.image_col}>
-                    <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
+             : 
+                // <View style={styles.product_card_view}>
+                //     <View style={styles.image_col}>
+                //         <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
+                //     </View>
+                //     <View style={styles.text_col}>
+                //         <Text style={styles.title_product}>{name}</Text>
+                       
+                //     </View>
+                // </View>
+
+                <View style={styles.product_card_view}>
+                    <View style={styles.text_col}>
+                        <Text style={styles.title_product}>{name}</Text>
+                        <Text style={styles.price_product}>Q {price}</Text>
+                        <Text style={styles.product_description}>{description} </Text>
+                    </View>
+                    <View style={styles.image_col}>
+                        <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
+                    </View>
                 </View>
-            </View>
+            }
+            
         </TouchableWithoutFeedback>
     );
 }

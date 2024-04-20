@@ -19,8 +19,13 @@ export default function CatalogoView({ navigation }) {
     const [productos, setProductos] = React.useState([]);
 
     const handleClick = (id) => {
-        navigation.navigate("Product", { id: id });
-        // navigation.navigate("Edit", { id: id });
+        // navigation.navigate("Product", { id: id });
+        navigation.navigate("Edit", { id: id, crear: false });
+    }
+
+    const handleNew = (id) => {
+        // navigation.navigate("Product", { id: id });
+        navigation.navigate("Edit", { id: id, crear: true });
     }
 
     useFocusEffect(
@@ -55,22 +60,32 @@ export default function CatalogoView({ navigation }) {
 
 
             <View style={styles.container_products}>
+                <ProductCard
+                    id={0}
+                    name="Nuevo producto"
+                    image="https://cdn-icons-png.flaticon.com/512/262/262038.png"
+                    onSelect={handleNew}
+                    crear={true}
+                />
+
                 <ScrollView showsVerticalScrollIndicator={false}>
-                {
-                    productos.map((product, index) => {
-                        return (
-                           <ProductCard
-                                key={index}
-                                id={product.product_id}
-                                name={product.nombre}
-                                price={product.precio}
-                                image={product.imagen}
-                                description={product.descripcion}
-                                onSelect={handleClick}
-                            />
-                        )
-                    })
-                }
+                    {
+                        productos.map((product, index) => {
+                            return (
+                                <>
+                                    <ProductCard
+                                        key={index}
+                                        id={product.product_id}
+                                        name={product.nombre}
+                                        price={product.precio}
+                                        image={product.imagen}
+                                        description={product.descripcion}
+                                        onSelect={handleClick}
+                                    />
+                                </>
+                            )
+                        })
+                    }
                 </ScrollView>
             </View>
 
@@ -131,5 +146,11 @@ const styles = StyleSheet.create({
         borderColor:  "#000", 
         borderWidth:  1,
     },
+    line: {
+        borderBottomColor: '#989a9b',
+        borderBottomWidth: 1,
+        width: '100%',
+        marginVertical: 10,
+      },
 });
   
