@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   userEmail: {
     textAlign: "center",
     fontSize: 16,
+    
     color: "#666",
   },
   editProfileButton: {
