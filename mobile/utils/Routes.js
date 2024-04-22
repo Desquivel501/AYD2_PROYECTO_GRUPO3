@@ -8,6 +8,7 @@ import CarritoView from '../views/CarritoView/CarritoView';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PedidosView from '../views/PedidosView/PedidosView';
 import MyProductsView from '../views/CatalogoView/MyProductsView';
+import VentasView from '../views/PedidosView/VentasView';
 
 const Tab = createBottomTabNavigator();
 
@@ -87,7 +88,7 @@ export function TabsSeller() {
             ),
           }}
         />
-        <Tab.Screen name="Ventas" component={HomeScreen}
+        <Tab.Screen name="Ventas" component={VentasView}
           options={{
             tabBarLabel: 'Mis Ventas',
             tabBarIcon: ({ color }) => (

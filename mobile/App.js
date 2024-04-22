@@ -43,7 +43,7 @@ export default function App() {
       >
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="UserMenu" component={TabsUser} />
-          <Stack.Screen name="SellerMenu" component={TabsUser} />
+          <Stack.Screen name="SellerMenu" component={TabsSeller} />
           <Stack.Screen name="Product" component={ProductView} />
           <Stack.Screen name="Edit" component={EditView} />
           <Stack.Screen name="Pedido" component={PedidoView} />

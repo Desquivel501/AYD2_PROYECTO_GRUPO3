@@ -36,6 +36,14 @@ const styles = {
         marginBottom: 15
     },
 
+    product_card_view_create: {
+        flexDirection: "row",
+        marginBottom: 15,
+        backgroundColor: "#e5e9ec",
+        paddingVertical: 10,
+        borderRadius: 10,
+    },
+
     image_col: {
         flex: 1,
         justifyContent: "center",
@@ -102,12 +110,12 @@ export const ProductCard = (props) => {
         <TouchableWithoutFeedback onPress={handleSelect}>
             {
                 crear ? 
-                <View style={styles.product_card_view}>
+                <View style={styles.product_card_view_create}>
                     <View style={styles.new_text_col}>
                         <Text style={styles.title_new_product}>{name}</Text>
                     </View>
                     <View style={styles.image_col}>
-                        <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
+                        <Image source={{uri: image}} style={{width: 50, height: 50,  borderRadius: 15,}} />
                     </View>
                 </View>
              : 
