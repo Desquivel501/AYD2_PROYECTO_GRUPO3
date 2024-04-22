@@ -111,16 +111,6 @@ export const ProductCard = (props) => {
                     </View>
                 </View>
              : 
-                // <View style={styles.product_card_view}>
-                //     <View style={styles.image_col}>
-                //         <Image source={{uri: image}} style={{width: 100, height: 100,  borderRadius: 15,}} />
-                //     </View>
-                //     <View style={styles.text_col}>
-                //         <Text style={styles.title_product}>{name}</Text>
-                       
-                //     </View>
-                // </View>
-
                 <View style={styles.product_card_view}>
                     <View style={styles.text_col}>
                         <Text style={styles.title_product}>{name}</Text>

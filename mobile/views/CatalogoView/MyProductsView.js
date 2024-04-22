@@ -13,18 +13,22 @@ import { mock_products } from "../../assets/mock_data";
 const win = Dimensions.get('window');
 const ratio = win.width/1661;
 
-export default function CatalogoView({ navigation }) {
+export default function MyProductsView({ navigation }) {
 
     const [searchQuery, setSearchQuery] = React.useState('');
     const [productos, setProductos] = React.useState([]);
 
     const handleClick = (id) => {
-        navigation.navigate("Product", { id: id });
+        navigation.navigate("Edit", { id: id, crear: false });
+    }
+
+    const handleNew = (id) => {
+        navigation.navigate("Edit", { id: id, crear: true });
     }
 
     useFocusEffect(
         React.useCallback( () => {
-            fetch("http://34.16.176.103:8080/all-products").then((response) => {
+            const data =  fetch("http://34.16.176.103:8080/all-products").then((response) => {
                 return response.json();
             }).then((data) => {
                 // console.log(data);
@@ -47,6 +51,15 @@ export default function CatalogoView({ navigation }) {
 
 
             <View style={styles.container_products}>
+
+                <ProductCard
+                    id={0}
+                    name="Nuevo producto"
+                    image="https://cdn-icons-png.flaticon.com/512/262/262038.png"
+                    onSelect={handleNew}
+                    crear={true}
+                />
+
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {
                         productos.map((product, index) => {
