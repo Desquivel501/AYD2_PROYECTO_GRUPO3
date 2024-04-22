@@ -6,6 +6,9 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import CatalogoView from '../views/CatalogoView/CatalogoView';
 import CarritoView from '../views/CarritoView/CarritoView';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import PedidosView from '../views/PedidosView/PedidosView';
+import MyProductsView from '../views/CatalogoView/MyProductsView';
+import VentasView from '../views/PedidosView/VentasView';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +51,7 @@ export function TabsUser() {
             ),
           }}
         />
-        <Tab.Screen name="Pedidos" component={HomeScreen}
+        <Tab.Screen name="Pedidos" component={PedidosView}
           options={{
             tabBarLabel: 'Mis Pedidos',
             tabBarIcon: ({ color }) => (
@@ -77,7 +80,7 @@ export function TabsSeller() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Mis Produtos" component={CatalogoView} 
+        <Tab.Screen name="Mis Produtos" component={MyProductsView} 
           options={{
             tabBarLabel: 'Catalogo',
             tabBarIcon: ({ color }) => (
@@ -85,9 +88,9 @@ export function TabsSeller() {
             ),
           }}
         />
-        <Tab.Screen name="Mis Ventas" component={HomeScreen}
+        <Tab.Screen name="Ventas" component={VentasView}
           options={{
-            tabBarLabel: 'Mis Pedidos',
+            tabBarLabel: 'Mis Ventas',
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="receipt" color={color} size={26} />
             ),
