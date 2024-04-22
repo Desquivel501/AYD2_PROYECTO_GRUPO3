@@ -11,6 +11,7 @@ import CatalogoView from './views/CatalogoView/CatalogoView';
 import ProductView from './views/ProductView/ProductView';
 import EditView from './views/EditView/EditView';
 import CarritoView from './views/CarritoView/CarritoView';
+import PerfilView from './views/Profiles/profile'
 
 import { TabsUser, TabsSeller } from './utils/Routes';
 
@@ -138,6 +139,7 @@ export default function App() {
           <Stack.Screen name="SellerMenu" component={TabsUser} />
           <Stack.Screen name="Product" component={ProductView} />
           <Stack.Screen name="Edit" component={EditView} />
+          <Stack.Screen name="Profile" component={PerfilView} />
           {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>

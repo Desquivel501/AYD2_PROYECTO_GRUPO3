@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 // import CarritoView from './views/CarritoView/CarritoView';
 import CatalogoView from '../views/CatalogoView/CatalogoView';
 import CarritoView from '../views/CarritoView/CarritoView';
+import PerfilView from '../views/Profiles/profile'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -58,7 +59,7 @@ export function TabsUser() {
         />
         <Tab.Screen 
           name="Mi Perfil" 
-          component={HomeScreen}
+          component={PerfilView}
           options={{
             tabBarLabel: 'Mi Perfil',
             tabBarIcon: ({ color }) => (
