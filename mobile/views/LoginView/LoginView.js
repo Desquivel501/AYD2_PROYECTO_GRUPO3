@@ -26,6 +26,14 @@ export default function LoginView({ navigation }) {
         }, [])
     );
 
+    const handleClick = () => {
+        if(email == "Vendedor"){
+            navigation.navigate('SellerMenu')
+        } else {
+            navigation.navigate('UserMenu')
+        }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
 
@@ -57,7 +65,7 @@ export default function LoginView({ navigation }) {
                 <Button
                     title="Iniciar Sesión"
                     width="80%"
-                    onPress={() => navigation.navigate('UserMenu')}
+                    onPress={handleClick}
                 />
                 </View>
 

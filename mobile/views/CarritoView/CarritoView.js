@@ -361,29 +361,23 @@ export default function CarritoView({ navigation }) {
                 </ScrollView>
             </View>
 
-            
-                
-            
-
-            <View style={styles.button_ordenar}>
-                {/* {
-                    newPaymentMethod ?  
+            {
+                productos.length > 0 ?
+                <View style={styles.button_ordenar}>
                     <Button 
-                        title="Pagar" 
-                        color={"#228B22"}
-                        onPress={handleBuyNewMethod} />
-                    :
+                            title="Pagar" 
+                            color={"#228B22"}
+                            onPress={newPaymentMethod ? handleBuyNewMethod : handlebuy} />
+                    
+                </View>
+                :
+                <View style={styles.button_ordenar}>
                     <Button 
-                        title="Pagar" 
-                        color={"#228B22"}
-                        onPress={handlebuy} />
-                } */}
-                <Button 
-                        title="Pagar" 
-                        color={"#228B22"}
-                        onPress={newPaymentMethod ? handleBuyNewMethod : handlebuy} />
-                
-            </View>
+                            title="Regresar al catalogo" 
+                            color={"#228B22"}
+                            onPress={() => navigation.navigate("Catalogo")} />
+                </View>
+            }
 
         </View>
     );
