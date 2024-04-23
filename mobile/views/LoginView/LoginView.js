@@ -27,8 +27,11 @@ export default function LoginView({ navigation }) {
     );
 
     const handleClick = () => {
+
         if(email == "Vendedor"){
             navigation.navigate('SellerMenu')
+        }else if(email == "Admin"){
+            navigation.navigate('AdminMenu')
         } else {
             navigation.navigate('UserMenu')
         }

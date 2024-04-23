@@ -11,104 +11,12 @@ import CatalogoView from './views/CatalogoView/CatalogoView';
 import ProductView from './views/ProductView/ProductView';
 import EditView from './views/EditView/EditView';
 import CarritoView from './views/CarritoView/CarritoView';
+import PedidoView from './views/PedidoView/PedidoView';
 
 import { TabsUser, TabsSeller, TabsAdmin } from './utils/Routes';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-
-// function TabsUser() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         headerShown: false
-//       }}
-//     >
-//       <Tab.Screen name="Catalogo" component={CatalogoView} 
-//         options={{
-//           tabBarLabel: 'Catalogo',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="shopping-bag" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen name="Carrito" component={CarritoView}
-//         options={{
-//           tabBarLabel: 'Carrito',
-//           tabBarIcon: ({ color }) => (
-//             // <FontAwesome5 name="" color={color} size={26} />
-//             <FontAwesome5 name="shopping-cart" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen name="Pedidos" component={HomeScreen}
-//         options={{
-//           tabBarLabel: 'Mis Pedidos',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="receipt" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen 
-//         name="Mi Perfil" 
-//         component={HomeScreen}
-//         options={{
-//           tabBarLabel: 'Mi Perfil',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="user" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// }
-
-// function TabsUser() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         headerShown: false
-//       }}
-//     >
-//       <Tab.Screen name="Catalogo" component={CatalogoView} 
-//         options={{
-//           tabBarLabel: 'Catalogo',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="shopping-bag" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen name="Carrito" component={CarritoView}
-//         options={{
-//           tabBarLabel: 'Carrito',
-//           tabBarIcon: ({ color }) => (
-//             // <FontAwesome5 name="" color={color} size={26} />
-//             <FontAwesome5 name="shopping-cart" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen name="Pedidos" component={HomeScreen}
-//         options={{
-//           tabBarLabel: 'Mis Pedidos',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="receipt" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen 
-//         name="Mi Perfil" 
-//         component={HomeScreen}
-//         options={{
-//           tabBarLabel: 'Mi Perfil',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="user" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// }
 
 function HomeScreen({ navigation }) {
   return (
@@ -135,10 +43,12 @@ export default function App() {
       >
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="UserMenu" component={TabsUser} />
-          <Stack.Screen name="SellerMenu" component={TabsUser} />
+          <Stack.Screen name="SellerMenu" component={TabsSeller} />
+          <Stack.Screen name="AdminMenu" component={TabsAdmin} />
           <Stack.Screen name="Product" component={ProductView} />
           <Stack.Screen name="Edit" component={EditView} />
-          
+          <Stack.Screen name="Pedido" component={PedidoView} />
+
           {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>

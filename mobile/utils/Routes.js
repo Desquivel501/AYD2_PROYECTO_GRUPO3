@@ -120,7 +120,7 @@ export function TabsSeller() {
       >
         <Tab.Screen name="Solicitudes Vendedor" component={CatalogoView} 
           options={{
-            tabBarLabel: 'Solicitudes Vendedor',
+            tabBarLabel: 'Solicitudes',
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="shopping-bag" color={color} size={26} />
             ),
@@ -128,17 +128,17 @@ export function TabsSeller() {
         />
         <Tab.Screen name="Hab-Des-Usuarios" component={HomeScreen}
           options={{
-            tabBarLabel: 'Habilitar Deshabilitar Usuarios',
+            tabBarLabel: 'Usuarios / Vendedores',
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="receipt" color={color} size={26} />
             ),
           }}
         />
         <Tab.Screen 
-          name="Hab-Des-Vendedores" 
-          component={HomeScreen}
+          name="Mi Perfil" 
+          component={PerfilView}
           options={{
-            tabBarLabel: 'Habilitar Deshabilitar Vendedores',
+            tabBarLabel: 'Mi Perfil',
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="user" color={color} size={26} />
             ),
