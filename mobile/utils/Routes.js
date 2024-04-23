@@ -107,3 +107,40 @@ export function TabsSeller() {
       </Tab.Navigator>
     );
   }
+
+  export function TabsAdmin() {
+    return (
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false
+        }}
+      >
+        <Tab.Screen name="Solicitudes Vendedor" component={CatalogoView} 
+          options={{
+            tabBarLabel: 'Solicitudes Vendedor',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="shopping-bag" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen name="Hab-Des-Usuarios" component={HomeScreen}
+          options={{
+            tabBarLabel: 'Habilitar Deshabilitar Usuarios',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="receipt" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen 
+          name="Hab-Des-Vendedores" 
+          component={HomeScreen}
+          options={{
+            tabBarLabel: 'Habilitar Deshabilitar Vendedores',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="user" color={color} size={26} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    );
+  }
