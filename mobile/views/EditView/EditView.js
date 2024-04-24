@@ -1,86 +1,42 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, ImageBackground, Image, Dimensions, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { ProductCard } from "../../components/ProductCard/ProductCard";
-
-import { storeData, getData } from "../../utils/Storage";
-import { mock_products } from "../../assets/mock_data";
-
+import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, ImageBackground, Image, Dimensions, ScrollView, Alert } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { TextInput as PaperTextInput } from 'react-native-paper';
-
 import {launchImageLibrary} from 'react-native-image-picker';
+import AWSHelper from "../../utils/AWSHelper";
 
 const win = Dimensions.get('window');
 const ratio = win.width/1661;
 
 export default function EditView({ route, navigation }) {
 
-    const { id } = route.params;
+    const { id, crear } = route.params;
     const scrollRef = useRef();
 
-    const [currentId, setCurrentId] = React.useState(id);
-
     const [product, setProduct] = React.useState({
-        id: 0,
-        name: "",
-        price: 0,
-        quantity: 0,
-        image: "https://placehold.co/400",
-        description: ""
+        product_id: 0,
+        nombre: "",
+        precio: 0,
+        existencia: 0,
+        imagen: "https://placehold.co/400",
+        descripcion: ""
     });
 
-    const [quantity, setQuantity] = React.useState(1);
-
-    const [recommendedProducts, setRecommendedProducts] = React.useState([
-        {id: 0, name: "", precio: 0, image: "https://placehold.co/800", description: ""},
-        {id: 0, name: "", precio: 0, image: "https://placehold.co/800", description: ""},
-        {id: 0, name: "", precio: 0, image: "https://placehold.co/800", description: ""},
-    ]);
+    const [count , setCount] = React.useState(1);
 
     useEffect(() => {
-        const product = mock_products.find((product) => product.id == id);
-        setProduct(product);
 
-        let data = [...mock_products];
-        let shuffled = data
-            .map(value => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value)
-            .filter((product) => product.id != id)
-            .slice(0, 3);
+        if(crear) return;
 
-        setRecommendedProducts(shuffled)
+        fetch(`http://34.16.176.103:8080/product?id=${id}`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            if(data != null || data != undefined) {
+                setProduct(data);
+            }
+        });
 
     }, []);
-
-    useEffect(() => {
-        if(currentId == id) return;
-
-        setQuantity(1);
-
-        const product = mock_products.find((product) => product.id == currentId);
-        setProduct(product);
-
-        let data = [...mock_products];
-        let shuffled = data
-            .map(value => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value)
-            .filter((product) => product.id != id)
-            .slice(0, 3);
-
-        setRecommendedProducts(shuffled)
-
-        scrollRef.current?.scrollTo({
-            y: 0,
-            animated: true,
-        });
-    }, [currentId]);
-
-    const handleClick = (new_id) => {
-        setCurrentId(new_id);
-    }
 
     const changeImage = async() => {
        try {
@@ -89,11 +45,70 @@ export default function EditView({ route, navigation }) {
                 includeBase64: false,
             });
             if(result.assets[0].uri) {
-                setProduct({...product, image: result.assets[0].uri});
+
+                const url = await AWSHelper.uploadFile(result.assets[0].uri);
+
+                if(url != "") {
+                    setProduct({...product, imagen: url});
+                }
+
             }
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const updateProduct = async () => {
+        await fetch(`http://34.16.176.103:8080/edit-product`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(product)
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            // console.log(data);
+            if(data != null || data != undefined) {
+                if(data.type == "SUCCESS"){
+                    Alert.alert("Producto actualizado", "El producto ha sido actualizado correctamente");
+                } else {
+                    Alert.alert("Error al actualizar", data.message);
+                }
+            } else {
+                Alert.alert("Error al actualizar", "No se pudo actualizar el producto");
+            }
+        }).catch((er) => console.log(er));
+    }
+    
+
+    const crearProducto = async () => {
+
+        let body = {
+            ...product,
+            vendedor: "3284612"
+        } 
+
+        await fetch(`http://34.16.176.103:8080/create-product`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            // console.log(data);
+            if(data != null || data != undefined) {
+                if(data.type == "SUCCESS"){
+                    Alert.alert("Producto creado", "El producto ha sido creado correctamente");
+                } else {
+                    Alert.alert("Error al actualizar", data.message);
+                }
+            } else {
+                Alert.alert("Error al actualizar", "No se pudo crear el producto");
+            }
+        }).catch((er) => console.log(er));
     }
 
     return (
@@ -102,7 +117,7 @@ export default function EditView({ route, navigation }) {
                 <ScrollView showsVerticalScrollIndicator={false} ref={scrollRef}>
 
                     <View>
-                        <Image source={{uri: product.image}} style={styles.image_product} />
+                        <Image source={{uri: product.imagen}} style={styles.image_product} />
                         <FAB
                             icon="tray-arrow-up"
                             style={{
@@ -121,16 +136,16 @@ export default function EditView({ route, navigation }) {
                         <PaperTextInput
                             label="Nombre del producto"
                             mode="outlined"
-                            value={product.name}
-                            onChangeText={text => setProduct({...product, name: text})}
+                            value={product.nombre}
+                            onChangeText={text => setProduct({...product, nombre: text})}
                             style={{width: "100%", fontSize: 28, fontWeight: "bold", marginBottom: 10}}
                         />
 
                         <PaperTextInput
                             label="Precio (GTQ)"
                             mode="outlined"
-                            value={product.price.toString()}
-                            onChangeText={text => setProduct({...product, price: text})}
+                            value={product.precio.toString()}
+                            onChangeText={text => setProduct({...product, precio: Number(text)})}
                             style={{width: "100%", fontSize: 24, fontWeight: "bold", color: "green", marginBottom: 10}}
                             keyboardType="number-pad"
                         />
@@ -138,8 +153,8 @@ export default function EditView({ route, navigation }) {
                         <PaperTextInput
                             label="Existencias"
                             mode="outlined"
-                            value={product.quantity.toString()}
-                            onChangeText={text => setProduct({...product, quantity: text})}
+                            value={product.existencia.toString()}
+                            onChangeText={text => setProduct({...product, existencia: Number(text)})}
                             style={{width: "100%", fontSize: 18, fontWeight: "bold", marginBottom: 10}}
                             keyboardType="number-pad"
                         />
@@ -147,8 +162,8 @@ export default function EditView({ route, navigation }) {
                         <PaperTextInput
                             label="Descripción"
                             mode="outlined"
-                            value={product.description}
-                            onChangeText={text => setProduct({...product, description: text})}
+                            value={product.descripcion}
+                            onChangeText={text => setProduct({...product, descripcion: text})}
                             style={{width: "100%", fontSize: 18, marginBottom: 10}}
                             multiline={true}
 
@@ -165,10 +180,8 @@ export default function EditView({ route, navigation }) {
                             <Button 
                                 title="Guardar Cambios" 
                                 color={"#228B22"}
-                                onPress={() => alert("Producto agregado al carrito")} />
+                                onPress={crear ? crearProducto : updateProduct} />
                         </View>
-
-
                     </View>
                 </ScrollView>
 
@@ -222,8 +235,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingHorizontal: 20,
         paddingVertical: 20
-
-        // paddingRight: 20,
     },
 
     button_login: {
@@ -236,7 +247,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        // width: "100%",
         backgroundColor: "#acaeaf",
         borderRadius: 20,
         marginTop: 20,
@@ -254,8 +264,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: '100%',
         marginVertical: 10,
-        // Additional styles for the line if needed
       },
-    
 });
   

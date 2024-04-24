@@ -11,8 +11,9 @@ import CatalogoView from './views/CatalogoView/CatalogoView';
 import ProductView from './views/ProductView/ProductView';
 import EditView from './views/EditView/EditView';
 import CarritoView from './views/CarritoView/CarritoView';
+import PedidoView from './views/PedidoView/PedidoView';
 
-import { TabsUser, TabsSeller } from './utils/Routes';
+import { TabsUser, TabsSeller, TabsAdmin } from './utils/Routes';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const Stack = createNativeStackNavigator();
@@ -137,9 +138,12 @@ export default function App() {
         >
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="UserMenu" component={TabsUser} />
-          <Stack.Screen name="SellerMenu" component={TabsUser} />
+          <Stack.Screen name="SellerMenu" component={TabsSeller} />
+          <Stack.Screen name="AdminMenu" component={TabsAdmin} />
           <Stack.Screen name="Product" component={ProductView} />
           <Stack.Screen name="Edit" component={EditView} />
+          <Stack.Screen name="Pedido" component={PedidoView} />
+
           {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>

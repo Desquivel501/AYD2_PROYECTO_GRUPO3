@@ -8,28 +8,36 @@ import { Searchbar } from 'react-native-paper';
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 
 import { storeData, getData } from "../../utils/Storage";
-import { mock_products } from "../../assets/mock_data";
 
-const win = Dimensions.get('window');
-const ratio = win.width/1661;
+import { PedidoCard } from "../../components/PedidoCard/PedidoCard";
+import { VentaCard } from "../../components/PedidoCard/VentaCard";
 
-export default function CatalogoView({ navigation }) {
 
-    const [searchQuery, setSearchQuery] = React.useState('');
-    const [productos, setProductos] = React.useState([]);
+export default function VentasView({ navigation }) {
+
+    const [ventas, setVentas] = React.useState([])
 
     const handleClick = (id) => {
-        navigation.navigate("Product", { id: id });
+        const pedido = pedidos.find((pedido) => pedido.purchase_id === id);
+        storeData("pedido", pedido)
+        navigation.navigate("Pedido", { id: id });
     }
 
     useFocusEffect(
         React.useCallback( () => {
-            fetch("http://34.16.176.103:8080/all-products").then((response) => {
+            fetch("http://34.16.176.103:8080/user/sales?dpi=3284612").then((response) => {
                 return response.json();
             }).then((data) => {
-                // console.log(data);
                 if(data != null || data != undefined || data.length > 0) {
-                    setProductos(data);
+                    // data.forEach((element) => {
+                    //     let total = 0;
+                    //     element.products.forEach((product) => {
+                    //         total += product.price * product.cantidad;
+                    //     });
+                    //     element.total = total;
+                    // });
+                    // setPedidos(data);
+                    setVentas(data);
                 }
             });
         }, [])
@@ -38,29 +46,24 @@ export default function CatalogoView({ navigation }) {
     return (
         <View style={styles.container}>
 
-            <Searchbar
-                placeholder="Buscar"
-                onChangeText={setSearchQuery}
-                value={searchQuery}
-                style={styles.search}
-            />
-
-
             <View style={styles.container_products}>
+
+                <Text style={styles.title_pedidos}>Mis Ventas</Text>
+
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {
-                        productos.map((product, index) => {
+                        ventas.map((pedido, index) => {
                             return (
                                 <>
-                                    <ProductCard
+                                    <VentaCard 
                                         key={index}
-                                        id={product.product_id}
-                                        name={product.nombre}
-                                        price={product.precio}
-                                        image={product.imagen}
-                                        description={product.descripcion}
-                                        onSelect={handleClick}
+                                        name={pedido.name}
+                                        total={pedido.total}
+                                        fecha={pedido.date}
+                                        imagen={pedido.image}
+                                        cantidad={pedido.cantidad}
                                     />
+                                    <View key={index + "-line"} style={styles.line} />
                                 </>
                             )
                         })
@@ -99,11 +102,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
     },
-    logo : {
-        width: "90%",
-        height: 512 * ratio,
-        resizeMode: "contain",
-    },
 
     button_login: {
         marginTop: 20,
@@ -129,7 +127,16 @@ const styles = StyleSheet.create({
         borderBottomColor: '#989a9b',
         borderBottomWidth: 1,
         width: '100%',
-        marginVertical: 10,
+        // marginVertical: 10,
       },
+    title_pedidos: {
+        fontSize: 30,
+        fontWeight: "bold",
+        // marginBottom: 3,
+        marginTop: 10,
+        marginLeft: 10,
+        paddingBottom: 10,
+        alignSelf: "flex-start",
+    },
 });
   
