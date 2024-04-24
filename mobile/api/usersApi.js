@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 import { variable } from './variables';
+import { storeData, storeObject } from '../utils/Storage';
 //const baseUrl = variable.base_url;
 const baseUrl = variable.base_url;
 
@@ -36,6 +37,10 @@ export const useUserLogin = () => {
                 console.log("Error")
             } else {
                 queryClient.setQueryData('user', data, { keepPreviousData: true });
+                storeData("user", {
+                    "type": parseInt(data.data.MESSAGE),
+                    "id":  parseInt(data.data.DATA),
+                });
                 /* localStorage.setItem('user', JSON.stringify({
                     "type": parseInt(data.data.MESSAGE),
                     "id":  parseInt(data.data.DATA),
