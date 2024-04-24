@@ -5,11 +5,14 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 // import CarritoView from './views/CarritoView/CarritoView';
 import CatalogoView from '../views/CatalogoView/CatalogoView';
 import CarritoView from '../views/CarritoView/CarritoView';
-import PerfilView from '../views/Profiles/profile'
+import PerfilView from '../views/Profiles/profile';
+import HabDesView from '../views/Hab-Des/hab-des';
+import SolVendView from '../views/SolicitudesVendedor/SolicitudesVend';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PedidosView from '../views/PedidosView/PedidosView';
 import MyProductsView from '../views/CatalogoView/MyProductsView';
 import VentasView from '../views/PedidosView/VentasView';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -62,14 +65,16 @@ export function TabsUser() {
         />
         <Tab.Screen 
           name="Mi Perfil" 
-          component={PerfilView}
           options={{
             tabBarLabel: 'Mi Perfil',
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="user" color={color} size={26} />
             ),
           }}
-        />
+        >
+          {() => <PerfilView user="Usuario" />}
+        </Tab.Screen>
+
       </Tab.Navigator>
     );
   }
@@ -99,14 +104,16 @@ export function TabsSeller() {
         />
         <Tab.Screen 
           name="Mi Perfil" 
-          component={HomeScreen}
           options={{
             tabBarLabel: 'Mi Perfil',
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="user" color={color} size={26} />
             ),
           }}
-        />
+        >
+          {() => <PerfilView user="Vendedor" />}
+        </Tab.Screen>
+
       </Tab.Navigator>
     );
   }
@@ -118,32 +125,34 @@ export function TabsSeller() {
           headerShown: false
         }}
       >
-        <Tab.Screen name="Solicitudes Vendedor" component={CatalogoView} 
+        <Tab.Screen name="Solicitudes Vendedor" component={SolVendView} 
           options={{
             tabBarLabel: 'Solicitudes',
             tabBarIcon: ({ color }) => (
-              <FontAwesome5 name="shopping-bag" color={color} size={26} />
+              <FontAwesome5 name="envelope" color={color} size={26} />
             ),
           }}
         />
-        <Tab.Screen name="Hab-Des-Usuarios" component={HomeScreen}
+        <Tab.Screen name="Hab-Des-Usuarios" component={HabDesView}
           options={{
             tabBarLabel: 'Usuarios / Vendedores',
             tabBarIcon: ({ color }) => (
-              <FontAwesome5 name="receipt" color={color} size={26} />
+              <FontAwesome5 name="users" color={color} size={26} />
             ),
           }}
         />
         <Tab.Screen 
-          name="Mi Perfil" 
-          component={PerfilView}
-          options={{
-            tabBarLabel: 'Mi Perfil',
-            tabBarIcon: ({ color }) => (
-              <FontAwesome5 name="user" color={color} size={26} />
-            ),
-          }}
-        />
+        name="Mi Perfil" 
+        options={{
+          tabBarLabel: 'Mi Perfil',
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="user" color={color} size={26} />
+          ),
+        }}
+        >
+          {() => <PerfilView user="Usuario" />}
+        </Tab.Screen>
+
       </Tab.Navigator>
     );
   }

@@ -1,141 +1,169 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Table, Row } from "react-native-table-component";
 
 const UserProfile = ({ user }) => {
-  const [editing, setEditing] = useState(false); // Estado para controlar la edición
-  const [UsuariosDisp, setUsuariosDisp] = useState(false); // Estado para controlar la Usuarios
-  const [VendDisp, setVendDisp] = useState(false); // Estado para controlar la Vendedores
-  const [SolVend, setSolVend] = useState(false); // Estado para controlar la solicitudes de Vendedores
+
+  const [editing, setEditing] = useState(true); // Estado para controlar la edición
+  const [containerStyle, setContainerStyle] = useState(styles.containerEditing);
+  const [userData, setUserData] = useState(null);
+  const [newName, setNewName] = useState(''); // Estado para el nuevo nombre
+  const [newEmail, setNewEmail] = useState(''); // Estado para el nuevo correo
+  const [ActualPassword, setActualPassword] = useState(''); // Estado para la nueva contraseña
+  
+  useEffect(() => {
+    fetchProfileData();
+  }, []);
+
+
+  const fetchProfileData = () => {
+    // Realiza una solicitud GET para obtener los datos actualizados del perfil después de guardar los cambios
+    fetch("http://34.16.176.103:8080/user/profile", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            dpi:3284612
+        }),
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        console.log("Datos de perfil actualizados:", json);
+        // Actualiza el estado con los datos del perfil actualizados
+        setUserData(json);
+        // Cambia a la vista no editable después de guardar los cambios
+        toggleEditing();
+    })
+    .catch((error) => {
+        console.error("Error fetching updated profile data: ", error);
+        // Podrías mostrar un mensaje de error al usuario aquí
+    });
+  };
+
 
   const toggleEditing = () => {
-    setEditing(!editing); // Cambia el estado al contrario del estado actual
-  };
-
-  const toggleUsuariosDisp = () => {
-    setUsuariosDisp(!UsuariosDisp); // Cambia el estado al contrario del estado actual
-  };
-
-  const toggleVendDisp = () => {
-    setVendDisp(!VendDisp); // Cambia el estado al contrario del estado actual
-  };
-
-  const toggleSolVend = () => {
-    setSolVend(!SolVend); // Cambia el estado al contrario del estado actual
+    setEditing(!editing);
+    // Cambiar el estilo del contenedor
+    if (editing) {
+      setContainerStyle(styles.containerEditing);
+    } else {
+      setContainerStyle(styles.container);
+    }
   };
 
   const toggleRegresar = () => {
     setEditing(false);
-    setUsuariosDisp(false);
-    setVendDisp(false);
-    setSolVend(false);
   };
 
-  const ProfileBasic = () => {
-    return (
-      <View style={styles.userInfo}>
-        <View style={styles.avatarContainer}>
-          <Image
-            source={{
-              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm1eyPkS00wrbemn299yWONeOdICDfqxqySg&s",
-            }}
-            style={styles.avatar}
-          />
-        </View>
-        <Text style={styles.userName}>Sebastian</Text>
-        <Text style={styles.userEmail}>sebas@gmail</Text>
-        <Text style={styles.userEmail}>30055541505050</Text>
-        <TouchableOpacity onPress={toggleEditing} style={styles.editProfileButton}>
-          <Text style={styles.editProfileButtonText}>Editar perfil</Text>
-        </TouchableOpacity>
-        <View>
-          <View style={styles.line}></View>
-          <TouchableOpacity onPress={toggleUsuariosDisp} style={styles.btn_usuarios}>
-            <Text style={styles.editProfileButtonText}>Usuarios en el sistema</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleVendDisp} style={styles.btn_vendedores}>
-            <Text style={styles.editProfileButtonText}>Vendedores en el sistema</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={toggleSolVend} style={styles.btn_sol_vendedores}>
-            <Text style={styles.editProfileButtonText}>Solicitudes Vendedores</Text>
-          </TouchableOpacity>
-          {/* Contenedor de la tabla */}
-        </View>
-      </View>
-    );
-  };
+  const Guardar = () => {
+      // Crea un objeto con los datos actualizados del perfil
+      const updatedProfileData = {
+          dpi: userData.dpi, 
+          name: newName, 
+          email: newEmail, 
+          password: ActualPassword 
+      };
 
-  const BtnHabilitar = (text) => {
-    return (
-      <TouchableOpacity style={styles.btn_regresar}>
-        <Text style={styles.saveButtonText}>{text}</Text>
-      </TouchableOpacity>
-    );
+      // Realiza la solicitud POST a user/update-profile con los datos actualizados del perfil
+      fetch("http://34.16.176.103:8080/user/update-profile", {
+          method: "POST",
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedProfileData),
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        Alert.alert(
+          "Perfil Actualizado",
+          "Los cambios se han guardado exitosamente.",
+          [
+            {
+              text: "OK",
+              onPress: () => console.log("OK Pressed"),
+            },
+          ],
+          { cancelable: false }
+        );
+          console.log("Perfil actualizado:", json);
+          // Después de actualizar el perfil, realiza una nueva solicitud GET para obtener los datos actualizados
+          fetchProfileData();
+      })
+      .catch((error) => {
+        Alert.alert(
+          "Error al Actualizar Perfil",
+          [
+            {
+              text: "OK",
+              onPress: () => console.log("OK Pressed"),
+            },
+          ],
+          { cancelable: false }
+        );
+          console.error("Error updating profile: ", error);
+          // Podrías mostrar un mensaje de error al usuario aquí
+      });
   };
 
   return (
     <View>
-      <Text style={styles.titulo}>Perfil</Text>
-      <View style={styles.container}>
-        {editing ? (
-          <View style={styles.editUserInfo}>
-            <View style={styles.avatarContainer}>
-              <Image
-                source={{
-                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm1eyPkS00wrbemn299yWONeOdICDfqxqySg&s",
-                }}
-                style={styles.avatar}
+      {!editing && <Text style={styles.titulo}>Perfil</Text>}
+      <View style={containerStyle}>
+        {userData ? (
+          editing ? (
+            <View style={styles.editUserInfo}>
+              <View style={styles.avatarContainer}>
+                <Image source={{ uri: userData.image }} style={styles.avatar} />
+              </View>
+              <TextInput
+                placeholder="Nuevo nombre"
+                placeholderTextColor="#E9D8FD"
+                style={styles.input}
+                value={newName} // Asigna el valor del estado newName al TextInput
+                onChangeText={text => setNewName(text)} // Actualiza el estado newName cuando cambia el texto
               />
+              <TextInput
+                placeholder="Nuevo Correo"
+                placeholderTextColor="#E9D8FD"
+                style={styles.input}
+                value={newEmail} // Asigna el valor del estado newEmail al TextInput
+                onChangeText={text => setNewEmail(text)} // Actualiza el estado newEmail cuando cambia el texto
+              />
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="#E9D8FD"
+                style={styles.input}
+                secureTextEntry={true}
+                value={ActualPassword} // Asigna el valor del estado ActualPassword al TextInput
+                onChangeText={text => setActualPassword(text)} // Actualiza el estado ActualPassword cuando cambia el texto
+              />
+              <TouchableOpacity onPress={() => { Guardar(); toggleEditing(); }} style={styles.saveButton}>
+                <Text style={styles.saveButtonText}>Guardar cambios</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={toggleRegresar} style={styles.btn_regresar}>
+                <Text style={styles.saveButtonText}>Regresar</Text>
+              </TouchableOpacity>
             </View>
-            <TextInput
-              placeholder="Nuevo nombre"
-              placeholderTextColor="#CCD1D1"
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Nuevo email"
-              placeholderTextColor="#CCD1D1"
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Nuevo teléfono"
-              placeholderTextColor="#CCD1D1"
-              style={styles.input}
-            />
-            <TouchableOpacity onPress={toggleEditing} style={styles.saveButton}>
-              <Text style={styles.saveButtonText}>Guardar cambios</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleRegresar} style={styles.btn_regresar}>
-              <Text style={styles.saveButtonText}>Regresar</Text>
-            </TouchableOpacity>
-          </View>
-        ) : UsuariosDisp ? (
-          <View style={styles.containertables}>
-            <Text style={styles.textHabDes}>Usuarios habilitados</Text>
-            <View>
-              <Table borderStyle={{ borderWidth: 1, borderColor: "#000" }}>
-              <Row data={['Name', 'Age', 'Accion']} style={styles.tableHeader2} textStyle={{ textAlign: 'center', fontWeight: "bold",color: "#F7DC6F" }} />
-                <Row data={["John", "25", BtnHabilitar("Habilitar")]} textStyle={styles.tablaRow2} />
-                <Row data={["Jane", "30", BtnHabilitar("Habilitar")]} textStyle={styles.tablaRow2} />
-                <Row data={["Doe", "35", BtnHabilitar("Habilitar")]} textStyle={styles.tablaRow2} />
-              </Table>
+          ) : (
+            <View style={styles.userInfo}>
+              <View style={styles.avatarContainer}>
+                <Image source={{ uri: userData.image }} style={styles.avatar} />
+              </View>
+              {userData.role==2 &&<Icon name='star' color='gold' size={20} style={{marginBottom:"5%"}}> ({userData.score}) </Icon>}
+              <Text style={styles.userName}>{userData.name}</Text>
+              <Text style={styles.userEmail}>{userData.email}</Text>
+              <Text style={styles.userEmail}>{userData.cui}</Text>
+              <TouchableOpacity onPress={toggleEditing} style={styles.editProfileButton}>
+                <Text style={styles.editProfileButtonText}>Editar perfil</Text>
+              </TouchableOpacity>
             </View>
-            
-            <Text style={styles.textHabDes}>Usuarios inhabilitados</Text>
-            <View style={styles.tableContainer}>
-              <Table borderStyle={{ borderWidth: 1, borderColor: "#000" }}>
-              <Row data={['Name', 'Age', 'Accion']} style={styles.tableHeader} textStyle={{ textAlign: 'center', fontWeight: "bold",color: "#F7DC6F" }} />
-                <Row data={["John", "25", BtnHabilitar("Habilitar")]} textStyle={styles.tablaRow} />
-                <Row data={["Jane", "30", BtnHabilitar("Habilitar")]} textStyle={styles.tablaRow} />
-                <Row data={["Doe", "35", BtnHabilitar("Habilitar")]} textStyle={styles.tablaRow} />
-              </Table>
-            </View>
-            <TouchableOpacity onPress={toggleRegresar} style={styles.btn_regresar}>
-              <Text style={styles.saveButtonText}>Regresar</Text>
-            </TouchableOpacity>
-          </View>
+          )
         ) : (
-          <ProfileBasic />
+          <Text>Cargando datos del perfil...</Text>
         )}
       </View>
     </View>
@@ -143,12 +171,13 @@ const UserProfile = ({ user }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  containerEditing: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical:"30%",
     borderRadius: 10,
     marginHorizontal: "10%",
     marginTop: "15%",
@@ -166,12 +195,41 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     alignItems: "center",
-    paddingBottom: "5%",
+    paddingBottom: "10%",
+    
+  },
+  container: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingHorizontal: 10,
+    paddingVertical:"30%",
+    borderRadius: 10,
+    marginHorizontal: "10%",
+    marginTop: "21%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  userInfo: {
+    alignItems: "center",
+  },
+  avatarContainer: {
+    alignItems: "center",
+    paddingBottom: "10%",
+    
   },
   avatar: {
-    width: 80,
-    height: 80,
+    width: 120,
+    height: 120,
     borderRadius: 40,
+    
   },
   userName: {
     textAlign: "center",
@@ -183,12 +241,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#666",
   },
+  textinput: {
+    fontSize: 16,
+    color: "#666",
+    textAlign:"left"
+  },
   editProfileButton: {
     backgroundColor: "#7800FF",
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
-    marginTop: 10,
+    marginTop: 20,
     overflow: "hidden",
   },
   editProfileButtonText: {
@@ -202,9 +265,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    height: "15%",
-    width: 200,
-    borderColor: "#ddd",
+    height: "10%",
+    width: 250,
+    borderColor: "#7800FF",
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
@@ -216,12 +279,20 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
-    marginTop: 10,
+    marginTop: 10
+  },
+  btn_imagen: {
+    backgroundColor: "#4CAF50",
+    width: "100%",
+    paddingVertical: 10,
+    paddingHorizontal: 13,
+    borderRadius: 50,
+    marginTop: 10
   },
   saveButton: {
     backgroundColor: "#4CAF50",
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 60,
     borderRadius: 5,
     marginTop: 10,
   },
@@ -245,60 +316,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     overflow: "hidden",
   },
-  btn_vendedores: {
-    backgroundColor: "#4CAF50",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    marginTop: 1,
-    overflow: "hidden",
-  },
-  btn_sol_vendedores: {
-    backgroundColor: "#E19609",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    marginTop: 1,
-    overflow: "hidden",
-  },
-  tableHeader: {
-    backgroundColor: "#212F3D",
-  },
-  tableHeader2: {
-    backgroundColor: "#2874A6",
-  },
-  tablaRow2: {
-    
-    color: "black",
-    textAlign:"center"
-  },
-  tablaRow: {
-    
-    color: "#F1C40F",
-    textAlign:"center"
-  },
-  tableContainer: {
-    backgroundColor:"#2C3E50",
-    alignSelf: "stretch", // Asegurar que la tabla se estire horizontalmente
-    overflow: "scroll",
-
-  },
-  containertables: {
-    width: "auto",
-    alignSelf: "stretch", // Asegurar que la tabla se estire horizontalmente
-  },
-  line: {
-    borderBottomColor: "#ccc",
-    borderBottomWidth: 1,
-    marginVertical: 10,
-  },
-  textHabDes :{
-    color: "#005A7A",
-    marginVertical: "3%",
-    textAlign: "center",
-    fontSize: 20,
-    fontWeight: "bold",
-  }
+  
 });
 
 export default UserProfile;
