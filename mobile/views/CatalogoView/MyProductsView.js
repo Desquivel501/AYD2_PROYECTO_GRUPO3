@@ -46,6 +46,12 @@ export default function MyProductsView({ navigation }) {
         }, [])
     );
 
+    function filter(item) {
+        if(searchQuery === '') return true
+        return item.nombre.toLowerCase().includes(searchQuery.toLowerCase())
+    }
+
+
     return (
         <View style={styles.container}>
 
@@ -69,21 +75,18 @@ export default function MyProductsView({ navigation }) {
 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {
-                        productos.map((product, index) => {
-                            return (
-                                <>
-                                    <ProductCard
-                                        key={index}
-                                        id={product.product_id}
-                                        name={product.nombre}
-                                        price={product.precio}
-                                        image={product.imagen}
-                                        description={product.descripcion}
-                                        onSelect={handleClick}
-                                    />
-                                </>
-                            )
-                        })
+                        productos.map((product, index) => (
+                            filter(product) &&
+                            <ProductCard
+                                key={index}
+                                id={product.product_id}
+                                name={product.nombre}
+                                price={product.precio}
+                                image={product.imagen}
+                                description={product.descripcion}
+                                onSelect={handleClick}
+                            />
+                        ))
                     }
                 </ScrollView>
             </View>
