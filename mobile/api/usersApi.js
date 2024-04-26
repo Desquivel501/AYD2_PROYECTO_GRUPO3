@@ -41,10 +41,6 @@ export const useUserLogin = () => {
                     "type": parseInt(data.data.MESSAGE),
                     "id":  parseInt(data.data.DATA),
                 });
-                /* localStorage.setItem('user', JSON.stringify({
-                    "type": parseInt(data.data.MESSAGE),
-                    "id":  parseInt(data.data.DATA),
-                })); */
             }
         }
     });
@@ -53,9 +49,6 @@ export const useUserLogin = () => {
 // Add user
 
 export const addUser = (user) => {
-    /* api.post('/usuarios/getUser', user).then(function (response) {
-        return response.data;
-    }) */
     return api.post('/user/register', user)
 };
 

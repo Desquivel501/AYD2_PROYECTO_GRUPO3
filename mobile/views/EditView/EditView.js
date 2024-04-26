@@ -4,6 +4,7 @@ import { FAB } from 'react-native-paper';
 import { TextInput as PaperTextInput } from 'react-native-paper';
 import {launchImageLibrary} from 'react-native-image-picker';
 import AWSHelper from "../../utils/AWSHelper";
+import { storeData, getData } from "../../utils/Storage";
 
 const win = Dimensions.get('window');
 const ratio = win.width/1661;
@@ -19,7 +20,8 @@ export default function EditView({ route, navigation }) {
         precio: 0,
         existencia: 0,
         imagen: "https://placehold.co/400",
-        descripcion: ""
+        descripcion: "",
+        categoria: ""
     });
 
     const [count , setCount] = React.useState(1);
@@ -71,7 +73,12 @@ export default function EditView({ route, navigation }) {
             // console.log(data);
             if(data != null || data != undefined) {
                 if(data.type == "SUCCESS"){
-                    Alert.alert("Producto actualizado", "El producto ha sido actualizado correctamente");
+                    Alert.alert("Producto actualizado", "El producto ha sido actualizado correctamente",[
+                        {
+                            text: "Aceptar",
+                            onPress: () => navigation.goBack()
+                        }
+                    ]);
                 } else {
                     Alert.alert("Error al actualizar", data.message);
                 }
@@ -84,29 +91,63 @@ export default function EditView({ route, navigation }) {
 
     const crearProducto = async () => {
 
-        let body = {
-            ...product,
-            vendedor: "3284612"
-        } 
+        getData("user").then((user) => {
+            let body = {
+                ...product,
+                vendedor: String(user.id)
+            } 
 
-        await fetch(`http://34.16.176.103:8080/create-product`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        }).then((response) => {
+            console.log(body);
+    
+            fetch(`http://34.16.176.103:8080/create-product`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                // console.log(data);
+                if(data != null || data != undefined) {
+                    if(data.type == "SUCCESS"){
+                        Alert.alert("Producto creado", "El producto ha sido creado correctamente", [
+                            {
+                                text: "Aceptar",
+                                onPress: () => navigation.goBack()
+                            }
+                        ]);
+                    } else {
+                        Alert.alert("Error al actualizar", data.message);
+                    }
+                } else {
+                    Alert.alert("Error al actualizar", "No se pudo crear el producto");
+                }
+            }).catch((er) => console.log(er));
+        });
+    }
+
+    const eliminarProducto = async () => {
+
+        
+
+        await fetch(`http://34.16.176.103:8080/delete-product?id=${id}`).then((response) => {
             return response.json();
         }).then((data) => {
             // console.log(data);
             if(data != null || data != undefined) {
                 if(data.type == "SUCCESS"){
-                    Alert.alert("Producto creado", "El producto ha sido creado correctamente");
+                    Alert.alert("Producto eliminado", "El producto ha sido eliminado correctamente", [
+                        {
+                            text: "Aceptar",
+                            onPress: () => navigation.goBack()
+                        }
+                    ]);
                 } else {
-                    Alert.alert("Error al actualizar", data.message);
+                    Alert.alert("Error al eliminar", data.message);
                 }
             } else {
-                Alert.alert("Error al actualizar", "No se pudo crear el producto");
+                Alert.alert("Error al eliminar", "No se pudo eliminar el producto");
             }
         }).catch((er) => console.log(er));
     }
@@ -160,6 +201,14 @@ export default function EditView({ route, navigation }) {
                         />
 
                         <PaperTextInput
+                            label="Categoria"
+                            mode="outlined"
+                            value={product.categoria}
+                            onChangeText={text => setProduct({...product, categoria: text})}
+                            style={{width: "100%", fontSize: 18, marginBottom: 10}}
+                        />
+
+                        <PaperTextInput
                             label="Descripción"
                             mode="outlined"
                             value={product.descripcion}
@@ -169,12 +218,26 @@ export default function EditView({ route, navigation }) {
 
                         />
 
-                        <View style={styles.order_container}>
-                            <Button 
-                                title="Eliminar Producto" 
-                                color={"#ff0000"}
-                                onPress={() => alert("Producto agregado al carrito")} />
-                        </View>
+                        {
+                            crear ?
+                            null
+                            :
+                            <View style={styles.order_container}>
+                                <Button 
+                                    title="Eliminar Producto" 
+                                    color={"#ff0000"}
+                                    onPress={() => Alert.alert("Eliminar producto", "¿Está seguro que desea eliminar el producto?", [
+                                        {
+                                            text: "Cancelar",
+                                            onPress: () => {}
+                                        },
+                                        {
+                                            text: "Aceptar",
+                                            onPress: () => eliminarProducto()
+                                        }
+                                    ])} />
+                            </View>
+                        }
 
                         <View style={styles.order_container}>
                             <Button 
