@@ -12,7 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PedidosView from '../views/PedidosView/PedidosView';
 import MyProductsView from '../views/CatalogoView/MyProductsView';
 import VentasView from '../views/PedidosView/VentasView';
-
+import ReporteVendedorView from '../views/ReporteVendedorView/ReporteVendedorView';
 import UserProfile from '../views/Profiles/profile';
 
 
@@ -99,6 +99,14 @@ export function TabsSeller() {
             tabBarLabel: 'Mis Ventas',
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="receipt" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen name="Reporte" component={ReporteVendedorView}
+          options={{
+            tabBarLabel: 'Reportes',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="chart-bar" color={color} size={26} />
             ),
           }}
         />

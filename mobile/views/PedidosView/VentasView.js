@@ -25,20 +25,16 @@ export default function VentasView({ navigation }) {
 
     useFocusEffect(
         React.useCallback( () => {
-            fetch("http://34.16.176.103:8080/user/sales?dpi=3284612").then((response) => {
-                return response.json();
-            }).then((data) => {
-                if(data != null || data != undefined || data.length > 0) {
-                    // data.forEach((element) => {
-                    //     let total = 0;
-                    //     element.products.forEach((product) => {
-                    //         total += product.price * product.cantidad;
-                    //     });
-                    //     element.total = total;
-                    // });
-                    // setPedidos(data);
-                    setVentas(data);
-                }
+
+            getData("user").then((user) => {
+
+                fetch(`http://34.16.176.103:8080/user/sales?dpi=${user.id}`).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    if(data != null || data != undefined || data.length > 0) {
+                        setVentas(data);
+                    }
+                });
             });
         }, [])
     );
@@ -52,6 +48,7 @@ export default function VentasView({ navigation }) {
 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {
+                       ventas.length > 0 ? 
                         ventas.map((pedido, index) => {
                             return (
                                 <>
@@ -67,6 +64,8 @@ export default function VentasView({ navigation }) {
                                 </>
                             )
                         })
+                        :
+                        <Text style={{fontSize: 20, fontWeight: "bold", marginBottom: 10, alignSelf:"center", marginTop: 10}}>No has tenido ventas :(</Text>
                     }
                 </ScrollView>
             </View>
