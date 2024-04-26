@@ -14,33 +14,21 @@ import CarritoView from './views/CarritoView/CarritoView';
 import PedidoView from './views/PedidoView/PedidoView';
 
 import { TabsUser, TabsSeller, TabsAdmin } from './utils/Routes';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{flex: 1}}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Login"
-          onPress={() => navigation.navigate('Login')}
-        />
-        
-      </View>
-    </View>
-  );
-}
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false
-        }}
-      >
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false
+          }}
+        >
           <Stack.Screen name="Login" component={LoginView} />
           <Stack.Screen name="UserMenu" component={TabsUser} />
           <Stack.Screen name="SellerMenu" component={TabsSeller} />
@@ -48,10 +36,9 @@ export default function App() {
           <Stack.Screen name="Product" component={ProductView} />
           <Stack.Screen name="Edit" component={EditView} />
           <Stack.Screen name="Pedido" component={PedidoView} />
-
-          {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
 

@@ -12,6 +12,7 @@ import { mock_products } from "../../assets/mock_data";
 
 import RNPickerSelect from 'react-native-picker-select';
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { types } from "react-native-document-picker";
 
 const win = Dimensions.get('window');
 const ratio = win.width/1661;
@@ -33,6 +34,10 @@ export default function CarritoView({ navigation }) {
     });
 
     const [allowPayment, setAllowPayment] = React.useState(false);
+    const [curentUser, setCurrentUser] = React.useState({
+        id: 0,
+        type: ""
+    });
 
     useFocusEffect(
         React.useCallback(() => {
@@ -62,11 +67,21 @@ export default function CarritoView({ navigation }) {
                 }
             });
 
-            fetch(`http://34.16.176.103:8080/user/get-payment-methods?dpi=53681241`).then((response) => {
-                return response.json();
-            }).then((data) => {
-                // console.log(data);
-                setPaymentMethods(data);
+            getData("user").then((user) => {
+
+                if(user == null || user == undefined) {
+                    navigation.navigate("Login");
+                }
+                fetch(`http://34.16.176.103:8080/user/get-payment-methods?dpi=${user.id}`).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    if (data == null || data == undefined || data.length == 0) {
+                        setPaymentMethods([]);
+                        return;
+                    }
+                    setPaymentMethods(data);
+                });
+                setCurrentUser(user);
             });
 
         }, [])
@@ -123,7 +138,7 @@ export default function CarritoView({ navigation }) {
         }
 
         let body = {
-            dpi: 53681241,
+            dpi: curentUser.id,
             alias: paymentMethod.alias,
             number: Number(paymentMethod.number),
             cardholder: paymentMethod.name,
@@ -142,7 +157,7 @@ export default function CarritoView({ navigation }) {
         }).then((data) => {
 
             if(data.TYPE == "SUCCESS"){
-                fetch(`http://34.16.176.103:8080/user/get-payment-methods?dpi=53681241`).then((response) => {
+                fetch(`http://34.16.176.103:8080/user/get-payment-methods?dpi=${curentUser.id}`).then((response) => {
                     return response.json();
                 }).then((data2) => {
                     // console.log(data);
@@ -150,7 +165,7 @@ export default function CarritoView({ navigation }) {
                     data2.forEach((method) => {
                         if(method.alias == paymentMethod.alias) {   
                             let body = {
-                                client_id: 53681241,
+                                client_id: curentUser.id,
                                 productos: productos,
                                 payment_id: method.id,
                                 total: total
@@ -199,7 +214,7 @@ export default function CarritoView({ navigation }) {
         }
 
         let body = {
-            client_id: 53681241,
+            client_id: curentUser.id,
             productos: productos,
             payment_id: currentPaymentMethod,
             total: total
@@ -226,7 +241,7 @@ export default function CarritoView({ navigation }) {
                         }
                     }
                 ]
-            );
+            )
             
         });
     }

@@ -26,19 +26,26 @@ export default function PedidosView({ navigation }) {
 
     useFocusEffect(
         React.useCallback( () => {
-            fetch("http://34.16.176.103:8080/user/purchases?dpi=53681241").then((response) => {
-                return response.json();
-            }).then((data) => {
-                if(data != null || data != undefined || data.length > 0) {
-                    data.forEach((element) => {
-                        let total = 0;
-                        element.products.forEach((product) => {
-                            total += product.price * product.cantidad;
-                        });
-                        element.total = total;
-                    });
-                    setPedidos(data);
+            getData("user").then((user) => {
+
+                if(user == null || user == undefined) {
+                    navigation.navigate("Login");
                 }
+
+                fetch(`http://34.16.176.103:8080/user/purchases?dpi=${user.id}`).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    if(data != null || data != undefined || data.length > 0) {
+                        data.forEach((element) => {
+                            let total = 0;
+                            element.products.forEach((product) => {
+                                total += product.price * product.cantidad;
+                            });
+                            element.total = total;
+                        });
+                        setPedidos(data);
+                    }
+                });
             });
         }, [])
     );
@@ -52,6 +59,7 @@ export default function PedidosView({ navigation }) {
 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {
+                       pedidos.length > 0 ? 
                         pedidos.map((pedido, index) => {
                             return (
                                 <>
@@ -65,7 +73,13 @@ export default function PedidosView({ navigation }) {
                                     <View key={index + "-line"} style={styles.line} />
                                 </>
                             )
-                        })
+                        }) 
+                        : 
+                        <>
+                            <Text style={{fontSize: 20, fontWeight: "bold", marginBottom: 10, alignSelf:"center", marginTop: 10}}>No se han realizado pedidos</Text>
+                            <Button title="Regresar al catalogo" onPress={() => navigation.navigate("Catalogo")} />
+                        </>
+                        
                     }
                 </ScrollView>
             </View>

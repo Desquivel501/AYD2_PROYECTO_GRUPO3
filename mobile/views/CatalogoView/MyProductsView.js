@@ -27,17 +27,30 @@ export default function MyProductsView({ navigation }) {
     }
 
     useFocusEffect(
-        React.useCallback( () => {
-            const data =  fetch("http://34.16.176.103:8080/all-products").then((response) => {
-                return response.json();
-            }).then((data) => {
-                // console.log(data);
-                if(data != null || data != undefined || data.length > 0) {
-                    setProductos(data);
+        React.useCallback(() => {
+
+            getData("user").then((user) => {
+                if(user == null || user == undefined) {
+                    navigation.navigate("Login");
                 }
+
+                fetch(`http://34.16.176.103:8080/my-products?id=${user.id}`).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    // console.log(data);
+                    if(data != null || data != undefined || data.length > 0) {
+                        setProductos(data);
+                    }
+                });
             });
         }, [])
     );
+
+    function filter(item) {
+        if(searchQuery === '') return true
+        return item.nombre.toLowerCase().includes(searchQuery.toLowerCase())
+    }
+
 
     return (
         <View style={styles.container}>
@@ -62,21 +75,18 @@ export default function MyProductsView({ navigation }) {
 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {
-                        productos.map((product, index) => {
-                            return (
-                                <>
-                                    <ProductCard
-                                        key={index}
-                                        id={product.product_id}
-                                        name={product.nombre}
-                                        price={product.precio}
-                                        image={product.imagen}
-                                        description={product.descripcion}
-                                        onSelect={handleClick}
-                                    />
-                                </>
-                            )
-                        })
+                        productos.map((product, index) => (
+                            filter(product) &&
+                            <ProductCard
+                                key={index}
+                                id={product.product_id}
+                                name={product.nombre}
+                                price={product.precio}
+                                image={product.imagen}
+                                description={product.descripcion}
+                                onSelect={handleClick}
+                            />
+                        ))
                     }
                 </ScrollView>
             </View>
