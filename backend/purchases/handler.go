@@ -86,3 +86,17 @@ func SellerSalesHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(result)
 }
+
+
+func GetAllPurchasesHandler(w http.ResponseWriter, r *http.Request) {
+	result, err := GetAllPurchases()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		logs.AddLogEvent(err.Error())
+		return
+	}
+	logs.AddLogEvent("Se realiza compra de producto")
+	logs.AddToHistory(0, "Compras realizadas", fmt.Sprintf("Se obtiene el historial de todas las compras que se han hecho %s", "Listado de todas las compras"))
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
+}

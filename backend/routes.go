@@ -62,4 +62,5 @@ func Routes(mux *http.ServeMux) {
 	//Handler de reportes de vendedor
 	mux.HandleFunc("/vendedor/reporte/productos", reports.GetMostSelledSProductsHandler)
 	mux.HandleFunc("/vendedor/reporte/categoria", reports.GetMostSelledSCategoryHandler)
+	mux.HandleFunc("/user/get-all-purchases", purchases.GetAllPurchasesHandler)
 }

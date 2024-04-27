@@ -50,7 +50,7 @@ export const navbar_routes = {
             name: "Gestionar Vendedores"
         },
         {
-            path: "",
+            path: "/admin/reportes",
             name: "Reportes"
         }
     ]   
