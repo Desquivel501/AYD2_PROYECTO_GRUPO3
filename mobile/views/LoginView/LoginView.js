@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, ImageBackgroun
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { storeData } from "../../utils/Storage";
+import { getData, storeData } from "../../utils/Storage";
 import { useUserLogin } from "../../api/usersApi";
 // const image = { uri: "../assets/bk.png"}
 
@@ -12,6 +12,9 @@ const ratio = win.width/1661;
 
 export default function LoginView({ navigation }) {
     const { navigate } = navigation;
+    const dataU =  getData("user");
+
+    console.log(dataU);
 
     // const [message, setMessage] = React.useState('Useless Text');
     const [email, setEmail] = useState("");
@@ -51,10 +54,10 @@ export default function LoginView({ navigation }) {
         }
     };
 
+
+
     useEffect(() => {
         if (data) {
-          console.log("DATAAAAA \n")
-          console.log(data)
           if (data.data.TYPE === "ERROR") {
             setShowError(true);
             setMessage(data.data.MESSAGE);
@@ -115,7 +118,7 @@ export default function LoginView({ navigation }) {
             {showError && <Text style={styles.error}>{message}</Text>}
             <View>
                 <Text style={{color: "#fff", marginTop: 20}}>¿No tienes cuenta? 
-                    <Text style={{color: "#fff", fontWeight: "bold"}} onPress={() => alert("Registro")}>  Regístrate</Text>
+                    <Text style={{color: "#fff", fontWeight: "bold"}} onPress={() => navigate("RegisterUser")}>  Regístrate</Text>
                 </Text>
             </View>
         </ImageBackground>
