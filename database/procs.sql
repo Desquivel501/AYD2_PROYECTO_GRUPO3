@@ -464,7 +464,8 @@ get_payment_methods:BEGIN
 	END IF;	
 
 	SELECT pm.alias,
-	pm.`number` 
+	pm.`number`,
+	pm.payment_id
 	FROM payment_methods pm 
 	WHERE pm.dpi = dpi_in;
 END $$

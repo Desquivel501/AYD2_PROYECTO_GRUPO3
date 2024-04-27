@@ -31,7 +31,7 @@ const SellerRequests = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let endpoint = `pending-sellers`;
+      let endpoint = `  `;
       getData({ endpoint }).then((data) => {
         setData(data);
       });

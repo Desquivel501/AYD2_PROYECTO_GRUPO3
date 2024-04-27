@@ -44,7 +44,7 @@ export const EditProduct = (props) => {
         descripcion: "",
         precio: 0,
         existencia: 0,
-        categoria: "Papas",
+        categoria: "",
         vendedor: "",
         imagen: "https://placehold.co/800",
         preview: "https://placehold.co/800",
@@ -154,7 +154,7 @@ export const EditProduct = (props) => {
         vendedor: String(userJson.id),
         existencia: Number(product.existencia),
         precio: Number(product.precio),
-        categoria: "Test",
+        categoria: product.categoria,
         descripcion: product.descripcion,
         imagen: url ? url : product.imagen,
       }
@@ -243,6 +243,17 @@ export const EditProduct = (props) => {
                     }
                   />
               </InputGroup>
+
+              <hr class="mt-3 mb-1"/>
+
+              <div className='mt-4'>
+                <h4 style={{color:"black", textAlign:"left"}} > Categoria: </h4>
+                <input class="form-control" placeholder="" aria-label="categoria" type='text' style={{fontSize:'1.5rem'}} 
+                    value={product.categoria} 
+                    onChange={
+                        (e) => setProduct({...product, categoria: e.target.value})
+                    }/>
+              </div>
 
               <hr class="mt-3 mb-1"/>
 
