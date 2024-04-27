@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     height:30,
     width:30,
     backgroundColor: "#F1C40F",
-    borderRadius:"20%",
+    // borderRadius:"20%",
     marginVertical:2,
     
   },
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     height:30,
     width:30,
     backgroundColor: "#BDC3C7",
-    borderRadius:"20%",
+    // borderRadius:"20%",
     marginVertical:2,
     
   },
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     flex:1,
     height:30,
     width:30,
-    borderRadius:"20%",
+    // borderRadius:"20%",
     marginVertical:2,
     
   }
