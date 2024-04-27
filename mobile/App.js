@@ -15,6 +15,8 @@ import PedidoView from './views/PedidoView/PedidoView';
 
 import { TabsUser, TabsSeller, TabsAdmin } from './utils/Routes';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import RegisterView from './views/RegisterView/RegisterView';
+import RegisterVendedorView from './views/RegisterVendedorView/RegisterVendedorView';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,6 +32,8 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Login" component={LoginView} />
+          <Stack.Screen name="RegisterUser" component={RegisterView} />
+          <Stack.Screen name="RegisterVendedor" component={RegisterVendedorView} />
           <Stack.Screen name="UserMenu" component={TabsUser} />
           <Stack.Screen name="SellerMenu" component={TabsSeller} />
           <Stack.Screen name="AdminMenu" component={TabsAdmin} />

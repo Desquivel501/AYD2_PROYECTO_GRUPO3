@@ -7,7 +7,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 const win = Dimensions.get('window');
 const ratio = win.width / 1661;
 
-export default function RegisterView({ navigation }) {
+export default function RegisterVendedorView({ navigation }) {
     const { navigate } = navigation;
     const [showError, setShowError] = useState(false);
     const [showCorrect, setShowCorrect] = useState(false);
@@ -173,6 +173,7 @@ export default function RegisterView({ navigation }) {
         <SafeAreaView style={styles.container}>
             <ImageBackground source={require('../../assets/bk_2.png')} style={styles.background}>
                 <Image source={require('../../assets/market_logo_white_outline.png')} style={styles.logo} />
+                <Text style={{ color: "#fff", fontWeight: "bold", fontSize:"25px"}}>¡Unete como vendedor!</Text>
                 <TextInput
                     autoFocus
                     placeholder="Nombre completo"
@@ -238,7 +239,7 @@ export default function RegisterView({ navigation }) {
                     </Text>
                 </View>
                 <View>
-                    <Text style={{ color: "#fff", fontWeight: "bold", marginTop:16 }} onPress={() => navigate("RegisterVendedor")}> Registrate como vendedor</Text>
+                    <Text style={{ color: "#fff", fontWeight: "bold", marginTop:16 }} onPress={() => navigate("RegisterUser")}> Registrate como usuario</Text>
                 </View>
             </ImageBackground>
         </SafeAreaView>

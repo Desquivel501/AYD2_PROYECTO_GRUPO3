@@ -12,3 +12,4 @@ const api = axios.create({
 export const getReporteAdminP= () => api.get('/admin/reporte/productos').then(res => res.data);
 export const getReporteAdminV= () => api.get('/admin/reporte/vendedores').then(res => res.data);
 export const getReporteAdminC = () => api.get('/admin/reporte/categoria').then(res => res.data);
+export const getReporteAdminA = () => api.get('/user/get-all-purchases').then(res => res.data);

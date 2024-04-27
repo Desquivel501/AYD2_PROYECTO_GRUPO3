@@ -13,6 +13,7 @@ import PedidosView from '../views/PedidosView/PedidosView';
 import MyProductsView from '../views/CatalogoView/MyProductsView';
 import VentasView from '../views/PedidosView/VentasView';
 import ReporteVendedorView from '../views/ReporteVendedorView/ReporteVendedorView';
+import AdminReportesView from '../views/AdminReportesView/AdminReportesView';
 import UserProfile from '../views/Profiles/profile';
 
 
@@ -144,6 +145,14 @@ export function TabsSeller() {
             tabBarLabel: 'Usuarios / Vendedores',
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="users" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen name="Reportes" component={AdminReportesView}
+          options={{
+            tabBarLabel: 'Reportes',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="file" color={color} size={26} />
             ),
           }}
         />
