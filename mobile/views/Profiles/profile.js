@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert, ScrollView} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Table, Row } from "react-native-table-component";
+import { getData, storeData } from "../../utils/Storage";
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ navigation }) => {
 
   const [editing, setEditing] = useState(true); // Estado para controlar la edición
   const [containerStyle, setContainerStyle] = useState(styles.containerEditing);
@@ -18,28 +19,33 @@ const UserProfile = ({ user }) => {
 
 
   const fetchProfileData = () => {
-    // Realiza una solicitud GET para obtener los datos actualizados del perfil después de guardar los cambios
-    fetch("http://34.16.176.103:8080/user/profile", {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            dpi:3284612
-        }),
-    })
-    .then((response) => response.json())
-    .then((json) => {
-        console.log("Datos de perfil actualizados:", json);
-        // Actualiza el estado con los datos del perfil actualizados
-        setUserData(json);
-        // Cambia a la vista no editable después de guardar los cambios
-        toggleEditing();
-    })
-    .catch((error) => {
-        console.error("Error fetching updated profile data: ", error);
-        // Podrías mostrar un mensaje de error al usuario aquí
+
+    getData("user").then((user) => {
+
+      // Realiza una solicitud GET para obtener los datos actualizados del perfil después de guardar los cambios
+      fetch("http://34.16.176.103:8080/user/profile", {
+          method: "POST",
+          headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              dpi:user.id
+          }),
+      })
+      .then((response) => response.json())
+      .then((json) => {
+          // console.log("Datos de perfil actualizados:", json);
+          // Actualiza el estado con los datos del perfil actualizados
+          setUserData(json);
+          // Cambia a la vista no editable después de guardar los cambios
+          toggleEditing();
+      })
+      .catch((error) => {
+          console.error("Error fetching updated profile data: ", error);
+          // Podrías mostrar un mensaje de error al usuario aquí
+      });
+
     });
   };
 
@@ -56,6 +62,12 @@ const UserProfile = ({ user }) => {
 
   const toggleRegresar = () => {
     setEditing(false);
+  };
+
+  const cerrarSesion = () => {
+    setEditing(false);
+    storeData("user", null);
+    navigation.navigate("Login");
   };
 
   const Guardar = () => {
@@ -89,7 +101,7 @@ const UserProfile = ({ user }) => {
           ],
           { cancelable: false }
         );
-          console.log("Perfil actualizado:", json);
+          // console.log("Perfil actualizado:", json);
           // Después de actualizar el perfil, realiza una nueva solicitud GET para obtener los datos actualizados
           fetchProfileData();
       })
@@ -111,8 +123,8 @@ const UserProfile = ({ user }) => {
 
   return (
     <View>
-      {!editing && <Text style={styles.titulo}>Perfil</Text>}
-      <View style={containerStyle}>
+      <Text style={styles.titulo}>{editing ? "Editar Perfil" : "Mi Perfil"}</Text>
+      <View style={styles.container}>
         {userData ? (
           editing ? (
             <View style={styles.editUserInfo}>
@@ -153,43 +165,34 @@ const UserProfile = ({ user }) => {
               <View style={styles.avatarContainer}>
                 <Image source={{ uri: userData.image }} style={styles.avatar} />
               </View>
-              {userData.role==2 &&<Icon name='star' color='gold' size={20} style={{marginBottom:"5%"}}> ({userData.score}) </Icon>}
+              {userData.role == 2 &&<Icon name='star' color='gold' size={20} style={{marginBottom:"5%"}}> ({userData.score}) </Icon>}
               <Text style={styles.userName}>{userData.name}</Text>
               <Text style={styles.userEmail}>{userData.email}</Text>
               <Text style={styles.userEmail}>{userData.cui}</Text>
+
               <TouchableOpacity onPress={toggleEditing} style={styles.editProfileButton}>
                 <Text style={styles.editProfileButtonText}>Editar perfil</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity onPress={cerrarSesion} style={styles.cerrarSesionButton}>
+                <Text style={styles.editProfileButtonText}>Cerrar Sesión</Text>
+              </TouchableOpacity>
+
+
             </View>
           )
         ) : (
           <Text>Cargando datos del perfil...</Text>
         )}
       </View>
+     
+
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  containerEditing: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    paddingHorizontal: 10,
-    paddingVertical:"30%",
-    borderRadius: 10,
-    marginHorizontal: "10%",
-    marginTop: "15%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
   userInfo: {
     alignItems: "center",
   },
@@ -200,14 +203,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#fff",
     paddingHorizontal: 10,
-    paddingVertical:"30%",
+    paddingVertical:"20%",
     borderRadius: 10,
-    marginHorizontal: "10%",
-    marginTop: "21%",
+    marginHorizontal: 10,
+    // marginTop: "21%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -226,19 +229,19 @@ const styles = StyleSheet.create({
     
   },
   avatar: {
-    width: 120,
-    height: 120,
+    width: 200,
+    height: 200,
     borderRadius: 40,
     
   },
   userName: {
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
   },
   userEmail: {
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 20,
     color: "#666",
   },
   textinput: {
@@ -248,11 +251,19 @@ const styles = StyleSheet.create({
   },
   editProfileButton: {
     backgroundColor: "#7800FF",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    marginTop: 20,
     overflow: "hidden",
+    paddingVertical: 10,
+    paddingHorizontal: 60,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  cerrarSesionButton: {
+    backgroundColor: "#FF0000",
+    overflow: "hidden",
+    paddingVertical: 10,
+    paddingHorizontal: 60,
+    borderRadius: 5,
+    marginTop: 10,
   },
   editProfileButtonText: {
     color: "#fff",
@@ -303,10 +314,13 @@ const styles = StyleSheet.create({
   },
   titulo: {
     color: "#005A7A",
-    marginTop: "15%",
-    textAlign: "center",
+    // marginTop: "15%",
+    textAlign: "left",
     fontSize: 40,
     fontWeight: "bold",
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingBottom: 10,
   },
   btn_usuarios: {
     backgroundColor: "#00A2FF",
@@ -315,6 +329,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 5,
     overflow: "hidden",
+  },
+    button_view: {
+      marginTop: 20,
+      width: "80%",
   },
   
 });

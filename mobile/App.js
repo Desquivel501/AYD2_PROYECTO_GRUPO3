@@ -22,113 +22,6 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const queryClient = new QueryClient();
 
-// function TabsUser() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         headerShown: false
-//       }}
-//     >
-//       <Tab.Screen name="Catalogo" component={CatalogoView} 
-//         options={{
-//           tabBarLabel: 'Catalogo',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="shopping-bag" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen name="Carrito" component={CarritoView}
-//         options={{
-//           tabBarLabel: 'Carrito',
-//           tabBarIcon: ({ color }) => (
-//             // <FontAwesome5 name="" color={color} size={26} />
-//             <FontAwesome5 name="shopping-cart" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen name="Pedidos" component={HomeScreen}
-//         options={{
-//           tabBarLabel: 'Mis Pedidos',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="receipt" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen 
-//         name="Mi Perfil" 
-//         component={HomeScreen}
-//         options={{
-//           tabBarLabel: 'Mi Perfil',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="user" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// }
-
-// function TabsUser() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         headerShown: false
-//       }}
-//     >
-//       <Tab.Screen name="Catalogo" component={CatalogoView} 
-//         options={{
-//           tabBarLabel: 'Catalogo',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="shopping-bag" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen name="Carrito" component={CarritoView}
-//         options={{
-//           tabBarLabel: 'Carrito',
-//           tabBarIcon: ({ color }) => (
-//             // <FontAwesome5 name="" color={color} size={26} />
-//             <FontAwesome5 name="shopping-cart" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen name="Pedidos" component={HomeScreen}
-//         options={{
-//           tabBarLabel: 'Mis Pedidos',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="receipt" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen 
-//         name="Mi Perfil" 
-//         component={HomeScreen}
-//         options={{
-//           tabBarLabel: 'Mi Perfil',
-//           tabBarIcon: ({ color }) => (
-//             <FontAwesome5 name="user" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// }
-
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Login"
-          onPress={() => navigation.navigate('Login')}
-        />
-
-      </View>
-    </View>
-  );
-}
-
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -147,8 +40,6 @@ export default function App() {
           <Stack.Screen name="Product" component={ProductView} />
           <Stack.Screen name="Edit" component={EditView} />
           <Stack.Screen name="Pedido" component={PedidoView} />
-
-          {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </QueryClientProvider>
