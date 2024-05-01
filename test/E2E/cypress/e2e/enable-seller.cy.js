@@ -6,7 +6,7 @@ Cypress.Commands.add('login', (email, password) => {
   cy.contains('Inicia Sesion').click()
   cy.url().should('include', 'log-in')
 
-  //Debe existir un componente para escribir un usuario
+  //Debe existir un componente para escribir un vendedor
   cy.get('[id="email"]').type(email)
   cy.get('[id="email"]').should('have.value', email)
 
@@ -24,25 +24,28 @@ describe('enable-disable-sellers', () => {
     cy.login(email, password)
     cy.url().should('include', '/profile')
 
-    //Una vez iniciada sesión, se dirige a la página de habilitar o deshabilitar usuarios
+    //Una vez iniciada sesión, se dirige a la página de habilitar o deshabilitar vendedores
     cy.visit('/enable-disable-seller')
 
-    //Deshabilita un vendedor existente
-    cy.get(':nth-child(6) > :nth-child(5) > .buttonDisabled').click();
+    //Primero deshabilita a cada uno de los vendedores
+    cy.get('.table.table-striped.table-success tbody :nth-child(5) > .buttonDisabled > img').each(($btn) => {
+      cy.wrap($btn).click();
+      //Confirma que si esta seguro
+      cy.get('.swal2-confirm').click();
+      //Cierra el cuadro de confirmación
+      cy.get('.swal2-confirm').click();    
+    });
 
-    //Confirma que si esta seguro
-    cy.get('.swal2-confirm').click();
-    //Cierra el cuadro de confirmación
-    cy.get('.swal2-confirm').click();
+    //Realiza una pausa de 3s antes de volver a habilitar un vendedor
+    cy.wait(3000);
 
-    //Realiza una pausa de 5s antes de volver a habilitar un vendedor
-    cy.wait(5000);
-
-    //Activa de nuevo el vendedor;
-    cy.get('.buttonEnable > img').click();
-    //Confirma que si esta seguro
-    cy.get('.swal2-confirm').click();
-    //Cierra el cuadro de confirmación
-    cy.get('.swal2-confirm').click();
+    //Por último habilita a cada uno de los vendedores
+    cy.get('.table.table-striped.table-dark tbody :nth-child(5) > .buttonEnable > img').each(($btn) => {
+      cy.wrap($btn).click();
+      //Confirma que si esta seguro
+      cy.get('.swal2-confirm').click();
+      //Cierra el cuadro de confirmación
+      cy.get('.swal2-confirm').click();    
+    });
   })
 })
