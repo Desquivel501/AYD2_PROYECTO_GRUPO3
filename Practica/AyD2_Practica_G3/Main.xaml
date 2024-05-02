@@ -1,0 +1,493 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1140,3531.2" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ue="clr-namespace:UiPath.Excel;assembly=UiPath.Excel.Activities" xmlns:ueab="clr-namespace:UiPath.Excel.Activities.Business;assembly=UiPath.Excel.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities.Business</x:String>
+      <x:String>UiPath.Excel.Model</x:String>
+      <x:String>UiPath.Shared.Activities.Business</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Models</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Platform.SyncObjects</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>UiPath.UIAutomationNext.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Models.CV</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="883.2,3466.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ueab:ExcelProcessScopeX DisplayAlerts="{x:Null}" ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayName="Alcance del proceso de Excel" sap:VirtualizedContainerService.HintSize="820.8,3377.6" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_1">
+      <ueab:ExcelProcessScopeX.Body>
+        <ActivityAction x:TypeArguments="ui:IExcelProcess">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ui:IExcelProcess" Name="ExcelProcessScopeTag" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Hacer" sap:VirtualizedContainerService.HintSize="787.2,3268" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" DisplayName="Utilice el archivo de Excel" sap:VirtualizedContainerService.HintSize="724.8,3181.6" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" WorkbookPath="C:\Users\luisa\Desktop\AYD2_PROYECTO_GRUPO3\Practica\placas.xlsx">
+              <ueab:ExcelApplicationCard.Body>
+                <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="ue:IWorkbookQuickHandle" Name="Excel" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Hacer" sap:VirtualizedContainerService.HintSize="691.2,2888.8" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ueab:ExcelForEachRowX DisplayName="Para cada fila de Excel" EmptyRowBehavior="Stop" HasHeaders="True" sap:VirtualizedContainerService.HintSize="628.8,2802.4" sap2010:WorkflowViewState.IdRef="ExcelForEachRowX_1" Range="[Excel.Sheet(&quot;Hoja1&quot;).Range(&quot;A:B&quot;)]" SaveAfterEachRow="False">
+                      <ueab:ExcelForEachRowX.Body>
+                        <ActivityAction x:TypeArguments="ue:CurrentRowQuickHandle, x:Int32">
+                          <ActivityAction.Argument1>
+                            <DelegateInArgument x:TypeArguments="ue:CurrentRowQuickHandle" Name="CurrentRow" />
+                          </ActivityAction.Argument1>
+                          <ActivityAction.Argument2>
+                            <DelegateInArgument x:TypeArguments="x:Int32" Name="CurrentIndex" />
+                          </ActivityAction.Argument2>
+                          <Sequence DisplayName="Hacer" sap:VirtualizedContainerService.HintSize="595.2,2586.4" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Chrome Nueva pestaña" sap:VirtualizedContainerService.HintSize="532.8,1610.4" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="9af0923a-40ba-463d-998a-f107a14740bc" Version="V2">
+                              <uix:NApplicationCard.Body>
+                                <ActivityAction x:TypeArguments="x:Object">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+                                  </ActivityAction.Argument>
+                                  <Sequence DisplayName="Hacer" sap:VirtualizedContainerService.HintSize="499.2,1361.6" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Clic 'Limpiar'" sap:VirtualizedContainerService.HintSize="436.8,225.6" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="9af0923a-40ba-463d-998a-f107a14740bc" Version="V3">
+                                      <uix:NClick.Target>
+                                        <uix:TargetAnchorable BrowserURL="https://sistemas.transito.gob.gt/consultaremisiones/consultaremisiones" CVScreenId="7f7ae9fd-84a2-4067-9648-0695e9fc3ab8" CvElementArea="913, 778, 92, 46" CvTextArea="930, 791, 60, 20" CvTextArgument="Limpiar" CvType="Button" DesignTimeRectangle="916, 779, 88, 42" DesignTimeScaleFactor="1.125" ElementType="Button" FullSelectorArgument="&lt;webctrl id='MainContent_cmdLimpiar' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl id='MainContent_cmdLimpiar' tag='INPUT' type='submit' class='btn btn-info' aaname='Limpiar' check:text='Limpiar' /&gt;" Guid="0047c726-3a0b-43a9-b67e-5874aea54484" InformativeScreenshot="3f75d600af28f71b64a7ede900c2f814.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Sistema de Administración de Remisiones y Solvencias de Tránsito' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive" />
+                                      </uix:NClick.Target>
+                                      <uix:NClick.VerifyOptions>
+                                        <uix:VerifyExecutionOptions DisplayName="{x:Null}" Mode="Appears">
+                                          <uix:VerifyExecutionOptions.Retry>
+                                            <InArgument x:TypeArguments="x:Boolean" />
+                                          </uix:VerifyExecutionOptions.Retry>
+                                          <uix:VerifyExecutionOptions.Timeout>
+                                            <InArgument x:TypeArguments="x:Double" />
+                                          </uix:VerifyExecutionOptions.Timeout>
+                                        </uix:VerifyExecutionOptions>
+                                      </uix:NClick.VerifyOptions>
+                                    </uix:NClick>
+                                    <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Double" DisplayName="Escribir en 'Placa'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="436.8,286.4" sap2010:WorkflowViewState.IdRef="NTypeInto_1" ScopeIdentifier="9af0923a-40ba-463d-998a-f107a14740bc" Text="[CurrentRow(&quot;No. Placa&quot;).ToString]" Version="V3">
+                                      <uix:NTypeInto.Target>
+                                        <uix:TargetAnchorable BrowserURL="https://sistemas.transito.gob.gt/consultaremisiones/consultaremisiones" CVScreenId="eef3f697-e0dd-4905-8ebe-0f552f41d3b3" CvElementArea="786, 593, 354, 51" CvType="InputBox" DesignTimeRectangle="807, 547, 315, 43" DesignTimeScaleFactor="1.125" ElementType="InputBox" FullSelectorArgument="&lt;webctrl id='MainContent_txtPlaca' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl id='MainContent_txtPlaca' tag='INPUT' type='text' class='form-control' aaname='' /&gt;" Guid="b1e9e724-1124-4d2e-8ae5-39b79f7b367c" InformativeScreenshot="12e524494eefa87ea931df1d70dad66c.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Sistema de Administración de Remisiones y Solvencias de Tránsito' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive">
+                                          <uix:TargetAnchorable.Anchors>
+                                            <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                              <uix:Target CVScreenId="35ee53fc-b269-4411-b8a6-238473fafce5" CvTextArea="732, 672, 62, 22" CvTextArgument="Placa:" CvType="Text" DesignTimeRectangle="790, 511, 358, 27" ElementType="Text" FullSelectorArgument="&lt;webctrl aaname='Placa:' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl aaname='Placa:' tag='LABEL' type='' class='col-md-12 control-label' check:innerText='Placa:' /&gt;" Guid="bb8d18da-4076-41f7-b8d4-c3adfd99088c" SearchSteps="FuzzySelector, CV" />
+                                            </scg:List>
+                                          </uix:TargetAnchorable.Anchors>
+                                        </uix:TargetAnchorable>
+                                      </uix:NTypeInto.Target>
+                                      <uix:NTypeInto.VerifyOptions>
+                                        <uix:VerifyExecutionTypeIntoOptions DisplayName="{x:Null}" Mode="Appears">
+                                          <uix:VerifyExecutionTypeIntoOptions.Retry>
+                                            <InArgument x:TypeArguments="x:Boolean" />
+                                          </uix:VerifyExecutionTypeIntoOptions.Retry>
+                                          <uix:VerifyExecutionTypeIntoOptions.Timeout>
+                                            <InArgument x:TypeArguments="x:Double" />
+                                          </uix:VerifyExecutionTypeIntoOptions.Timeout>
+                                        </uix:VerifyExecutionTypeIntoOptions>
+                                      </uix:NTypeInto.VerifyOptions>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </uix:NTypeInto>
+                                    <TryCatch DisplayName="Intentar capturar" sap:VirtualizedContainerService.HintSize="436.8,420.8" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <TryCatch.Try>
+                                        <uix:NSelectItem DisplayName="Seleccionar elemento 'Tipo de Placa'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NSelectItem_1" Item="[CurrentRow(&quot;Tipo&quot;).ToString]" ScopeIdentifier="9af0923a-40ba-463d-998a-f107a14740bc" Version="V3">
+                                          <uix:NSelectItem.Items>
+                                            <scg:List x:TypeArguments="x:String" Capacity="14">
+                                              <x:String>P</x:String>
+                                              <x:String>C</x:String>
+                                              <x:String>A</x:String>
+                                              <x:String>M</x:String>
+                                              <x:String>CD</x:String>
+                                              <x:String>CC</x:String>
+                                              <x:String>DIS</x:String>
+                                              <x:String>TC</x:String>
+                                              <x:String>O</x:String>
+                                              <x:String>U</x:String>
+                                              <x:String>MI</x:String>
+                                              <x:String>STP</x:String>
+                                              <x:String>TRC</x:String>
+                                              <x:String>PNC</x:String>
+                                            </scg:List>
+                                          </uix:NSelectItem.Items>
+                                          <uix:NSelectItem.Target>
+                                            <uix:TargetAnchorable BrowserURL="https://sistemas.transito.gob.gt/consultaremisiones/consultaremisiones" CVScreenId="9aa693c4-31df-4192-8ad5-2f8bd334ef26" CvElementArea="805, 448, 319, 47" CvType="InputBox" DesignTimeRectangle="807, 450, 315, 43" DesignTimeScaleFactor="1.125" ElementType="DropDown" FullSelectorArgument="&lt;webctrl id='MainContent_cmbTipoPlaca' tag='SELECT' /&gt;" FuzzySelectorArgument="&lt;webctrl id='MainContent_cmbTipoPlaca' tag='SELECT' type='' class='form-control' aaname='' /&gt;" Guid="63b60a5e-7659-4ac4-8d73-667ece2daed3" InformativeScreenshot="6ecc052050b244f10f5b955004ad1a46.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Sistema de Administración de Remisiones y Solvencias de Tránsito' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive">
+                                              <uix:TargetAnchorable.Anchors>
+                                                <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                                  <uix:Target CVScreenId="9aa693c4-31df-4192-8ad5-2f8bd334ef26" CvTextArea="805, 419, 111, 21" CvTextArgument="Tipo de Placa:" CvType="Text" DesignTimeRectangle="790, 414, 358, 27" ElementType="Text" FullSelectorArgument="&lt;webctrl tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='col-md-12 control-label' aaname='Tipo de Placa:' check:innerText='Tipo de Placa:' /&gt;" Guid="50640861-f2cd-45e0-8b8c-0458bda7d638" SearchSteps="FuzzySelector, CV" />
+                                                </scg:List>
+                                              </uix:TargetAnchorable.Anchors>
+                                            </uix:TargetAnchorable>
+                                          </uix:NSelectItem.Target>
+                                        </uix:NSelectItem>
+                                      </TryCatch.Try>
+                                      <TryCatch.Catches>
+                                        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="403.2,23.2" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ActivityAction x:TypeArguments="s:Exception">
+                                            <ActivityAction.Argument>
+                                              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                            </ActivityAction.Argument>
+                                            <uix:NSelectItem DisplayName="Seleccionar elemento 'Tipo de Placa'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NSelectItem_2" Item="P" ScopeIdentifier="9af0923a-40ba-463d-998a-f107a14740bc" Version="V3">
+                                              <uix:NSelectItem.Items>
+                                                <scg:List x:TypeArguments="x:String" Capacity="14">
+                                                  <x:String>P</x:String>
+                                                  <x:String>C</x:String>
+                                                  <x:String>A</x:String>
+                                                  <x:String>M</x:String>
+                                                  <x:String>CD</x:String>
+                                                  <x:String>CC</x:String>
+                                                  <x:String>DIS</x:String>
+                                                  <x:String>TC</x:String>
+                                                  <x:String>O</x:String>
+                                                  <x:String>U</x:String>
+                                                  <x:String>MI</x:String>
+                                                  <x:String>STP</x:String>
+                                                  <x:String>TRC</x:String>
+                                                  <x:String>PNC</x:String>
+                                                </scg:List>
+                                              </uix:NSelectItem.Items>
+                                              <uix:NSelectItem.Target>
+                                                <uix:TargetAnchorable BrowserURL="https://sistemas.transito.gob.gt/consultaremisiones/consultaremisiones" CVScreenId="9aa693c4-31df-4192-8ad5-2f8bd334ef26" CvElementArea="805, 448, 319, 47" CvType="InputBox" DesignTimeRectangle="807, 450, 315, 43" DesignTimeScaleFactor="1.125" ElementType="DropDown" FullSelectorArgument="&lt;webctrl id='MainContent_cmbTipoPlaca' tag='SELECT' /&gt;" FuzzySelectorArgument="&lt;webctrl id='MainContent_cmbTipoPlaca' tag='SELECT' type='' class='form-control' aaname='' /&gt;" Guid="41dcdd18-bf89-4af8-96ee-ff01677201a4" InformativeScreenshot="6ecc052050b244f10f5b955004ad1a46.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Sistema de Administración de Remisiones y Solvencias de Tránsito' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive">
+                                                  <uix:TargetAnchorable.Anchors>
+                                                    <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                                      <uix:Target CVScreenId="9aa693c4-31df-4192-8ad5-2f8bd334ef26" CvTextArea="805, 419, 111, 21" CvTextArgument="Tipo de Placa:" CvType="Text" DesignTimeRectangle="790, 414, 358, 27" ElementType="Text" FullSelectorArgument="&lt;webctrl tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='col-md-12 control-label' aaname='Tipo de Placa:' check:innerText='Tipo de Placa:' /&gt;" Guid="1b8df45a-70f0-48ad-936a-162f0db0e6cb" SearchSteps="FuzzySelector, CV" />
+                                                    </scg:List>
+                                                  </uix:TargetAnchorable.Anchors>
+                                                </uix:TargetAnchorable>
+                                              </uix:NSelectItem.Target>
+                                            </uix:NSelectItem>
+                                          </ActivityAction>
+                                        </Catch>
+                                      </TryCatch.Catches>
+                                    </TryCatch>
+                                    <Delay DisplayName="Retraso para hacer recaptcha" Duration="00:01:00" sap:VirtualizedContainerService.HintSize="436.8,122.4" sap2010:WorkflowViewState.IdRef="Delay_1" />
+                                    <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Clic 'Consultar'" sap:VirtualizedContainerService.HintSize="436.8,218.4" sap2010:WorkflowViewState.IdRef="NClick_2" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="9af0923a-40ba-463d-998a-f107a14740bc" Version="V3">
+                                      <uix:NClick.Target>
+                                        <uix:TargetAnchorable BrowserURL="https://sistemas.transito.gob.gt/consultaremisiones/consultaremisiones" CVScreenId="7f7ae9fd-84a2-4067-9648-0695e9fc3ab8" CvElementArea="805, 778, 107, 45" CvTextArea="820, 791, 77, 16" CvTextArgument="Consultar" CvType="Button" DesignTimeRectangle="807, 779, 104, 42" DesignTimeScaleFactor="1.125" ElementType="Button" FullSelectorArgument="&lt;webctrl id='MainContent_cmdConsultar' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl id='MainContent_cmdConsultar' tag='INPUT' type='submit' class='btn btn-info' aaname='Consultar' check:text='Consultar' /&gt;" Guid="47f63299-fa61-4f1d-a9aa-c22da9ad1623" InformativeScreenshot="690ab9062cdfeb87c056f65eacdabaa4.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Sistema de Administración de Remisiones y Solvencias de Tránsito' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive">
+                                          <uix:TargetAnchorable.PointOffset>
+                                            <uix:PointOffset X="3" Y="-2" />
+                                          </uix:TargetAnchorable.PointOffset>
+                                        </uix:TargetAnchorable>
+                                      </uix:NClick.Target>
+                                      <uix:NClick.VerifyOptions>
+                                        <uix:VerifyExecutionOptions DisplayName="{x:Null}" Mode="Appears">
+                                          <uix:VerifyExecutionOptions.Retry>
+                                            <InArgument x:TypeArguments="x:Boolean" />
+                                          </uix:VerifyExecutionOptions.Retry>
+                                          <uix:VerifyExecutionOptions.Timeout>
+                                            <InArgument x:TypeArguments="x:Double" />
+                                          </uix:VerifyExecutionOptions.Timeout>
+                                        </uix:VerifyExecutionOptions>
+                                      </uix:NClick.VerifyOptions>
+                                    </uix:NClick>
+                                  </Sequence>
+                                </ActivityAction>
+                              </uix:NApplicationCard.Body>
+                              <uix:NApplicationCard.TargetApp>
+                                <uix:TargetApp Area="0, 0, 0, 0" BrowserType="Chrome" ContentHash="7zdsmJBoBUm83-EmyPPwoA" IconBase64="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" InformativeScreenshot="aa85ffe4616f25e342071eb2bc7fcb72.jpg" Reference="4kYEOyTqe0SWgn6h1VBbTg/Ofcu1eRA0EW0iq1Am8hYeA" Selector="&lt;html app='chrome.exe' title='Sistema de Administración de Remisiones y Solvencias de Tránsito' /&gt;" Title="Sistema de Administración de Remisiones y Solvencias de Tránsito" Url="https://sistemas.transito.gob.gt/consultaremisiones/consultaremisiones" />
+                              </uix:NApplicationCard.TargetApp>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </uix:NApplicationCard>
+                            <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Utilizar Navegador Chrome: Portal Ciudadano - Muni Antigua" sap:VirtualizedContainerService.HintSize="532.8,889.6" sap2010:WorkflowViewState.IdRef="NApplicationCard_4" InteractionMode="DebuggerApi" ScopeGuid="e90ffe7a-4d0d-41e8-b839-28f1e8495104" Version="V2">
+                              <uix:NApplicationCard.Body>
+                                <ActivityAction x:TypeArguments="x:Object">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+                                  </ActivityAction.Argument>
+                                  <Sequence DisplayName="Hacer" sap:VirtualizedContainerService.HintSize="416,649.6" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Double" DisplayName="Escribir en 'Placa'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="353.6,286.4" sap2010:WorkflowViewState.IdRef="NTypeInto_3" ScopeIdentifier="e90ffe7a-4d0d-41e8-b839-28f1e8495104" Text="[CurrentRow(&quot;No. Placa&quot;).ToString]" Version="V3">
+                                      <uix:NTypeInto.Target>
+                                        <uix:TargetAnchorable BrowserURL="https://portal.muniantigua.gob.gt/#/remisiones" CVScreenId="52e63158-7237-437e-98db-a01f38f41d9b" CvElementArea="742, 495, 327, 73" CvType="InputBox" DesignTimeRectangle="759, 523, 295, 40" DesignTimeScaleFactor="1.25" ElementType="InputBox" FullSelectorArgument="&lt;webctrl id='input-36' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl id='input-36' tag='INPUT' type='text' class='' aaname='Placa' /&gt;" Guid="77be7854-1ede-4b3f-9e2d-afa28854c180" InformativeScreenshot="e9e0ff46d36d4b95c552a5e2a1555929.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Portal Ciudadano - Muni Antigua' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive">
+                                          <uix:TargetAnchorable.Anchors>
+                                            <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                                              <uix:Target CVScreenId="52e63158-7237-437e-98db-a01f38f41d9b" CvElementArea="742, 495, 327, 73" CvType="InputBox" DesignTimeRectangle="759, 511, 38, 18" ElementType="Text" FullSelectorArgument="&lt;webctrl aaname='Placa' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl aaname='Placa' tag='LABEL' type='' class='v-label v-label--active theme--light primary--text' check:innerText='Placa' /&gt;" Guid="523208cd-2897-4908-a988-696463ae7db1" SearchSteps="FuzzySelector, CV" />
+                                            </scg:List>
+                                          </uix:TargetAnchorable.Anchors>
+                                        </uix:TargetAnchorable>
+                                      </uix:NTypeInto.Target>
+                                      <uix:NTypeInto.VerifyOptions>
+                                        <uix:VerifyExecutionTypeIntoOptions DisplayName="{x:Null}" Mode="Appears">
+                                          <uix:VerifyExecutionTypeIntoOptions.Retry>
+                                            <InArgument x:TypeArguments="x:Boolean" />
+                                          </uix:VerifyExecutionTypeIntoOptions.Retry>
+                                          <uix:VerifyExecutionTypeIntoOptions.Timeout>
+                                            <InArgument x:TypeArguments="x:Double" />
+                                          </uix:VerifyExecutionTypeIntoOptions.Timeout>
+                                        </uix:VerifyExecutionTypeIntoOptions>
+                                      </uix:NTypeInto.VerifyOptions>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </uix:NTypeInto>
+                                    <TryCatch DisplayName="Intentar capturar" sap:VirtualizedContainerService.HintSize="353.6,56.8" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <TryCatch.Try>
+                                        <uix:NSelectItem DisplayName="Seleccionar elemento 'Tipo de Placa'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NSelectItem_5" Item="[CurrentRow(&quot;Tipo&quot;).ToString]" ScopeIdentifier="e90ffe7a-4d0d-41e8-b839-28f1e8495104" Version="V3">
+                                          <uix:NSelectItem.Items>
+                                            <scg:List x:TypeArguments="x:String" Capacity="15">
+                                              <x:String>P</x:String>
+                                              <x:String>C</x:String>
+                                              <x:String>A</x:String>
+                                              <x:String>M</x:String>
+                                              <x:String>CD</x:String>
+                                              <x:String>CC</x:String>
+                                              <x:String>DIS</x:String>
+                                              <x:String>TC</x:String>
+                                              <x:String>O</x:String>
+                                              <x:String>U</x:String>
+                                              <x:String>MI</x:String>
+                                              <x:String>STP</x:String>
+                                              <x:String>TRC</x:String>
+                                              <x:String>PNC</x:String>
+                                              <x:String>EXT</x:String>
+                                            </scg:List>
+                                          </uix:NSelectItem.Items>
+                                          <uix:NSelectItem.Target>
+                                            <uix:TargetAnchorable BrowserURL="https://portal.muniantigua.gob.gt/#/remisiones" CVScreenId="d5747a52-f9a6-4506-9a4a-b8508f1335a6" CvElementArea="504, 495, 211, 74" CvType="InputBox" DesignTimeRectangle="492, 496, 207, 70" DesignTimeScaleFactor="1.25" ElementType="Button" FullSelectorArgument="&lt;webctrl aria-role='button' tag='DIV' /&gt;" FuzzySelectorArgument="&lt;webctrl aria-role='button' tag='DIV' type='' class='v-input__slot' aaname='' check:innerText='Tipo&amp;#xD;&amp;#xA;P' /&gt;" Guid="33168f17-c6fe-4435-87f1-c9d6b0888b73" ImageBase64="" InformativeScreenshot="cd11120b431069592a8cfbb578074f59.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Portal Ciudadano - Muni Antigua' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive">
+                                              <uix:TargetAnchorable.Anchors>
+                                                <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                                                  <uix:Target CVScreenId="d5747a52-f9a6-4506-9a4a-b8508f1335a6" CvElementArea="504, 495, 211, 74" CvType="InputBox" DesignTimeRectangle="507, 511, 29, 18" ElementType="Text" FullSelectorArgument="&lt;webctrl tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='v-label v-label--active theme--light primary--text' aaname='Tipo' check:innerText='Tipo' /&gt;" Guid="4f1f52e8-5d59-49a2-b30c-f7c768feb655" SearchSteps="FuzzySelector, CV" />
+                                                </scg:List>
+                                              </uix:TargetAnchorable.Anchors>
+                                            </uix:TargetAnchorable>
+                                          </uix:NSelectItem.Target>
+                                        </uix:NSelectItem>
+                                      </TryCatch.Try>
+                                      <TryCatch.Catches>
+                                        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="403.2,23.2" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ActivityAction x:TypeArguments="s:Exception">
+                                            <ActivityAction.Argument>
+                                              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                            </ActivityAction.Argument>
+                                            <uix:NSelectItem DisplayName="Seleccionar elemento 'Tipo de Placa'" sap:VirtualizedContainerService.HintSize="333.6,157.6" sap2010:WorkflowViewState.IdRef="NSelectItem_6" Item="P" ScopeIdentifier="e90ffe7a-4d0d-41e8-b839-28f1e8495104" Version="V3">
+                                              <uix:NSelectItem.Items>
+                                                <scg:List x:TypeArguments="x:String" Capacity="15">
+                                                  <x:String>P</x:String>
+                                                  <x:String>C</x:String>
+                                                  <x:String>A</x:String>
+                                                  <x:String>M</x:String>
+                                                  <x:String>CD</x:String>
+                                                  <x:String>CC</x:String>
+                                                  <x:String>DIS</x:String>
+                                                  <x:String>TC</x:String>
+                                                  <x:String>O</x:String>
+                                                  <x:String>U</x:String>
+                                                  <x:String>MI</x:String>
+                                                  <x:String>STP</x:String>
+                                                  <x:String>TRC</x:String>
+                                                  <x:String>PNC</x:String>
+                                                  <x:String>EXT</x:String>
+                                                </scg:List>
+                                              </uix:NSelectItem.Items>
+                                              <uix:NSelectItem.Target>
+                                                <uix:TargetAnchorable BrowserURL="https://portal.muniantigua.gob.gt/#/remisiones" CVScreenId="3156bc3f-00e9-4b06-ad53-e6ecee10b604" CvElementArea="489, 495, 211, 74" CvType="InputBox" DesignTimeRectangle="492, 496, 207, 70" DesignTimeScaleFactor="1.25" ElementType="Button" FullSelectorArgument="&lt;webctrl aria-role='button' tag='DIV' /&gt;" FuzzySelectorArgument="&lt;webctrl aria-role='button' tag='DIV' type='' class='v-input__slot' aaname='' check:innerText='Tipo&amp;#xD;&amp;#xA;P' /&gt;" Guid="34ad0ed3-46a9-43a0-8739-f455da99909b" ImageBase64="" InformativeScreenshot="22bd140c2ab8d239a447618606320602.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Portal Ciudadano - Muni Antigua' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive">
+                                                  <uix:TargetAnchorable.Anchors>
+                                                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                                                      <uix:Target CVScreenId="3156bc3f-00e9-4b06-ad53-e6ecee10b604" CvElementArea="489, 495, 211, 74" CvType="InputBox" DesignTimeRectangle="507, 511, 29, 18" ElementType="Text" FullSelectorArgument="&lt;webctrl tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='v-label v-label--active theme--light primary--text' aaname='Tipo' check:innerText='Tipo' /&gt;" Guid="6e0d6df3-eae6-4826-94ea-c13a649400d0" SearchSteps="FuzzySelector, CV" />
+                                                    </scg:List>
+                                                  </uix:TargetAnchorable.Anchors>
+                                                </uix:TargetAnchorable>
+                                              </uix:NSelectItem.Target>
+                                            </uix:NSelectItem>
+                                          </ActivityAction>
+                                        </Catch>
+                                      </TryCatch.Catches>
+                                    </TryCatch>
+                                    <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Clic 'Buscar'" sap:VirtualizedContainerService.HintSize="353.6,218.4" sap2010:WorkflowViewState.IdRef="NClick_5" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="e90ffe7a-4d0d-41e8-b839-28f1e8495104" Version="V3">
+                                      <uix:NClick.Target>
+                                        <uix:TargetAnchorable BrowserURL="https://portal.muniantigua.gob.gt/#/remisiones" CVScreenId="9e8acee4-b3bd-431a-9c36-4c30bb62098d" CvElementArea="1082, 501, 155, 61" CvTextArea="1136, 521, 76, 17" CvTextArgument="BUSCAR" CvType="Button" DesignTimeRectangle="1084, 503, 151, 55" DesignTimeScaleFactor="1.25" ElementType="Button" FullSelectorArgument="&lt;webctrl aaname='Buscar' tag='BUTTON' /&gt;" FuzzySelectorArgument="&lt;webctrl aaname='Buscar' tag='BUTTON' type='button' class='v-btn v-btn--has-bg theme--light v-size--large primary' check:innerText='BUSCAR' /&gt;" Guid="44cbc958-54db-4a60-8b4e-ec66c75fb9d6" InformativeScreenshot="cea08e2346e84a2823b2d30405e2820a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Portal Ciudadano - Muni Antigua' /&gt;" SearchSteps="FuzzySelector, CV" Version="V3" Visibility="Interactive">
+                                          <uix:TargetAnchorable.Anchors>
+                                            <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                                              <uix:Target CVScreenId="9e8acee4-b3bd-431a-9c36-4c30bb62098d" CvElementArea="1082, 501, 155, 61" CvTextArea="1136, 521, 76, 17" CvTextArgument="BUSCAR" CvType="Button" DesignTimeRectangle="1136, 520, 75, 21" ElementType="Text" FullSelectorArgument="&lt;webctrl aaname='Buscar' tag='SPAN' /&gt;" FuzzySelectorArgument="&lt;webctrl aaname='Buscar' tag='SPAN' type='' class='' check:innerText='BUSCAR' /&gt;" Guid="5193bb72-9a7b-48ae-be29-e3faa474dc5f" SearchSteps="FuzzySelector, CV" />
+                                            </scg:List>
+                                          </uix:TargetAnchorable.Anchors>
+                                        </uix:TargetAnchorable>
+                                      </uix:NClick.Target>
+                                      <uix:NClick.VerifyOptions>
+                                        <uix:VerifyExecutionOptions DisplayName="{x:Null}" Mode="Appears">
+                                          <uix:VerifyExecutionOptions.Retry>
+                                            <InArgument x:TypeArguments="x:Boolean" />
+                                          </uix:VerifyExecutionOptions.Retry>
+                                          <uix:VerifyExecutionOptions.Timeout>
+                                            <InArgument x:TypeArguments="x:Double" />
+                                          </uix:VerifyExecutionOptions.Timeout>
+                                        </uix:VerifyExecutionOptions>
+                                      </uix:NClick.VerifyOptions>
+                                    </uix:NClick>
+                                  </Sequence>
+                                </ActivityAction>
+                              </uix:NApplicationCard.Body>
+                              <uix:NApplicationCard.TargetApp>
+                                <uix:TargetApp Area="-9, -9, 1938, 1048" BrowserType="Chrome" IconBase64="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJaSURBVDhPhZJNSFRhFIYnF0pQTCItosa/GceZuX/Nz50ZdUwru3Ode+9oTjYaBaHQJlfSJnMTFbUsJFpUBiFKRlqKC6NVCgUtDKyW2aIWFbQJWvdc/WCKhnzh5Tv3nPOec+75Pk85yAk7qCYdLRzLWdDBVqWEFRLh7SHrdj3C26FobtEl9h2KNorw9kge6qtUdMeS4taoFLdHFd22E229VSJcHkHN9AXUbJpxd0Xi1oFG2XjapJov4Qr2PMX2K0lnd0A1W/D5hGwLjFnXHM3Nk7gBn8PVRslYD8estKw7nXx/2PRtxTbIn4vE7Vohd7t3h6i6xgRvOCf8cvZ8IlPoibcVxjlPMZHmV7IjASU7Ad2cNYo0C7nHo2eOVxAYoPprzkkzf7Yymx8eCEWtX3wvaClnX6y1t4rCk+S8olEx2d5XIeQl6O39Tpc99Lb1cLGu9chAJ4KbcJEJLrBUha5LzQe7DZH+N1hiMKCY0/zbUktnvzdztFitZ3r3RtP5cLrjhJ3qKNTwG8/8sjFFkaCQlUDwUoNkfGPkrpOD56o6jME9XJ9E13E1lbd6CkM7mzTTIOc7OWNCVgIFxvi/ZS2Vr0Y0HIlZNQiK8Dp2LYselRK2z70JClwUshLY7BmC71jQvc1J1OwNrnK1QTr2EfsKvq8Um3FzyD0tZCXMTt3dwRTX4CcSZzlnEP+EP+j4EN+cG4NXheRfsMgAC3oMl+myAC/jG4FP8L2Aj7D9Ir08wtFcPWM+gF8QTMP72J/dN+DGRNr/EYnlvFzXLSZYh+/d98CT9orwH/B4fgMeZ7dqYQ2R7QAAAABJRU5ErkJggg==" InformativeScreenshot="2b813d252d4db85f061b06cabf8364dd.jpg" Selector="&lt;html app='chrome.exe' title='Portal Ciudadano - Muni Antigua' /&gt;" Title="Portal Ciudadano - Muni Antigua" Url="https://portal.muniantigua.gob.gt/#/remisiones" />
+                              </uix:NApplicationCard.TargetApp>
+                            </uix:NApplicationCard>
+                          </Sequence>
+                        </ActivityAction>
+                      </ueab:ExcelForEachRowX.Body>
+                    </ueab:ExcelForEachRowX>
+                  </Sequence>
+                </ActivityAction>
+              </ueab:ExcelApplicationCard.Body>
+            </ueab:ExcelApplicationCard>
+          </Sequence>
+        </ActivityAction>
+      </ueab:ExcelProcessScopeX.Body>
+    </ueab:ExcelProcessScopeX>
+  </Sequence>
+</Activity>
