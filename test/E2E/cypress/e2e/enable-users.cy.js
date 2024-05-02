@@ -26,64 +26,24 @@ describe('enable-users', () => {
 
     //Una vez iniciada sesión, se dirige a la página de habilitar o deshabilitar usuarios
     cy.visit('/enable-disable-user')
-  
-    cy.get('.table.table-striped.table-primary tbody tr').each(($row, index) => {
-      /******* Deshabilita un usuario existente **********/
 
-      // Verificar si el botón está habilitado o no
-      cy.get(':nth-child(' + (index + 1) + ') > :nth-child(5)').then(($buttonContainer) => {
-        if ($buttonContainer.find('.buttonDisabled').length > 0) {
-          // Si el botón tiene la clase .buttonEnable, utilizar el selector '.buttonDisabled > img'
-          cy.get(':nth-child(' + (index + 1) + ') > :nth-child(5) > .buttonDisabled > img').click();
-        } else {
-          // Si no, utilizar el selector ':nth-child(INDEX) > :nth-child(5) > .buttonDisabled'
-          cy.get('.buttonDisabled').click();
-        }
-        //Confirma que si esta seguro
-        cy.get('.swal2-confirm').click();
-        //Cierra el cuadro de confirmación
-        cy.get('.swal2-confirm').click();
-      });
-
-      //Realiza una pausa de 3s antes de volver a habilitar un vendedor
-      cy.wait(3000);
-
-      //Activa de nuevo el vendedor;
-      //cy.get(':nth-child(' + (index + 1) + ') > :nth-child(5) > .buttonEnable > img').click()
-
-      // Verificar si el botón está habilitado o no
-      cy.get(':nth-child(' + (index + 1) + ') > :nth-child(5)').then(($buttonContainer) => {
-        if ($buttonContainer.find('.buttonEnable').length > 0) {
-          // Si el botón tiene la clase .buttonEnable, utilizar el selector '.buttonEnable > img'
-          cy.get(':nth-child(' + (index + 1) + ') > :nth-child(5) > .buttonEnable > img').click();
-        } else {
-          // Si no, utilizar el selector ':nth-child(INDEX) > :nth-child(5) > .buttonEnable'
-          cy.get('.buttonEnable').click();
-        }
-        //Confirma que si esta seguro
-        cy.get('.swal2-confirm').click();
-        //Cierra el cuadro de confirmación
-        cy.get('.swal2-confirm').click();
-      });
+    cy.get('.table.table-striped.table-primary tbody :nth-child(5) > .buttonDisabled > img').each(($btn) => {
+      cy.wrap($btn).click();
+      //Confirma que si esta seguro
+      cy.get('.swal2-confirm').click();
+      //Cierra el cuadro de confirmación
+      cy.get('.swal2-confirm').click();    
     });
 
+    //Realiza una pausa de 3s antes de volver a habilitar un vendedor
+    cy.wait(3000);
 
-
-    /******* Habilita un usuario existente **********/
-
-    //Deshabilita un vendedor existente
-    //cy.get(':nth-child(6) > :nth-child(5) > .buttonDisabled').click();
-
-    
-
-    //Realiza una pausa de 5s antes de volver a habilitar un vendedor
-    //cy.wait(5000);
-
-    //Activa de nuevo el vendedor;
-    //cy.get('.buttonEnable > img').click();
-    //Confirma que si esta seguro
-    //cy.get('.swal2-confirm').click();
-    //Cierra el cuadro de confirmación
-    //cy.get('.swal2-confirm').click();
+    cy.get('.table.table-striped.table-dark tbody :nth-child(5) > .buttonEnable > img').each(($btn) => {
+      cy.wrap($btn).click();
+      //Confirma que si esta seguro
+      cy.get('.swal2-confirm').click();
+      //Cierra el cuadro de confirmación
+      cy.get('.swal2-confirm').click();    
+    });
   })
 })
