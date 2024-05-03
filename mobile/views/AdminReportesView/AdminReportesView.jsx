@@ -190,93 +190,109 @@ export default function AdminReportesView() {
       <View style={styles.container}>
         <Text style={styles.textHabDes}>Reportes</Text>
         <Text style={styles.titulo}>Productos mas vendidos</Text>
-        <BarChart
-          data={{
-            labels: labelsProducts,
-            datasets: [{ data: seriesProducts }]
-          }}
-          width={screenWidth}
-          height={220}
-          yAxisLabel=""
-          chartConfig={{
-            backgroundColor: "#e26a00",
-            backgroundGradientFrom: '#fb8c00',
-            backgroundGradientTo: '#ffa726',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16
-            },
-          }}
-        />
-        <Text style={styles.titulo}>Vendedores con mas ventas</Text>
-        <BarChart
-          data={{
-            labels: labelsVendors,
-            datasets: [{ data: seriesVendors }]
-          }}
-          width={screenWidth}
-          height={220}
-          yAxisLabel=""
-          chartConfig={{
-            backgroundColor: "#e26a00",
-            backgroundGradientFrom: '#FF1F1F',
-            backgroundGradientTo: '#FF1F1F',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16
-            },
-          }}
-        />
-        <Text style={styles.titulo}>Categorias mas vendidas</Text>
-        <PieChart
-          data={seriesCategories.map((value, index) => ({
-            name: labelsCategories[index],
-            value,
-            color: `rgba(0, 0, 0, ${0.2 + index * 0.2})`, // Puedes ajustar la transparencia de los colores
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15,
-          }))}
-          width={screenWidth}
-          height={220}
-          chartConfig={{
-            backgroundColor: '#fff',
-            backgroundGradientFrom: '#fff',
-            backgroundGradientTo: '#fff',
-            color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`,
-          }}
-          accessor="value"
-          backgroundColor="transparent"
-          paddingLeft="15"
-          absolute
-        />
-        <Text style={styles.titulo}>Ventas por fecha</Text>
-        <LineChart
-          data={{
-            labels: allSales.labels,
-            datasets: [
-              {
-                data: allSales.data,
+
+        <ScrollView horizontal>
+          <BarChart
+            data={{
+              labels: labelsProducts,
+              datasets: [{ data: seriesProducts }]
+            }}
+            width={screenWidth + 200}
+            height={350}
+            verticalLabelRotation={30}
+            yAxisLabel=""
+            chartConfig={{
+              backgroundColor: "#e26a00",
+              backgroundGradientFrom: '#fb8c00',
+              backgroundGradientTo: '#ffa726',
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16
               },
-            ],
-          }}
-          width={screenWidth}
-          height={220}
-          chartConfig={{
-            backgroundColor: '#1FC2FF',
-            backgroundGradientFrom: '#1FC2FF',
-            backgroundGradientTo: '#1FC2FF',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16,
-            },
-          }}
-        />
+              
+            }}
+          />
+        </ScrollView>
+
+        <Text style={styles.titulo}>Vendedores con mas ventas</Text>
+        <ScrollView horizontal>
+          <BarChart
+            data={{
+              labels: labelsVendors,
+              datasets: [{ data: seriesVendors }]
+            }}
+            width={screenWidth + 100}
+            height={350}
+            verticalLabelRotation={30}
+            yAxisLabel=""
+            chartConfig={{
+              backgroundColor: "#e26a00",
+              backgroundGradientFrom: '#FF1F1F',
+              backgroundGradientTo: '#FF1F1F',
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16
+              },
+            }}
+          />
+        </ScrollView>
+
+        <Text style={styles.titulo}>Categorias mas vendidas</Text>
+        <ScrollView horizontal>
+          <PieChart
+            data={seriesCategories.map((value, index) => ({
+              name: labelsCategories[index],
+              value,
+              color: `rgba(0, 0, 0, ${0.2 + index * 0.2})`, // Puedes ajustar la transparencia de los colores
+              legendFontColor: '#7F7F7F',
+              legendFontSize: 15,
+            }))}
+            width={screenWidth + 100}
+            height={250}
+            chartConfig={{
+              backgroundColor: '#fff',
+              backgroundGradientFrom: '#fff',
+              backgroundGradientTo: '#fff',
+              color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`,
+            }}
+            accessor="value"
+            backgroundColor="transparent"
+            paddingLeft="15"
+            absolute
+          />
+        </ScrollView>
+
+        <Text style={styles.titulo}>Ventas por fecha</Text>
+        <ScrollView horizontal>
+          <LineChart
+            data={{
+              labels: allSales.labels,
+              datasets: [
+                {
+                  data: allSales.data,
+                },
+              ],
+            }}
+            width={screenWidth + 100}
+            height={350}
+            chartConfig={{
+              backgroundColor: '#1FC2FF',
+              backgroundGradientFrom: '#1FC2FF',
+              backgroundGradientTo: '#1FC2FF',
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+            }}
+          />
+        </ScrollView>
+
         <Text style={styles.titulo}>Top ventas</Text>
         <Row>
           <Col style={styles.column}>

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, LogBox  } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -17,6 +17,9 @@ import { TabsUser, TabsSeller, TabsAdmin } from './utils/Routes';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import RegisterView from './views/RegisterView/RegisterView';
 import RegisterVendedorView from './views/RegisterVendedorView/RegisterVendedorView';
+
+LogBox.ignoreAllLogs();
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
